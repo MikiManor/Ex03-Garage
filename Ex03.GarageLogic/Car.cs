@@ -6,14 +6,20 @@ namespace Ex03.GarageLogic
 {
     public class Car : Veicle
     {
-        public enum Color
+        private enum Color
         {
-            Blue = 1;
-            White = 2;
-            Black = 3;
-            Silver = 4;
+            Blue,
+            White,
+            Black,
+            Silver
         }
-        private readonly int k_NumOfDoors;
+        private enum NumOfDoors
+        {
+            2,
+            3,
+            4,
+            5
+        }
         
     }
 }
