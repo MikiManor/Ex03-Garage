@@ -7,11 +7,11 @@ namespace Ex03.GarageLogic
     public abstract class Vehicle
     {
 
-        private string m_VehicleModel;
-        private string m_LicenseNumber;
-        private float m_EnergyRemains;
-        private readonly int r_NumOfWheels;
-        private readonly List<Wheel> r_WheelsOfVehicle;
+        protected string m_VehicleModel;
+        protected string m_LicenseNumber;
+        protected float m_EnergyRemains;
+        protected readonly int r_NumOfWheels;
+        protected readonly List<Wheel> r_WheelsOfVehicle;
         bool m_IsElectricEngine;
 
 
