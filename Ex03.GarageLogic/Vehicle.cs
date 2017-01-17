@@ -31,13 +31,13 @@ namespace Ex03.GarageLogic
         public void SetWheel(string i_WheelFirma, float i_CurrentAirPreasure, float i_MaxRecommandedAirPreasure)
         {
             //To check if need here try-catch
-            if(r_WheelsOfVehicle.Lenght() < r_NumOfWheels)
+            if(r_WheelsOfVehicle.Count < r_NumOfWheels)
             {
                 Wheel newWheel = new Wheel(i_WheelFirma, i_CurrentAirPreasure, i_MaxRecommandedAirPreasure);
             }
             else
             {
-                throw new Exception("/////////////////////////////")
+                throw new ValueOutOfRangeException("Cannot add another Weel, Maximim reached", r_NumOfWheels, 1);
             }
         }
     }

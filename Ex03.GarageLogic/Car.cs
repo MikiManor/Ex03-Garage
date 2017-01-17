@@ -1,43 +1,70 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Text;
 
 namespace Ex03.GarageLogic
 {
-    public class Car : Veicle
+    public abstract class Car : Vehicle
     {
-        private enum Color
+        public enum eColor
         {
             blue,
             white,
             black,
             silver
         }
-        private enum NumOfDoors
+
+        public enum eNumOfDoors
         {
-            2,
-            3,
-            4,
-            5
+           two,
+           three,
+           four,
+           five
         }
-        
-        private static NumOfDoors m_NumOfDoors;
-        
-        public NumOfDoors()
+
+        private static eNumOfDoors m_NumOfDoors;
+        private static eColor m_CarColor;
+
+        public Car(string i_Model, string i_LicenseNumber, int i_NumOfWheels, eNumOfDoors i_NumOfDoors, eColor i_CarColor)
+            :base(i_Model, i_LicenseNumber, i_NumOfWheels)
         {
-        
-        get{return m_NumOfDoors; }
-        set
+            NumOfDoors = i_NumOfDoors;
+            CarColor = i_CarColor;
+        }
+
+        public eNumOfDoors NumOfDoors
         {
-            if(value.ToLower() in NumOfDoors)
+            get { return m_NumOfDoors; }
+            set
             {
-                m_NumOfDoors = value;
-            }else
-            {
-                trow new exception("Car can has 2,3,4 or 5 doors");
+                if (Enum.IsDefined(typeof(eNumOfDoors), value))
+                {
+                    m_NumOfDoors = value;
+                }
+                else
+                {
+                    throw new InvalidEnumArgumentException("Wrong number of doors selected!", (int)value, typeof(eNumOfDoors));
+                }
             }
+
         }
-        
+
+        public eColor CarColor
+        {
+            get { return m_CarColor; }
+            set
+            {
+                if(Enum.IsDefined(typeof(eColor), value))
+                {
+                    m_CarColor = value;
+                }
+                else
+                {
+                    throw new InvalidEnumArgumentException("Color is unknown!", (int)value, typeof(eColor));
+                }
+            }
+
         }
     }
 }

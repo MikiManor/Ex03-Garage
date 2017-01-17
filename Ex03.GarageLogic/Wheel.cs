@@ -4,7 +4,7 @@ using System.Text;
 
 namespace Ex03.GarageLogic
 {
-    class Wheel
+    public class Wheel
     {
         private readonly string r_Firma = null;
         private static float m_CurrentAirPreasure = 0;
