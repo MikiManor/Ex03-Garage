@@ -30,9 +30,15 @@ namespace Ex03.GarageLogic
         //Vehicle can have different Wheels with different firmas and specs
         public void SetWheel(string i_WheelFirma, float i_CurrentAirPreasure, float i_MaxRecommandedAirPreasure)
         {
-            //To check if need here trt-catch
-            Wheel newWheel = new Wheel(i_WheelFirma, i_CurrentAirPreasure, i_MaxRecommandedAirPreasure);
-        
+            //To check if need here try-catch
+            if(r_WheelsOfVehicle.Lenght() < r_NumOfWheels)
+            {
+                Wheel newWheel = new Wheel(i_WheelFirma, i_CurrentAirPreasure, i_MaxRecommandedAirPreasure);
+            }
+            else
+            {
+                throw new Exception("/////////////////////////////")
+            }
         }
     }
 }
