@@ -8,10 +8,10 @@ namespace Ex03.GarageLogic
     {
         private enum Color
         {
-            Blue,
-            White,
-            Black,
-            Silver
+            blue,
+            white,
+            black,
+            silver
         }
         private enum NumOfDoors
         {
@@ -21,5 +21,23 @@ namespace Ex03.GarageLogic
             5
         }
         
+        private static NumOfDoors m_NumOfDoors;
+        
+        public NumOfDoors()
+        {
+        
+        get{return m_NumOfDoors; }
+        set
+        {
+            if(value.ToLower() in NumOfDoors)
+            {
+                m_NumOfDoors = value;
+            }else
+            {
+                trow new exception("Car can has 2,3,4 or 5 doors");
+            }
+        }
+        
+        }
     }
 }
