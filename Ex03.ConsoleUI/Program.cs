@@ -8,7 +8,8 @@ namespace Ex03.ConsoleUI
     {
         public static void Main()
         {
-            Menu.RunMenu();
+            GarageUI newGarage = new GarageUI();
+            newGarage.RunMenu();
         }
     }
 }

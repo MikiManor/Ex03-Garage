@@ -1,11 +1,19 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using Ex03.GarageLogic;
+using System.ComponentModel;
 
 namespace Ex03.ConsoleUI
 {
-    public class Menu
+    public class GarageUI
     {
+        private GarageLogic.GarageController m_MyGarage;
+        public GarageUI()
+        {
+            m_MyGarage = new GarageLogic.GarageController();
+        }
+
         private enum eMenu
         {
             MenuExit,
@@ -19,7 +27,7 @@ namespace Ex03.ConsoleUI
             NoMenuChoice
         }
 
-        public static void RunMenu()
+        public void RunMenu()
         {
             eMenu menuChoice;
             do
@@ -72,7 +80,7 @@ namespace Ex03.ConsoleUI
             while (true);
         }
 
-        private static void PrintMenu()
+        private void PrintMenu()
         {
             PrintFrame();
             Console.WriteLine("\t1. Add a new vehicle to fix");
@@ -87,7 +95,7 @@ namespace Ex03.ConsoleUI
             Console.Write("\tPlease Choose > ");
         }
 
-        private static void PrintFrame(string i_header = "Menu")
+        private void PrintFrame(string i_header = "Menu")
         {
             Console.Write("{0}{0}", Environment.NewLine);
             Console.WriteLine("**********************************************************************");
@@ -99,7 +107,7 @@ namespace Ex03.ConsoleUI
             Console.SetCursorPosition(0, 6);
         }
 
-        private static eMenu GetUserChoice()
+        private eMenu GetUserChoice()
         {
             eMenu menuChoice = eMenu.NoMenuChoice;
             try
@@ -114,22 +122,31 @@ namespace Ex03.ConsoleUI
             return menuChoice;
         }
 
-        private static void AddNewVehicleToFix()
+        private void AddNewVehicleToFix()
         {
             Console.Clear();
             PrintFrame("Add a new vehicle to fix");
             string vehicleID = GetvehicleID();
-            // 1. add new vehicle (check if already in -> status = in repair)
+            //check if already in -> status = in repair (in gragecontroller)
+            Console.Write("\tPlease enter owner name: ");
+            string ownerName = Console.ReadLine();
+            Console.Write("\tPlease enter phone number: ");
+            string phoneNumber = Console.ReadLine();
+            Console.Write("\tPlease enter vehicle type:{0}{1}1. car{0}{1}2. motorcycle{0}{1}3. truck{0}{1}>",Environment.NewLine,"\t");
+            GarageController.eVehicleType vehicleType = (GarageController.eVehicleType)Enum.Parse(typeof(GarageController.eVehicleType), Console.ReadLine());
+            Console.Write("\tPlease enter engine type:{0}{1}1. electric{0}{1}2. fuel{0}{1}>", Environment.NewLine, "\t");
+            GarageController.eEngineType engineType = (GarageController.eEngineType)Enum.Parse(typeof(GarageController.eEngineType), Console.ReadLine());
+            m_MyGarage.AddNewVehicle(vehicleID, ownerName, phoneNumber, vehicleType, engineType);
         }
 
-        private static void ShowListOfVehicle()
+        private void ShowListOfVehicle()
         {
             Console.Clear();
             PrintFrame("Show list of vehicle");
             // 2. show vehicle lists(iD), can filter by status
         }
 
-        private static void ChangeVehicleStatus()
+        private void ChangeVehicleStatus()
         {
             Console.Clear();
             PrintFrame("Change vehicle status");
@@ -137,7 +154,7 @@ namespace Ex03.ConsoleUI
             // 3. change status (id) -> new status
         }
 
-        private static void FillUpAirInTheTiersToTheMaximum()
+        private void FillUpAirInTheTiersToTheMaximum()
         {
             Console.Clear();
             PrintFrame("Fill up air in the tiers to the maximum");
@@ -145,7 +162,7 @@ namespace Ex03.ConsoleUI
             // 4. float air in wheel to max (id)
         }
 
-        private static void FuelUpAVehicle()
+        private void FuelUpAVehicle()
         {
             Console.Clear();
             PrintFrame("Fuel up a vehicle");
@@ -153,7 +170,7 @@ namespace Ex03.ConsoleUI
             // 5. fual (non electric) (id, fual type, qty)
         }
 
-        private static void ChargeUpAnElectricVehicle()
+        private void ChargeUpAnElectricVehicle()
         {
             Console.Clear();
             PrintFrame("Charge up an electric vehicle");
@@ -161,7 +178,7 @@ namespace Ex03.ConsoleUI
             // 6. charge (non fual) (id, min to charge)
         }
 
-        private static void ShowVehicleFullDetails()
+        private void ShowVehicleFullDetails()
         {
             Console.Clear();
             PrintFrame("Show vehicle full details");
@@ -169,13 +186,12 @@ namespace Ex03.ConsoleUI
             // 7. show full details (id) -> id, model name, owners, status, wheel air, wheel maker, fual or electric + details, ect...
         }
 
-        private static string GetvehicleID()
+        private string GetvehicleID()
         {
             string vehicleID;
 
             Console.Write("\tPlease Enter vehicle license plate: ");
             vehicleID = Console.ReadLine();
-            //if vehicleID bad try again
             return vehicleID;
         }
     }

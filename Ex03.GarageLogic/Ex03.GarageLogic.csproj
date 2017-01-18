@@ -36,8 +36,8 @@
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="Car.cs" />
-    <Compile Include="ElectricCar.cs" />
     <Compile Include="ElectricMotorCycle.cs" />
+    <Compile Include="GarageController.cs" />
     <Compile Include="MotorCycle.cs" />
     <Compile Include="ValueOutOfRangeException.cs" />
     <Compile Include="Vehicle.cs" />
