@@ -6,53 +6,66 @@ namespace Ex03.ConsoleUI
 {
     public class Menu
     {
+        private enum eMenu
+        {
+            MenuExit,
+            AddNewVehicleToFix,
+            ShowListOfVehicle,
+            ChangeVehicleStatus,
+            FillUpAirInTheTiersToTheMaximum,
+            FuelUpAVehicle,
+            ChargeUpAnElectricVehicle,
+            ShowVehicleFullDetails,
+            NoMenuChoice
+        }
+
         public static void RunMenu()
         {
-            int menuchoice;
+            eMenu menuChoice;
             do
             {
                 Console.Clear();
                 PrintMenu();
-                menuchoice = GetUserChoice();
-                if (menuchoice < 0 || menuchoice > 7)
+                menuChoice = GetUserChoice();
+                if (!Enum.IsDefined(typeof(eMenu), menuChoice) || menuChoice == eMenu.NoMenuChoice)
                 {
-                    Console.Write("\tBad input, press any key to try again...");
-                    Console.ReadLine();
+                    Console.WriteLine("\tBad input, try again...");
                 }
-                else if (menuchoice == 0)
+                else if (menuChoice == eMenu.MenuExit)
                 {
                     Console.Write("\tGoodbye, press any key...");
                     Console.ReadLine();
                     Environment.Exit(0);
                 }
-                else if (menuchoice == 1)
+                else if (menuChoice == eMenu.AddNewVehicleToFix)
                 {
-                    Menu1();
+                    AddNewVehicleToFix();
                 }
-                else if (menuchoice == 2)
+                else if (menuChoice == eMenu.ShowListOfVehicle)
                 {
-                    Menu2();
+                    ShowListOfVehicle();
                 }
-                else if (menuchoice == 3)
+                else if (menuChoice == eMenu.ChangeVehicleStatus)
                 {
-                    Menu3();
+                    ChangeVehicleStatus();
                 }
-                else if (menuchoice == 4)
+                else if (menuChoice == eMenu.FillUpAirInTheTiersToTheMaximum)
                 {
-                    Menu4();
+                    FillUpAirInTheTiersToTheMaximum();
                 }
-                else if (menuchoice == 5)
+                else if (menuChoice == eMenu.FuelUpAVehicle)
                 {
-                    Menu5();
+                    FuelUpAVehicle();
                 }
-                else if (menuchoice == 6)
+                else if (menuChoice == eMenu.ChargeUpAnElectricVehicle)
                 {
-                    Menu6();
+                    ChargeUpAnElectricVehicle();
                 }
-                else if (menuchoice == 7)
+                else if (menuChoice == eMenu.ShowVehicleFullDetails)
                 {
-                    Menu7();
+                    ShowVehicleFullDetails();
                 }
+
                 Console.Write("\tReturning to main menu, press any key ...");
                 Console.ReadLine();
             }
@@ -86,172 +99,84 @@ namespace Ex03.ConsoleUI
             Console.SetCursorPosition(0, 6);
         }
 
-        private static int GetUserChoice()
+        private static eMenu GetUserChoice()
         {
-            int menuchoice;
+            eMenu menuChoice = eMenu.NoMenuChoice;
             try
             {
-                menuchoice = int.Parse(Console.ReadLine());
+                menuChoice = (eMenu)Enum.Parse(typeof(eMenu), Console.ReadLine());
             }
             catch (Exception)
             {
-                menuchoice = -1;
+                menuChoice = eMenu.NoMenuChoice;
             }
 
-            return menuchoice;
+            return menuChoice;
         }
 
-        private static void Menu1()
+        private static void AddNewVehicleToFix()
         {
-            int vehicleID;
-
             Console.Clear();
             PrintFrame("Add a new vehicle to fix");
-            Console.Write("\tPlease Enter vehicle ID: ");
-            do
-            {
-                vehicleID = GetUserChoice();
-                if (vehicleID == -1)
-                {
-                    Console.Write("\tBad input, press any key to try again...");
-                    Console.ReadLine();
-                }
-                else
-                {
-                    // 1. add new vehicle (check if already in -> status = in repair)
-
-                }
-            }
-            while (vehicleID == -1);
+            string vehicleID = GetvehicleID();
+            // 1. add new vehicle (check if already in -> status = in repair)
         }
 
-        private static void Menu2()
+        private static void ShowListOfVehicle()
         {
             Console.Clear();
             PrintFrame("Show list of vehicle");
             // 2. show vehicle lists(iD), can filter by status
         }
-        private static void Menu3()
-        {
-            int vehicleID;
 
+        private static void ChangeVehicleStatus()
+        {
             Console.Clear();
             PrintFrame("Change vehicle status");
-            Console.Write("\tPlease Enter vehicle ID: ");
-            do
-            {
-                vehicleID = GetUserChoice();
-                if (vehicleID == -1)
-                {
-                    Console.Write("\tBad input, press any key to try again...");
-                    Console.ReadLine();
-                }
-                else
-                {
-                    // 3. change status (id) -> new status
-                }
-            }
-            while (vehicleID == -1);
+            string vehicleID = GetvehicleID();
+            // 3. change status (id) -> new status
         }
 
-        private static void Menu4()
+        private static void FillUpAirInTheTiersToTheMaximum()
         {
-            int vehicleID;
-
             Console.Clear();
             PrintFrame("Fill up air in the tiers to the maximum");
-            Console.Write("\tPlease Enter vehicle ID: ");
-            do
-            {
-                vehicleID = GetUserChoice();
-                if (vehicleID == -1)
-                {
-                    Console.Write("\tBad input, press any key to try again...");
-                    Console.ReadLine();
-                }
-                else
-                {
-                    // 4. float air in wheel to max (id)
-                }
-            }
-            while (vehicleID == -1);
+            string vehicleID = GetvehicleID();
+            // 4. float air in wheel to max (id)
         }
 
-        private static void Menu5()
+        private static void FuelUpAVehicle()
         {
-            int vehicleID;
-
             Console.Clear();
             PrintFrame("Fuel up a vehicle");
-            Console.Write("\tPlease Enter vehicle ID: ");
-            do
-            {
-                vehicleID = GetUserChoice();
-                if (vehicleID == -1)
-                {
-                    Console.Write("\tBad input, press any key to try again...");
-                    Console.ReadLine();
-                }
-                else
-                {
-                    // 5. fual (non electric) (id, fual type, qty)
-                }
-            }
-            while (vehicleID == -1);
+            string vehicleID = GetvehicleID();
+            // 5. fual (non electric) (id, fual type, qty)
         }
 
-        private static void Menu6()
+        private static void ChargeUpAnElectricVehicle()
         {
-            int vehicleID;
-
             Console.Clear();
             PrintFrame("Charge up an electric vehicle");
-            Console.Write("\tPlease Enter vehicle ID: ");
-            do
-            {
-                vehicleID = GetUserChoice();
-                if (vehicleID == -1)
-                {
-                    Console.Write("\tBad input, press any key to try again...");
-                    Console.ReadLine();
-                }
-                else
-                {
-                    // 6. charge (non fual) (id, min to charge)
-                }
-            }
-            while (vehicleID == -1);
+            string vehicleID = GetvehicleID();
+            // 6. charge (non fual) (id, min to charge)
         }
 
-        private static void Menu7()
+        private static void ShowVehicleFullDetails()
         {
-            int vehicleID;
-
             Console.Clear();
             PrintFrame("Show vehicle full details");
-            Console.Write("\tPlease Enter vehicle ID: ");
-            do
-            {
-                vehicleID = GetUserChoice();
-                if (vehicleID == -1)
-                {
-                    Console.Write("\tBad input, press any key to try again...");
-                    Console.ReadLine();
-                }
-                else
-                {
-                    // 7. show full details (id) -> id, model name, owners, status, wheel air, wheel maker, fual or electric + details, ect...
-                }
-            }
-            while (vehicleID == -1);
+            string vehicleID = GetvehicleID();
+            // 7. show full details (id) -> id, model name, owners, status, wheel air, wheel maker, fual or electric + details, ect...
+        }
+
+        private static string GetvehicleID()
+        {
+            string vehicleID;
+
+            Console.Write("\tPlease Enter vehicle license plate: ");
+            vehicleID = Console.ReadLine();
+            //if vehicleID bad try again
+            return vehicleID;
         }
     }
 }
-
-
-
-
-
-
-
-
