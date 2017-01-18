@@ -8,7 +8,8 @@ namespace Ex03.ConsoleUI
     {
         public static void Main()
         {
-            Menu.RunMenu();
+            Ex03.GarageLogic.ElectricCar eCar = new GarageLogic.ElectricCar("fiat", "123465",GarageLogic.Car.eNumOfDoors.three,GarageLogic.Car.eColor.blue);
+            //Menu.RunMenu();
         }
     }
 }
