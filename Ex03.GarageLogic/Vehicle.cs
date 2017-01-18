@@ -27,13 +27,14 @@ namespace Ex03.GarageLogic
             //לממש לצורך הדפסת פרטי הרכב
             return vehicleInfostring.ToString();
         }
-        //Vehicle can have different Wheels with different firmas and specs
+        //Vehicle  has wheels with the same firmas and specs
         public void SetWheel(string i_WheelFirma, float i_CurrentAirPreasure, float i_MaxRecommandedAirPreasure)
         {
             //To check if need here try-catch
             if(r_WheelsOfVehicle.Count < r_NumOfWheels)
             {
                 Wheel newWheel = new Wheel(i_WheelFirma, i_CurrentAirPreasure, i_MaxRecommandedAirPreasure);
+                r_WheelsOfVehicle.Add(newWheel);
             }
             else
             {
