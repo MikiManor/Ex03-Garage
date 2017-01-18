@@ -61,6 +61,7 @@ namespace Ex03.GarageLogic
                 }
                 else
                 {
+
                     throw new InvalidEnumArgumentException("Color is unknown!", (int)value, typeof(eColor));
                 }
             }

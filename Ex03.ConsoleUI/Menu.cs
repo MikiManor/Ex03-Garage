@@ -119,6 +119,7 @@ namespace Ex03.ConsoleUI
                 else
                 {
                     // 1. add new vehicle (check if already in -> status = in repair)
+
                 }
             }
             while (vehicleID == -1);

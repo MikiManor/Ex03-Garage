@@ -15,7 +15,7 @@ namespace Ex03.GarageLogic
             {
                 throw new Exception("Tire Firma cannot be blank!");
             }
-            else if (i_CurrentAirPreasure < i_MaxRecommandedAirPreasure)
+            else if (i_CurrentAirPreasure > i_MaxRecommandedAirPreasure)
             {
                 throw new Exception("Current tire preasure cannot be higher then the maximunx preasure the tire can handle!");
             }
@@ -42,7 +42,7 @@ namespace Ex03.GarageLogic
             }
             else
             {
-                m_CurrentAirPreasure += i_PreasureToAdd;
+                 m_CurrentAirPreasure += i_PreasureToAdd;
             }
             
         }
