@@ -120,7 +120,8 @@ namespace Ex03.ConsoleUI
             eMenu menuChoice = eMenu.NoMenuChoice;
             try
             {
-                menuChoice = (eMenu)Enum.Parse(typeof(eMenu), Console.ReadLine());
+                menuChoice = GetEnumFromUser<eMenu>("");
+                //menuChoice = (eMenu)Enum.Parse(typeof(eMenu), Console.ReadLine());
             }
             catch (Exception)
             {
@@ -129,91 +130,26 @@ namespace Ex03.ConsoleUI
 
             return menuChoice;
         }
-
+        
         private void AddNewVehicleToFix()
         {
-            PrintFrame("Add a new vehicle to fix");
+            PrintFrame("Add a new vehicle to garage");
             string vehicleID = GetvehicleID(); //check if already in -> status = in repair (in gragecontroller)
             string manufacturer = GetInputFromUser<string>("\tPlease enter car manufacturer: ");
             string ownerName = GetInputFromUser<string>("\tPlease enter owner name: ");
             string phoneNumber = GetInputFromUser<string>("\tPlease enter phone number: ");
-            GarageController.eVehicleType vehicleType = PrintVehicleType();
-            GarageController.eEngineType enginType = PrintEngineType();
-            //get wheels
-            if (vehicleType == GarageController.eVehicleType.Car)
+            GarageController.eVehicleType typeOfVehicleFromUser = getVehicleTypeFromUser();
+            try
             {
-                Car.eNumOfDoors numOfDoors = PrintNumOfDoors();
-                Car.eColor carColor = PrinCarColor();
-                if (enginType == GarageController.eEngineType.Electic)
-                {
-                    float batteryLeft = GetBatteryTimeLeft();
-                    m_MyGarage.AddNewVehicleElectricCar(vehicleID, manufacturer, ownerName, phoneNumber, numOfDoors, carColor, batteryLeft, wheels);
-                }
-                else if (enginType == GarageController.eEngineType.Fuel)
-                {
-
-                }
+                m_MyGarage.AddCarToGarage(ownerName, phoneNumber, vehicleID, typeOfVehicleFromUser);
+                //insertProperties();
+                //addWheels();
             }
-            else if (vehicleType == GarageController.eVehicleType.MotorCycle)
+            catch (ArgumentException ex)
             {
-                MotorCycle.eLicenseType licenseType = PrintlicenseType();
-                int engineVolume = GetInputFromUser<int>("\tPlease enter engine volume: ");
-                if (enginType == GarageController.eEngineType.Electic)
-                {
-                    float batteryLeft = GetBatteryTimeLeft();
-                    m_MyGarage.AddNewVehicleElectricCar(vehicleID, manufacturer, ownerName, phoneNumber, numOfDoors, carColor, batteryLeft, wheels);
-                }
-                else if (enginType == GarageController.eEngineType.Fuel)
-                {
-
-                }
-            }
-            else if (vehicleType == GarageController.eVehicleType.Truck)
-            {
-
+                Console.WriteLine(ex.Message);
             }
         }
-
-        private Car.eColor PrinCarColor()
-        {
-            string msg = string.Format("\tPlease enter vehicle color:{0}{1}1. blue{0}{1}2. white{0}{1}3. black{0}{1}4. silver{0}{1}>", Environment.NewLine, "\t");
-            //add input error
-            Car.eColor carColor = GetEnumFromUser<Car.eColor>(msg);
-            return carColor;
-        }
-
-        private Car.eNumOfDoors PrintNumOfDoors()
-        {
-            string msg = string.Format("\tPlease enter number of doors:{0}{1}2. two{0}{1}3. three{0}{1}4. four{0}{1}5. five{0}{1}>", Environment.NewLine, "\t");
-            //add input error
-            Car.eNumOfDoors numOfDoors = GetEnumFromUser<Car.eNumOfDoors>(msg);
-            return numOfDoors;
-        }
-
-        private GarageController.eVehicleType PrintVehicleType()
-        {
-            string msg = string.Format("\tPlease enter vehicle type:{0}{1}1. car{0}{1}2. motorcycle{0}{1}3. truck{0}{1}>", Environment.NewLine, "\t");
-            //add input error
-            GarageController.eVehicleType vehicleType = GetEnumFromUser<GarageController.eVehicleType>(msg);
-            return vehicleType;
-        }
-
-        private GarageController.eEngineType PrintEngineType()
-        {
-            string msg = string.Format("\tPlease enter engine type:{0}{1}1. Electic{0}{1}2. Fuel{0}{1}>", Environment.NewLine, "\t");
-            //add input error
-            GarageController.eEngineType engineType = GetEnumFromUser<GarageController.eEngineType>(msg);
-            return engineType;
-        }
-
-        private MotorCycle.eLicenseType PrintlicenseType()
-        {
-            string msg = string.Format("\tPlease enter license type:{0}{1}1. A{0}{1}2. A1{0}{1}3. A2{0}{1}4. B{0}{1}>", Environment.NewLine, "\t");
-            //add input error
-            MotorCycle.eLicenseType licenseType = GetEnumFromUser<MotorCycle.eLicenseType>(msg);
-            return licenseType;
-        }
-        
 
         private void ShowListOfVehicle()
         {
@@ -278,10 +214,21 @@ namespace Ex03.ConsoleUI
             return GetInputFromUser<string>("\tPlease Enter vehicle license plate: ");
         }
 
-        private float GetBatteryTimeLeft()
+        private GarageController.eVehicleType getVehicleTypeFromUser()
         {
-            return GetInputFromUser<float>("\tPlease enter battery time that is Left: ");
+            GetTypesOfVehicles();
+            GarageController.eVehicleType choice = GetEnumFromUser<GarageController.eVehicleType>("\tplease choose type > ");
+            return choice;
         }
 
+        public void GetTypesOfVehicles()
+        {
+            int index = 1;
+            foreach (GarageController.eVehicleType val in Enum.GetValues(typeof(GarageController.eVehicleType)))
+            {
+                Console.WriteLine("\t{0} - {1}",index,val);
+                index++;
+            }
+        }
     }
 }
