@@ -25,12 +25,15 @@ namespace Ex03.GarageLogic
             m_GarageDictionary = new Dictionary <string, VehicleData>();
         }
         
-        public void AddNewVehicle(string i_model, string i_VehicleID,string i_OwnerName,string i_PhoneNumber, eVehicleType i_VehicleType, eEngineType i_EngineType, Car.eNumOfDoors i_NumOfDoors, Car.eColor i_CarColor)
+        public void AddNewVehicleElectricCar(string i_modelName, string i_VehicleID,string i_OwnerName,string i_PhoneNumber)
         {
+
             if (i_VehicleType == eVehicleType.Car)
             {
+                
                 if (i_EngineType == eEngineType.Electic)
                 {
+                    AddNewElectricCar();
                     ElectricCar newVehicle = new ElectricCar(i_model, i_VehicleID, i_NumOfDoors, i_CarColor);
                     VehicleData newVehicleData = new VehicleData(i_OwnerName, i_PhoneNumber, newVehicle);
                     m_GarageDictionary.Add(i_VehicleID, newVehicleData);
@@ -58,10 +61,16 @@ namespace Ex03.GarageLogic
             }
 
         }
-        public void ShowListOfVehicle()
+
+        public void AddNewVehicleMotorCycle(string i_VehicleID, string i_OwnerName, string i_PhoneNumber)
+        {
+
+        }
+
+        public void AddNewVehicleTruck()
         {
             
-            PrintDictionary(m_GarageDictionary);
+            //PrintDictionary(m_GarageDictionary);
         }
     }
 }
