@@ -26,8 +26,8 @@ namespace Ex03.GarageLogic
         private static eNumOfDoors m_NumOfDoors;
         private static eColor m_CarColor;
 
-        public Car(string i_Model, string i_LicenseNumber, int i_NumOfWheels, eNumOfDoors i_NumOfDoors, eColor i_CarColor)
-            :base(i_Model, i_LicenseNumber, i_NumOfWheels)
+        public Car(string i_Model, string i_LicenseNumber, eNumOfDoors i_NumOfDoors, eColor i_CarColor, eNumOfWheels i_NumOfWheels, int i_MaxWheelsAirPreasure)
+            :base(i_Model, i_LicenseNumber, i_NumOfWheels, i_MaxWheelsAirPreasure)
         {
             NumOfDoors = i_NumOfDoors;
             CarColor = i_CarColor;

@@ -8,6 +8,7 @@ namespace Ex03.GarageLogic
     {
         private float m_BatteryRemainingTime;
         private static float m_BatteryMaxTime;
+         
 
         public ElectricEngine(float i_RemainingBatteryTime, float i_MaxBatteryTime)
         {
@@ -22,7 +23,7 @@ namespace Ex03.GarageLogic
             }
             else
             {
-                m_BatteryRemainingTime = m_BatteryMaxTime;
+                m_BatteryRemainingTime += i_HoursToAdd;
             }
         }
         public float RemainingTime
