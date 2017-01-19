@@ -147,7 +147,7 @@ namespace Ex03.ConsoleUI
                 if (enginType == GarageController.eEngineType.Electic)
                 {
                     float batteryLeft = GetBatteryTimeLeft();
-                    m_MyGarage.AddNewVehicleElectricCar(vehicleID, manufacturer, ownerName, phoneNumber, numOfDoors, carColor, batteryLeft);
+                    m_MyGarage.AddNewVehicleElectricCar(vehicleID, manufacturer, ownerName, phoneNumber, numOfDoors, carColor, batteryLeft, wheels);
                 }
                 else if (enginType == GarageController.eEngineType.Fuel)
                 {
@@ -156,7 +156,17 @@ namespace Ex03.ConsoleUI
             }
             else if (vehicleType == GarageController.eVehicleType.MotorCycle)
             {
+                MotorCycle.eLicenseType licenseType = PrintlicenseType();
+                int engineVolume = GetInputFromUser<int>("\tPlease enter engine volume: ");
+                if (enginType == GarageController.eEngineType.Electic)
+                {
+                    float batteryLeft = GetBatteryTimeLeft();
+                    m_MyGarage.AddNewVehicleElectricCar(vehicleID, manufacturer, ownerName, phoneNumber, numOfDoors, carColor, batteryLeft, wheels);
+                }
+                else if (enginType == GarageController.eEngineType.Fuel)
+                {
 
+                }
             }
             else if (vehicleType == GarageController.eVehicleType.Truck)
             {
@@ -195,6 +205,15 @@ namespace Ex03.ConsoleUI
             GarageController.eEngineType engineType = GetEnumFromUser<GarageController.eEngineType>(msg);
             return engineType;
         }
+
+        private MotorCycle.eLicenseType PrintlicenseType()
+        {
+            string msg = string.Format("\tPlease enter license type:{0}{1}1. A{0}{1}2. A1{0}{1}3. A2{0}{1}4. B{0}{1}>", Environment.NewLine, "\t");
+            //add input error
+            MotorCycle.eLicenseType licenseType = GetEnumFromUser<MotorCycle.eLicenseType>(msg);
+            return licenseType;
+        }
+        
 
         private void ShowListOfVehicle()
         {
