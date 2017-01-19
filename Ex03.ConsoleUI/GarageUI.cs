@@ -33,7 +33,6 @@ namespace Ex03.ConsoleUI
             eMenu menuChoice;
             do
             {
-                Console.Clear();
                 PrintMenu();
                 menuChoice = GetUserChoice();
                 if (!Enum.IsDefined(typeof(eMenu), menuChoice) || menuChoice == eMenu.NoMenuChoice)
@@ -98,6 +97,7 @@ namespace Ex03.ConsoleUI
 
         private void PrintFrame(string i_header = "Menu")
         {
+            Console.Clear();
             Console.Write("{0}{0}", Environment.NewLine);
             Console.WriteLine("**********************************************************************");
             Console.WriteLine();
@@ -108,10 +108,11 @@ namespace Ex03.ConsoleUI
 
         public void PrintDictionary(Dictionary<string, VehicleData> i_GarageDictionary)
         {
+
             PrintFrame("Vehicle Data List");
             foreach (KeyValuePair<string, VehicleData> dataMember in i_GarageDictionary)
             {
-                Console.WriteLine("Key = {0}, Value = {1}", dataMember.Key, dataMember.Value);
+                Console.WriteLine("License plate = {0}, Owner name = {1}, Phone number = {2}", dataMember.Key, dataMember.Value.OwnerName, dataMember.Value.PhoneNumber);
             }
         }
         private eMenu GetUserChoice()
@@ -131,54 +132,52 @@ namespace Ex03.ConsoleUI
 
         private void AddNewVehicleToFix()
         {
-            Console.Clear();
-            
             PrintFrame("Add a new vehicle to fix");
-            string vehicleID = GetvehicleID();
-            //check if already in -> status = in repair (in gragecontroller)
-            Console.Write("\tPlease enter owner name: ");
-            string ownerName = Console.ReadLine();
-            Console.Write("\tPlease enter phone number: ");
-            string phoneNumber = Console.ReadLine();
-            GarageController.eVehicleType i_VehicleType = PrintVehicleType(); "\tPlease enter vehicle type:{0}{1}1. car{0}{1}2. motorcycle{0}{1}3. truck{0}{1}>", Environment.NewLine, "\t"
-            Console.Write("\tPlease enter model name: ");
-            string modelName = Console.ReadLine();
-            if (i_VehicleType == GarageController.eVehicleType.Car)
+            string vehicleID = GetvehicleID(); //check if already in -> status = in repair (in gragecontroller)
+            string manufacturer = GetInputFromUser<string>("\tPlease enter car manufacturer: ");
+            string ownerName = GetInputFromUser<string>("\tPlease enter owner name: ");
+            string phoneNumber = GetInputFromUser<string>("\tPlease enter phone number: ");
+            GarageController.eVehicleType vehicleType = PrintVehicleType();
+            GarageController.eEngineType enginType = PrintEngineType();
+            //get wheels
+            if (vehicleType == GarageController.eVehicleType.Car)
             {
-                
-                GarageController.eVehicleType vehicleType = (GarageController.eVehicleType)Enum.Parse(typeof(GarageController.eVehicleType), Console.ReadLine());
-                if (numOfDoors == GetEnumFromUser<Car.eNumOfDoors>(""))
+                Car.eNumOfDoors numOfDoors = PrintNumOfDoors();
+                Car.eColor carColor = PrinCarColor();
+                if (enginType == GarageController.eEngineType.Electic)
                 {
-                    AddNewVehicleElectricCar();
+                    float batteryLeft = GetBatteryTimeLeft();
+                    m_MyGarage.AddNewVehicleElectricCar(vehicleID, manufacturer, ownerName, phoneNumber, numOfDoors, carColor, batteryLeft);
                 }
-                AddNewVehicleCarUI(vehicleID, ownerName, phoneNumber, modelName);
-            }
-            else if (i_VehicleType == GarageController.eVehicleType.MotorCycle)
-            {
-                AddNewVehicleMotorCycleUI(vehicleID, ownerName, phoneNumber, modelName);
-            }
-            else if (i_VehicleType == GarageController.eVehicleType.Truck)
-            {
-                AddNewVehicleTruckUI(vehicleID, ownerName, phoneNumber, modelName);
-            }
+                else if (enginType == GarageController.eEngineType.Fuel)
+                {
 
+                }
+            }
+            else if (vehicleType == GarageController.eVehicleType.MotorCycle)
+            {
+
+            }
+            else if (vehicleType == GarageController.eVehicleType.Truck)
+            {
+
+            }
         }
 
-        private void AddNewVehicleCarUI(string i_VehicleID, string i_OwnerName, string i_PhoneNumber, string i_modelName)
+        private Car.eColor PrinCarColor()
         {
-            Car.eColor carColor = GetEnumFromUser<Car.eColor>(string.Format("\tPlease enter number of doors:{0}{1}1. blue{0}{1}2. white{0}{1}3. black{0}{1}4. silver{0}{1}>", Environment.NewLine, "\t"));
-            Car.eNumOfDoors numOfDoors = GetEnumFromUser<Car.eNumOfDoors>(string.Format("\tPlease enter number of doors:{0}{1}1. blue{0}{1}2. white{0}{1}3. black{0}{1}4. silver{0}{1}>", Environment.NewLine, "\t"));
-            m_MyGarage.AddNewVehicleCar(i_modelName, i_VehicleID, i_OwnerName, i_PhoneNumber);
-        } 
-
-        private void AddNewVehicleMotorCycleUI(string i_VehicleID, string i_OwnerName, string i_PhoneNumber, string i_modelName)
-        {
-            GarageController.eVehicleType vehicleType = GetEnumFromUser<GarageController.eVehicleType>(msg);
+            string msg = string.Format("\tPlease enter vehicle color:{0}{1}1. blue{0}{1}2. white{0}{1}3. black{0}{1}4. silver{0}{1}>", Environment.NewLine, "\t");
+            //add input error
+            Car.eColor carColor = GetEnumFromUser<Car.eColor>(msg);
+            return carColor;
         }
 
-        private void AddNewVehicleTruckUI(string i_VehicleID, string i_OwnerName, string i_PhoneNumber)
+        private Car.eNumOfDoors PrintNumOfDoors()
         {
-            GarageController.eVehicleType vehicleType = GetEnumFromUser<GarageController.eVehicleType>(msg);
+            string msg = string.Format("\tPlease enter number of doors:{0}{1}2. two{0}{1}3. three{0}{1}4. four{0}{1}5. five{0}{1}>", Environment.NewLine, "\t");
+            //add input error
+            Car.eNumOfDoors numOfDoors = GetEnumFromUser<Car.eNumOfDoors>(msg);
+            return numOfDoors;
         }
 
         private GarageController.eVehicleType PrintVehicleType()
@@ -189,30 +188,23 @@ namespace Ex03.ConsoleUI
             return vehicleType;
         }
 
-        Console.Write("\tPlease enter engine type:{0}{1}1. electric{0}{1}2. fuel{0}{1}>", Environment.NewLine, "\t");
-            GarageController.eEngineType engineType = (GarageController.eEngineType)Enum.Parse(typeof(GarageController.eEngineType), Console.ReadLine());
-
-        private T GetEnumFromUser <T> (string msg)
+        private GarageController.eEngineType PrintEngineType()
         {
-            T enumValue;
-            Console.Write(msg);
-            enumValue = (T)Enum.Parse(typeof(GarageController.eVehicleType), Console.ReadLine());
-            //    Console.WriteLine("\tBad input, try again...");
-            return enumValue;
+            string msg = string.Format("\tPlease enter engine type:{0}{1}1. Electic{0}{1}2. Fuel{0}{1}>", Environment.NewLine, "\t");
+            //add input error
+            GarageController.eEngineType engineType = GetEnumFromUser<GarageController.eEngineType>(msg);
+            return engineType;
         }
-
 
         private void ShowListOfVehicle()
         {
-            Console.Clear();
             PrintFrame("Show list of vehicle");
-            m_MyGarage.ShowListOfVehicle();
+            PrintDictionary(m_MyGarage.m_GarageDictionary);
             // 2. show vehicle lists(iD), can filter by status
         }
 
         private void ChangeVehicleStatus()
         {
-            Console.Clear();
             PrintFrame("Change vehicle status");
             string vehicleID = GetvehicleID();
             // 3. change status (id) -> new status
@@ -220,7 +212,6 @@ namespace Ex03.ConsoleUI
 
         private void FillUpAirInTheTiersToTheMaximum()
         {
-            Console.Clear();
             PrintFrame("Fill up air in the tiers to the maximum");
             string vehicleID = GetvehicleID();
             // 4. float air in wheel to max (id)
@@ -228,7 +219,6 @@ namespace Ex03.ConsoleUI
 
         private void FuelUpAVehicle()
         {
-            Console.Clear();
             PrintFrame("Fuel up a vehicle");
             string vehicleID = GetvehicleID();
             // 5. fual (non electric) (id, fual type, qty)
@@ -236,7 +226,6 @@ namespace Ex03.ConsoleUI
 
         private void ChargeUpAnElectricVehicle()
         {
-            Console.Clear();
             PrintFrame("Charge up an electric vehicle");
             string vehicleID = GetvehicleID();
             // 6. charge (non fual) (id, min to charge)
@@ -244,19 +233,36 @@ namespace Ex03.ConsoleUI
 
         private void ShowVehicleFullDetails()
         {
-            Console.Clear();
             PrintFrame("Show vehicle full details");
             string vehicleID = GetvehicleID();
             // 7. show full details (id) -> id, model name, owners, status, wheel air, wheel maker, fual or electric + details, ect...
         }
 
+        private T GetEnumFromUser<T>(string msg)
+        {
+            T enumValue;
+            Console.Write(msg);
+            enumValue = (T)Enum.Parse(typeof(T), Console.ReadLine());
+            //    Console.WriteLine("\tBad input, try again...");//add input error
+            return enumValue;
+        }
+
+        private T GetInputFromUser <T> (string msg)
+        {
+            Console.Write(msg);
+            string input = Console.ReadLine();
+            return (T) Convert.ChangeType(input, typeof(T)); //try bad input
+        }
+
         private string GetvehicleID()
         {
-            string vehicleID;
-
-            Console.Write("\tPlease Enter vehicle license plate: ");
-            vehicleID = Console.ReadLine();
-            return vehicleID;
+            return GetInputFromUser<string>("\tPlease Enter vehicle license plate: ");
         }
+
+        private float GetBatteryTimeLeft()
+        {
+            return GetInputFromUser<float>("\tPlease enter battery time that is Left: ");
+        }
+
     }
 }
