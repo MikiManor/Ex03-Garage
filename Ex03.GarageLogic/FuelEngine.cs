@@ -52,7 +52,7 @@ namespace Ex03.GarageLogic
             {
                 if (value > k_MaxAmountOfFuel)
                 {
-                    throw new ValueOutOfRangeException("Battery cannot contain higher energy then maximum", m_BatteryMaxTime, 0);
+                 //   throw new ValueOutOfRangeException("Battery cannot contain higher energy then maximum", m_BatteryMaxTime, 0);
                 }
                 else
                 {

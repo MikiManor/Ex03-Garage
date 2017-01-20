@@ -49,7 +49,7 @@ namespace Ex03.GarageLogic
                 throw new ValueOutOfRangeException("Cannot add another Weel, Maximim reached", (int)r_NumOfWheels, 1);
             }
         }
-    
+
         public eNumOfWheels NumOfWheels
         {
             get { return r_NumOfWheels; }
@@ -66,6 +66,7 @@ namespace Ex03.GarageLogic
             }
         }
 
-    
+
 
     }
+}
