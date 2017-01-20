@@ -148,8 +148,8 @@ namespace Ex03.ConsoleUI
             try
             {
                 m_MyGarage.AddCarToGarage(ownerName, phoneNumber, vehicleID, typeOfVehicleFromUser);
-                addProperties();
-                addWheels();
+                AddProperties();
+                AddWheels();
                 
             }
             catch (ArgumentException ex)
@@ -238,7 +238,7 @@ namespace Ex03.ConsoleUI
             }
         }
 
-        public void addWheels()
+        public void AddWheels()
         {
             int typeOfVehicleFromUserMaxWheels = 4;//remove
             float typeOfVehicleFromUserGetMaxPreasure = 22f;//remove
@@ -254,18 +254,36 @@ namespace Ex03.ConsoleUI
             }
         }
 
-        public void addProperties()
+        public void AddProperties()
         {
-            Dictionary<int, string> properties = GetProperties();
+            Dictionary<int, string> properties = m_MyGarage.GetProperties();
+            bool isValide;
 
-        }
+            foreach (var item in properties)
+            {
+                int index = 1;
+                isValide = false;
+                do
+                {
+                    try
+                    {
+                        if (m_MyGarage != null) //what??
+                        {
+                            string input = GetInputFromUser<string>("??");//??
+                            SetProperties(index, input); //in Vehicle
+                            isValide = true;
+                            index++;
+                        }
+                        
+                    }
+                    catch (Exception)
+                    {
 
-        public Dictionary<int,string> GetProperties()
-        {
-            Dictionary<int, string> vehicleProperties = null;
-            //somthing ck if null
-            vehicleProperties = getVehicleProperties(); //build virtual and overide in classes
-            return vehicleProperties;
+                        throw;
+                    }
+
+                } while (!isValide);
+            }
         }
     }
 }

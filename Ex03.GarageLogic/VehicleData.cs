@@ -30,6 +30,7 @@ namespace Ex03.GarageLogic
         public Vehicle NewVehicle
         {
             set { m_NewVehicle = value; }
+            get { return m_NewVehicle; }
         }
     }
 }

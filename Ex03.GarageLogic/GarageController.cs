@@ -29,7 +29,7 @@ namespace Ex03.GarageLogic
             //if in garage
             //else
             newVehicle = AddNewVehicle(i_VehicleID, i_TypeOfVehicleFromUser);
-
+            newVehicle.NewVehicle
             m_GarageDictionary.Add(i_VehicleID, newVehicle);
         }
 
@@ -67,6 +67,20 @@ namespace Ex03.GarageLogic
                     }
             }
             return newVehicle;
+        }
+
+        public Dictionary<int, string> GetProperties()
+        {
+            Dictionary<int, string> vehicleProperties = null;
+            //somthing ck if null
+            vehicleProperties = getVehicleProperties(); //build virtual and overide in classes
+            return vehicleProperties;
+        }
+
+        public void SetProperties(int i_Properties, string i_value) //here??
+        {
+            
+
         }
     }
 }
