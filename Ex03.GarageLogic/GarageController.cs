@@ -18,14 +18,20 @@ namespace Ex03.GarageLogic
         public Dictionary<string, VehicleData> m_GarageDictionary;
         public VehicleData m_CurrentVehicleData; // Data member which will assigned to every new vehicle.
 
+        public Dictionary<string, VehicleData> GarageDictionary
+        {
+            get { return m_GarageDictionary; }
+            //set { m_GarageDictionary = value; }
+        }
+
         public GarageController()
         {
             m_GarageDictionary = new Dictionary<string, VehicleData>();
         }
 
+
         public void AddCarToGarage(string i_OwnerName, string i_PhoneNumber, string i_VehicleID,eVehicleType i_TypeOfVehicleFromUser)
         {
-            //VehicleData newVehicle = null;
             Vehicle newVehicle;
             //if in garage
             //else
@@ -80,10 +86,5 @@ namespace Ex03.GarageLogic
             return vehicleProperties;
         }
 
-        public void SetProperties(int i_Properties, string i_value) //here??
-        {
-            
-
-        }
     }
 }

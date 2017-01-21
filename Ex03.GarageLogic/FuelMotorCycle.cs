@@ -14,7 +14,7 @@ namespace Ex03.GarageLogic
             : base(i_LicenseNumber, k_NumOfWheels, k_MaxWheelsAirPreasure)
         {
             Engine = new FuelEngine(k_MaxAmountOfFule, (int)k_FuelType);
-            Console.WriteLine("In Fuel MotorCycle");
+           // Console.WriteLine("In Fuel MotorCycle");
         }
 
         public override string ToString()

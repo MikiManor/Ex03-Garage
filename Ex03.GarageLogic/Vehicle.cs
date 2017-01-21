@@ -16,7 +16,7 @@ namespace Ex03.GarageLogic
 
         public enum eVehicleInfo
         {
-            Firma = 1
+            VehicleFirma = 1
         }
 
         private string m_VehicleModel;
@@ -149,14 +149,13 @@ namespace Ex03.GarageLogic
         public Dictionary<int, string> GetVheicleProperties() //should return the firma of vheicle only, the derived classes should return the additional properties the have
         {
             Dictionary<int, string> vehicleProperties = new Dictionary<int, string>();
-
+            
             foreach (eVehicleInfo property in Enum.GetValues(typeof(eVehicleInfo)))
             {
                 vehicleProperties.Add((int)property, property.ToString());
             }
 
             return vehicleProperties;
-
         }
 
         public virtual void setVehicleProperty(int i_Property, string i_InputFromUserStr) // should be overriden by derived classes - (more "cases")
@@ -164,7 +163,7 @@ namespace Ex03.GarageLogic
             eVehicleInfo property = (eVehicleInfo)i_Property;
             switch (property)
             {
-                case eVehicleInfo.Firma:
+                case eVehicleInfo.VehicleFirma:
                     Firma = i_InputFromUserStr;
                     break;
             }
@@ -184,7 +183,5 @@ namespace Ex03.GarageLogic
 
             return stringBuilder.ToString();
         }
-
-
     }
 }

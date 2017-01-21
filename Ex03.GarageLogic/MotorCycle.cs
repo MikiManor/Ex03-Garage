@@ -17,7 +17,7 @@ namespace Ex03.GarageLogic
 
         public enum eMotorCycleInfo
         {
-            Firma = 1,
+            VehicleFirma = 1,
             LicenseType = 2,
             EngineCapacity = 3
         }
@@ -54,7 +54,7 @@ namespace Ex03.GarageLogic
 
             switch (property)
             {
-                case eMotorCycleInfo.Firma:
+                case eMotorCycleInfo.VehicleFirma:
                     {
                         Firma = i_InputFromUserStr;
                         break;

@@ -106,14 +106,14 @@ namespace Ex03.ConsoleUI
             Console.Write("{0}", Environment.NewLine);
         }
 
-        public void PrintDictionary(Dictionary<string, VehicleData> i_GarageDictionary)
+        public void PrintVehicleDataDictionary(Dictionary<string, VehicleData> i_Dictionary)
         {
-
             PrintFrame("Vehicle Data List");
-            foreach (KeyValuePair<string, VehicleData> dataMember in i_GarageDictionary)
+            foreach (KeyValuePair<string, VehicleData> dataMember in i_Dictionary)
             {
                 if (dataMember.Value == null)
                 {
+                    Console.WriteLine("No datta"); //need this?
                     break;
                 }
                 else
@@ -122,6 +122,39 @@ namespace Ex03.ConsoleUI
                 }
             }
         }
+
+        public void PrintvehiclePropertiesDictionary(Dictionary<int, string> i_Dictionary)
+        {
+            foreach (KeyValuePair<int, string> dataMember in i_Dictionary)
+            {
+                if (dataMember.Value == null)
+                {
+                    break;
+                }
+                else
+                {
+                    Console.WriteLine("{0}{1} =  {2}", "\t", dataMember.Key, dataMember.Value);
+                }
+            }
+        }
+
+        public void PrintFullVehiclel(string i_key)
+        {
+            VehicleData currentVehiclel;
+            if (m_MyGarage.GarageDictionary.TryGetValue(i_key, out currentVehiclel))
+            {
+                Console.WriteLine("{1}License plate = {2}{0}{1}Owner name = {3}{0}{1}Phone number = {4}{0}{1}Number Of Wheels = {5}", Environment.NewLine, "\t", i_key, currentVehiclel.OwnerName, currentVehiclel.PhoneNumber, currentVehiclel.NewVehicle.NumOfWheels);
+                Console.WriteLine("{1}Vehicle Firma = {2}{0}{1}Vehicle Engine = {3}{0}{1}Energy Left = {4}", Environment.NewLine, "\t", currentVehiclel.NewVehicle.Firma, currentVehiclel.NewVehicle.Engine, currentVehiclel.NewVehicle.EnergyPrecentLeft);
+                Dictionary<int, string>  vehicleProperties = currentVehiclel.NewVehicle.GetVheicleProperties();
+                PrintvehiclePropertiesDictionary(vehicleProperties);
+            }
+
+            else
+            {
+                Console.WriteLine("Vehicle license plate not found...");
+            }
+        }
+        
         private eMenu GetUserChoice()
         {
             eMenu menuChoice = eMenu.NoMenuChoice;
@@ -161,7 +194,7 @@ namespace Ex03.ConsoleUI
         private void ShowListOfVehicle()
         {
             PrintFrame("Show list of vehicle");
-            PrintDictionary(m_MyGarage.m_GarageDictionary);
+            PrintVehicleDataDictionary(m_MyGarage.m_GarageDictionary);
             // 2. show vehicle lists(iD), can filter by status
         }
 
@@ -169,6 +202,7 @@ namespace Ex03.ConsoleUI
         {
             PrintFrame("Change vehicle status");
             string vehicleID = GetvehicleID();
+
             // 3. change status (id) -> new status
         }
 
@@ -197,6 +231,10 @@ namespace Ex03.ConsoleUI
         {
             PrintFrame("Show vehicle full details");
             string vehicleID = GetvehicleID();
+            PrintFullVehiclel(vehicleID);
+            Console.WriteLine();
+            Console.Write("\tpress any key...");
+            Console.ReadLine();
             // 7. show full details (id) -> id, model name, owners, status, wheel air, wheel maker, fual or electric + details, ect...
         }
 
@@ -270,8 +308,8 @@ namespace Ex03.ConsoleUI
                         if (m_MyGarage != null) //what??
                         {
                             
-                            string input = GetInputFromUser<string>(item.ToString());//??
-                            m_MyGarage.m_CurrentVehicleData.NewVehicle.setVehicleProperty(index, input); //in Vehicle
+                            string input = GetInputFromUser<string>(item.Key + " - " + item.Value + " > ");//??
+                            m_MyGarage.m_CurrentVehicleData.NewVehicle.setVehicleProperty(index, input); //bulid it in Vehicle
                             isValide = true;
                             index++;
                         }
