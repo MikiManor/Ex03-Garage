@@ -19,7 +19,7 @@ namespace Ex03.GarageLogic
         private float m_CurrentGoodsWeight;
         private readonly eFuelType k_FuelType = eFuelType.Octan96;
         private readonly float k_MaxAmountOfFuel = 150;
-        private const eNumOfWheels k_NumOfWheels = eNumOfWheels.twelve;
+        private const int k_NumOfWheels = 12;
         private const int k_MaxWheelsAirPreasure = 26;
 
         internal Truck(string i_LicenseNumber)

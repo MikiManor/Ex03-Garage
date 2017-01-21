@@ -86,9 +86,9 @@ namespace Ex03.GarageLogic
             return vehicleProperties;
         }
 
-        public void makeWheels()
+        public void MakeWheels(List<WheelCollection> wheelList)
         {
-
+            m_CurrentVehicleData.NewVehicle.SetAllWheels(wheelList);
         }
  
     }

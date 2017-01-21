@@ -278,19 +278,19 @@ namespace Ex03.ConsoleUI
 
         public void AddWheels()
         {
-            
-            float typeOfVehicleFromUserGetMaxPreasure = 22f;//remove
-            
-            List<WheelCollection> wheelsList = new List<WheelCollection>();//get max wheels from class typeOfVehicleFromUser.MaxWheels
-            string tireFirma = GetInputFromUser<string>("Please enter wheel firma > ");
+            List<WheelCollection> wheelsList = new List<WheelCollection>(m_MyGarage.m_CurrentVehicleData.NewVehicle.NumOfWheels - 1);//get max wheels from class typeOfVehicleFromUser.MaxWheels
             
             for (int i = 0; i < m_MyGarage.m_CurrentVehicleData.NewVehicle.NumOfWheels ; i++)
             {
+                WheelCollection vehicleWheel = new WheelCollection();
+                string tireFirma = GetInputFromUser<string>("Please enter wheel firma > ");
                 Console.WriteLine("\tWheel nummber {0}: ", i+1);
                 float currentAirPreasure = GetInputFromUser<float>("Please enter wheel current air preasure  > ");
-                makeWheels();
-                wheelsList.Add(new Wheel(tireFirma, currentAirPreasure, maxRecommandedAirPreasure)); //test if works
+                vehicleWheel.CurrentAirPreasure = currentAirPreasure;
+                vehicleWheel.WheelFirma = tireFirma;
+                wheelsList.Add(vehicleWheel);
             }
+            m_MyGarage.MakeWheels(wheelsList);
         }
 
         public void AddProperties()
