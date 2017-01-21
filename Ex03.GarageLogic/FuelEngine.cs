@@ -7,25 +7,42 @@ namespace Ex03.GarageLogic
 {
     public enum eFuelType
     {
-        Octan98 = 98,
-        Octan96 = 96,
-        Octan95 = 95,
-        Soler = 100
+        Octan98 = 1,
+        Octan96,
+        Octan95,
+        Soler
     }
-    class FuelEngine
+
+    public enum eFuelEngineProperties
     {
-        private readonly eFuelType m_FuelType;
+        FuelType = 1,
+        CurrentFuelLeft
+    }
+
+    internal class FuelEngine : Engine
+    {
+        private eFuelType m_FuelType;
         private float m_AmountOfLeftFuel;
         private readonly float k_MaxAmountOfFuel;
 
-        public FuelEngine(float i_AmountOfLeftFuel, float i_MaxAmountOfFuel, eFuelType i_FuelType)
+        public FuelEngine(float i_MaxAmountOfFuel, int i_FuelType)
+            : base(i_MaxAmountOfFuel)
         {
             k_MaxAmountOfFuel = i_MaxAmountOfFuel;
-            RemainingFuel = i_AmountOfLeftFuel;
             FuleType = i_FuelType;
         }
 
-        public void AddFuel(float i_AmountToAdd, eFuelType i_FuleType)
+        public override Dictionary<int, string> GetEngineProperties()
+        {
+            Dictionary<int, string> properties = new Dictionary<int, string>();
+
+            properties.Add(1, Vehicle.genericEnumUserMsg<eFuelType>("fuel type"));
+            properties.Add(2, "Please enter fuel amount left in the tank");
+
+            return properties;
+        }
+
+        public void FillOutEngine(float i_AmountToAdd, eFuelType i_FuleType)
         {
             if (Enum.IsDefined(typeof(eFuelType), i_FuleType))
             {
@@ -45,30 +62,14 @@ namespace Ex03.GarageLogic
 
         }
 
-        public float RemainingFuel
+        public int FuleType
         {
-            get { return m_AmountOfLeftFuel; }
-            set
-            {
-                if (value > k_MaxAmountOfFuel)
-                {
-                    throw new ValueOutOfRangeException("Battery cannot contain higher energy then maximum", m_BatteryMaxTime, 0);
-                }
-                else
-                {
-                    m_AmountOfLeftFuel = value;
-                }
-            }
-        }
-
-        public eFuelType FuleType
-        {
-            get { return m_FuelType; }
+            get { return (int)m_FuelType; }
             set
             {
                 if (Enum.IsDefined(typeof(eFuelType), value))
                 {
-                    
+                    m_FuelType = (eFuelType)value;
                 }
                 else
                 {
@@ -76,5 +77,53 @@ namespace Ex03.GarageLogic
                 }
             }
         }
+
+        public override void SetEngineProperty(int i_Property, string i_InputFromUserStr)
+        {
+            eFuelEngineProperties property = (eFuelEngineProperties)i_Property;
+            float inputFromUserFloat;
+            int inputFromUserInt;
+
+            switch (property)
+            {
+                case eFuelEngineProperties.FuelType:
+                    {
+                        if (int.TryParse(i_InputFromUserStr, out inputFromUserInt))
+                        {
+                            FuleType = inputFromUserInt;
+                        }
+                        else
+                        {
+                            throw new FormatException("You have enterd wrong input!");
+                        }
+
+                        break;
+                    }
+
+                case eFuelEngineProperties.CurrentFuelLeft:
+                    {
+                        if (float.TryParse(i_InputFromUserStr, out inputFromUserFloat))
+                        {
+                            EngineCurrentEnergy = inputFromUserFloat;
+                        }
+                        else
+                        {
+                            throw new FormatException("You have enterd wrong input!");
+                        }
+
+                        break;
+                    }
+            }
+        }
+
+        public override string ToString()
+        {
+            StringBuilder stringBuilder = new StringBuilder();
+
+            stringBuilder.AppendLine("Fuel Type is : " + m_FuelType.ToString());
+
+            return stringBuilder.ToString();
+        }
+
     }
 }

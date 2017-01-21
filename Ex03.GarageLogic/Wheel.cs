@@ -5,6 +5,12 @@ using System.ComponentModel;
 
 namespace Ex03.GarageLogic
 {
+    internal struct WheelCollection
+    {
+        public string firma;
+        public float currentAirPreasure; 
+    }
+
     public class Wheel
     {
         private readonly string r_Firma = null;
@@ -35,6 +41,7 @@ namespace Ex03.GarageLogic
                 m_CurrentAirPreasure = i_CurrentAirPreasure;
             }
         }
+
         public void TireInflating(float i_PreasureToAdd)
         {
             if (i_PreasureToAdd + m_CurrentAirPreasure > r_MaxRecommandedAirPreasure)
@@ -47,6 +54,17 @@ namespace Ex03.GarageLogic
             }
             
         }
+
+        public float CurrentAirPreasure
+        {
+            get { return m_CurrentAirPreasure; }
+        }
+
+        public float MaxRecommandedAirPreasure
+        {
+            get { return r_MaxRecommandedAirPreasure; }
+        }
+
     }
     ///יש לממש עוד גטרים וסטרים
 }

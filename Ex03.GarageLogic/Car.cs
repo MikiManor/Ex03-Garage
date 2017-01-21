@@ -17,20 +17,25 @@ namespace Ex03.GarageLogic
 
         public enum eNumOfDoors
         {
-           two = 2,
+           two = 1,
            three,
            four,
            five
         }
 
+        public enum eCarInfo
+        {
+            CarFirma = 1,
+            CarColor,
+            NumberOfDoors
+        }
+
         private static eNumOfDoors m_NumOfDoors;
         private static eColor m_CarColor;
 
-        public Car(string i_Model, string i_LicenseNumber, eNumOfDoors i_NumOfDoors, eColor i_CarColor, eNumOfWheels i_NumOfWheels, int i_MaxWheelsAirPreasure)
-            :base(i_Model, i_LicenseNumber, i_NumOfWheels, i_MaxWheelsAirPreasure)
+        internal Car(string i_LicenseNumber, eNumOfWheels i_NumOfWheels, int i_MaxWheelsAirPreasure)
+            :base(i_LicenseNumber, i_NumOfWheels, i_MaxWheelsAirPreasure)
         {
-            NumOfDoors = i_NumOfDoors;
-            CarColor = i_CarColor;
         }
 
         public eNumOfDoors NumOfDoors
@@ -65,7 +70,55 @@ namespace Ex03.GarageLogic
                     throw new InvalidEnumArgumentException("Color is unknown!", (int)value, typeof(eColor));
                 }
             }
+        }
 
+        public override void setVehicleProperty(int i_Property, string i_InputFromUserStr)
+        {
+            eCarInfo property = (eCarInfo)i_Property;
+            int ParssedInputFromUser;
+
+            switch (property)
+            {
+                case eCarInfo.CarFirma:
+                    {
+                        Firma = i_InputFromUserStr;
+                        break;
+                    }
+
+                case eCarInfo.CarColor:
+                    {
+                        if (int.TryParse(i_InputFromUserStr, out ParssedInputFromUser))
+                        {
+                            CarColor = (eColor)ParssedInputFromUser; //If color doesn't exist, exception should returned
+                        }
+                        else
+                        {
+                            throw new FormatException("Got bad input!");
+                        }
+
+                        break;
+                    }
+
+                case eCarInfo.NumberOfDoors:
+                    {
+                        if (int.TryParse(i_InputFromUserStr, out ParssedInputFromUser))
+                        {
+                            NumOfDoors = (eNumOfDoors)ParssedInputFromUser;
+                        }
+                        else
+                        {
+                            throw new FormatException("Got bad input!");
+                        }
+
+                        break;
+                    }
+            }
+        }
+
+        public override string ToString()
+        {
+            return "koko";
         }
     }
+
 }
