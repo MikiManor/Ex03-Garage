@@ -19,6 +19,18 @@ namespace Ex03.GarageLogic
             r_MaxEngineCapacity = i_MaxEngineCapacity;
         }
 
+        public float MaxEngineEnergy
+        {
+            get { return r_MaxEngineCapacity; }
+        }
+
+        public float EnergyPrecentLeft
+        {
+            get
+            {
+                return (m_LeftEnergy * 100) / r_MaxEngineCapacity;
+            }
+        }
         protected float EngineCurrentEnergy
         {
             get { return m_LeftEnergy; }
@@ -47,16 +59,14 @@ namespace Ex03.GarageLogic
             }
         }
 
-        public float MaxEngineEnergy
-        {
-            get { return r_MaxEngineCapacity; }
-        }
-
         public virtual Dictionary<int, string> GetEngineProperties()
         {
             Dictionary<int, string> EngineProperties = new Dictionary<int, string>();
 
-            EngineProperties.Add(1, "Enter current energy");
+            foreach (eEngineProperties property in Enum.GetValues(typeof(eEngineProperties)))
+            {
+                EngineProperties.Add((int)property, property.ToString());
+            }
 
             return EngineProperties;
         }
@@ -84,12 +94,12 @@ namespace Ex03.GarageLogic
             }
         }
 
-        public float EnergyPrecentLeft
+
+        public override string ToString()
         {
-            get
-            {
-                return (m_LeftEnergy * 100) / r_MaxEngineCapacity;
-            }
+            StringBuilder stringBuilder = new StringBuilder();
+            stringBuilder.AppendFormat("{1}Energy Left = {2}{0}{1}Maximum Energy Capacity = {3}{0}{1}Percentage Left = {4}", Environment.NewLine, "\t", m_LeftEnergy, r_MaxEngineCapacity, EnergyPrecentLeft);
+            return stringBuilder.ToString();
         }
     }
 }

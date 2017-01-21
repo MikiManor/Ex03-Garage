@@ -37,8 +37,6 @@ namespace Ex03.GarageLogic
             //else
             newVehicle = AddNewVehicle(i_VehicleID, i_TypeOfVehicleFromUser);
             m_CurrentVehicleData = new VehicleData(i_OwnerName, i_PhoneNumber, newVehicle);
-             //= AddNewVehicle(i_VehicleID, i_TypeOfVehicleFromUser);
-            //newVehicle.NewVehicle
             m_GarageDictionary.Add(i_VehicleID, m_CurrentVehicleData);
         }
 
@@ -78,18 +76,55 @@ namespace Ex03.GarageLogic
             return newVehicle;
         }
 
-        public Dictionary<int, string> GetProperties()
+        public Dictionary<int, string> GetVehicleProperties()
         {
             Dictionary<int, string> vehicleProperties = null;
             //somthing ck if null
             vehicleProperties = m_CurrentVehicleData.NewVehicle.GetVheicleProperties(); //build virtual and overide in classes
+            
             return vehicleProperties;
         }
+        public Dictionary<int, string> GetEngineProperties()
+        {
+            Dictionary<int, string> engineProperties = null;
+            engineProperties = m_CurrentVehicleData.NewVehicle.Engine.GetEngineProperties();
+            return engineProperties;
+        }
+
 
         public void MakeWheels(List<WheelCollection> wheelList)
         {
             m_CurrentVehicleData.NewVehicle.SetAllWheels(wheelList);
         }
- 
+
+        public void FillUpWheelsToTheMaximun(string i_LicenseNumber)
+        {
+            VehicleData currentVehiclel;
+            if (m_GarageDictionary.TryGetValue(i_LicenseNumber, out currentVehiclel))
+            {
+                currentVehiclel.NewVehicle.InfalingAllWheelsToMaxPreasure();
+            }
+
+            else
+            {
+                Console.WriteLine("Vehicle license plate not found...");
+            }
+        }
+
+        public void FuelUpAVehicle(string i_LicenseNumber)
+        {
+            VehicleData currentVehiclel;
+            if (m_GarageDictionary.TryGetValue(i_LicenseNumber, out currentVehiclel))
+            {
+                if (currentVehiclel.NewVehicle.
+                currentVehiclel.NewVehicle.InfalingAllWheelsToMaxPreasure();
+            }
+
+            else
+            {
+                Console.WriteLine("Vehicle license plate not found...");
+            }
+        }
+
     }
 }

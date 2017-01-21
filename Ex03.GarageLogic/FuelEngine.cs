@@ -15,8 +15,7 @@ namespace Ex03.GarageLogic
 
     public enum eFuelEngineProperties
     {
-        FuelType = 1,
-        CurrentFuelLeft
+        CurrentFuelLeft = 1
     }
 
     internal class FuelEngine : Engine
@@ -31,15 +30,18 @@ namespace Ex03.GarageLogic
             k_MaxAmountOfFuel = i_MaxAmountOfFuel;
             FuleType = i_FuelType;
         }
+        
 
         public override Dictionary<int, string> GetEngineProperties()
         {
-            Dictionary<int, string> properties = new Dictionary<int, string>();
+            Dictionary<int, string> FuelEngineProperties = new Dictionary<int, string>();
 
-            properties.Add(1, Vehicle.genericEnumUserMsg<eFuelType>("fuel type"));
-            properties.Add(2, "Please enter fuel amount left in the tank");
+            foreach (eFuelEngineProperties property in Enum.GetValues(typeof(eFuelEngineProperties)))
+            {
+                FuelEngineProperties.Add((int)property, property.ToString());
+            }
 
-            return properties;
+            return FuelEngineProperties;
         }
 
         public void FillOutEngine(float i_AmountToAdd, eFuelType i_FuleType)
@@ -82,24 +84,8 @@ namespace Ex03.GarageLogic
         {
             eFuelEngineProperties property = (eFuelEngineProperties)i_Property;
             float inputFromUserFloat;
-            int inputFromUserInt;
-
             switch (property)
             {
-                case eFuelEngineProperties.FuelType:
-                    {
-                        if (int.TryParse(i_InputFromUserStr, out inputFromUserInt))
-                        {
-                            FuleType = inputFromUserInt;
-                        }
-                        else
-                        {
-                            throw new FormatException("You have enterd wrong input!");
-                        }
-
-                        break;
-                    }
-
                 case eFuelEngineProperties.CurrentFuelLeft:
                     {
                         if (float.TryParse(i_InputFromUserStr, out inputFromUserFloat))
@@ -119,11 +105,8 @@ namespace Ex03.GarageLogic
         public override string ToString()
         {
             StringBuilder stringBuilder = new StringBuilder();
-
-            stringBuilder.AppendLine("Fuel Type is : " + m_FuelType.ToString());
-
-            return stringBuilder.ToString();
+            stringBuilder.AppendFormat("\tFuel Type is = {0}{1}", m_FuelType.ToString(), Environment.NewLine);
+            return stringBuilder.ToString() + base.ToString();
         }
-
     }
 }

@@ -20,11 +20,8 @@ namespace Ex03.GarageLogic
         public override string ToString()
         {
             StringBuilder stringBuilder = new StringBuilder();
-
-            stringBuilder.AppendLine("Vehicle : Electric MotorCycle ");
-
+            stringBuilder.AppendFormat("{1}Vehicle = Electric MotorCycle{0}{2}{0}", Environment.NewLine, "\t", Engine.ToString());
             return stringBuilder + base.ToString();
         }
-
     }
 }

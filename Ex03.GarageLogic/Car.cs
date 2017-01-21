@@ -82,11 +82,11 @@ namespace Ex03.GarageLogic
             {
                 if (property == eCarInfo.CarColor)
                 {
-                    carProperties.Add((int)property, genericEnumUserMsg<eColor>("\tPlease choose car color > "));
+                    carProperties.Add((int)property, genericEnumUserMsg<eColor>("car color > "));
                 }
                 else if (property == eCarInfo.NumberOfDoors)
                 {
-                    carProperties.Add((int)property, genericEnumUserMsg<eNumOfDoors>("\tPlease choose number of doors > "));
+                    carProperties.Add((int)property, genericEnumUserMsg<eNumOfDoors>("number of doors > "));
                 }
                 else
                 {
@@ -144,7 +144,9 @@ namespace Ex03.GarageLogic
 
         public override string ToString()
         {
-            return "koko";
+            StringBuilder stringBuilder = new StringBuilder();
+            stringBuilder.AppendFormat("{1}Car Color = {2}{0}{1}Number Of Doors = {3}{0}", Environment.NewLine, "\t", m_CarColor.ToString(), m_NumOfDoors.ToString());
+            return stringBuilder + base.ToString() ;
         }
     }
 

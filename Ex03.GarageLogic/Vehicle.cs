@@ -57,7 +57,6 @@ namespace Ex03.GarageLogic
             }
         }
 
-        
         public string LicenseNumber
         {
             get { return m_LicenseNumber; }
@@ -88,8 +87,9 @@ namespace Ex03.GarageLogic
         public override string ToString()
         {
             StringBuilder vehicleInfo = new StringBuilder();
-            //לממש לצורך הדפסת פרטי הרכב
+            vehicleInfo.AppendFormat("{1}Vehicle Firma = {2}{0}{1}Number Of Wheels = {3}{0}{1}Wheels Information = {0}{4}{0}", Environment.NewLine, "\t", m_VehicleModel,r_NumOfWheels, GetAllWheelsInformation());
             return vehicleInfo.ToString();
+
         }
         
         private void SetWheel(string i_WheelFirma, float i_CurrentAirPreasure)
@@ -120,6 +120,7 @@ namespace Ex03.GarageLogic
             }
 
         }
+
 
         internal void AddAirToWheels(float i_AirToAdd)
         {
@@ -160,7 +161,7 @@ namespace Ex03.GarageLogic
             {
                 vehicleProperties.Add((int)property, property.ToString());
             }
-
+            
             return vehicleProperties;
         }
 
@@ -183,11 +184,21 @@ namespace Ex03.GarageLogic
             stringBuilder.AppendFormat("Please choose {0} : {1}", i_Property, Environment.NewLine);
             foreach (T currentValue in Enum.GetValues(typeof(T)))
             {
-                stringBuilder.AppendFormat("{0} - {1}{2}", propertyIndex, currentValue.ToString(), Environment.NewLine);
+                stringBuilder.AppendFormat("\t\t{0} - {1}{2}", propertyIndex, currentValue.ToString(), Environment.NewLine);
                 propertyIndex++;
             }
 
             return stringBuilder.ToString();
+        }
+
+        public StringBuilder GetAllWheelsInformation()
+        {
+            StringBuilder stringBuilder = new StringBuilder();
+            foreach(Wheel wheelInCollection in r_WheelsOfVehicle)
+            {
+                stringBuilder.AppendLine(wheelInCollection.ToString());
+            }
+            return stringBuilder;
         }
     }
 }

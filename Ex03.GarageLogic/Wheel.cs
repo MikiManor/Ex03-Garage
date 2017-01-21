@@ -14,7 +14,7 @@ namespace Ex03.GarageLogic
     public class Wheel
     {
         private readonly string r_Firma = null;
-        private static float m_CurrentAirPreasure = 0;
+        private float m_CurrentAirPreasure = 0;
         private readonly float r_MaxRecommandedAirPreasure = 0;
         public Wheel(string i_TireFirma, float i_CurrentAirPreasure, float i_MaxRecommandedAirPreasure)
         {
@@ -42,6 +42,16 @@ namespace Ex03.GarageLogic
             }
         }
 
+        public float CurrentAirPreasure
+        {
+            get { return m_CurrentAirPreasure; }
+        }
+
+        public float MaxRecommandedAirPreasure
+        {
+            get { return r_MaxRecommandedAirPreasure; }
+        }
+
         public void TireInflating(float i_PreasureToAdd)
         {
             if (i_PreasureToAdd + m_CurrentAirPreasure > r_MaxRecommandedAirPreasure)
@@ -55,16 +65,12 @@ namespace Ex03.GarageLogic
             
         }
 
-        public float CurrentAirPreasure
-        {
-            get { return m_CurrentAirPreasure; }
-        }
 
-        public float MaxRecommandedAirPreasure
-        {
-            get { return r_MaxRecommandedAirPreasure; }
-        }
 
+        public override string ToString()
+        {
+            return string.Format("\t\tFirma : {0}, CurrentAirPreasure : {1}, Max Air Preasure : {2}", r_Firma, m_CurrentAirPreasure, r_MaxRecommandedAirPreasure);
+        }
     }
     ///יש לממש עוד גטרים וסטרים
 }

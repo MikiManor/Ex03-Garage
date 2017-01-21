@@ -143,10 +143,7 @@ namespace Ex03.ConsoleUI
             VehicleData currentVehiclel;
             if (m_MyGarage.GarageDictionary.TryGetValue(i_key, out currentVehiclel))
             {
-                Console.WriteLine("{1}License plate = {2}{0}{1}Owner name = {3}{0}{1}Phone number = {4}{0}{1}Number Of Wheels = {5}", Environment.NewLine, "\t", i_key, currentVehiclel.OwnerName, currentVehiclel.PhoneNumber, currentVehiclel.NewVehicle.NumOfWheels);
-                Console.WriteLine("{1}Vehicle Firma = {2}{0}{1}Vehicle Engine = {3}{0}{1}Energy Left = {4}", Environment.NewLine, "\t", currentVehiclel.NewVehicle.Firma, currentVehiclel.NewVehicle.Engine, currentVehiclel.NewVehicle.EnergyPrecentLeft);
-                Dictionary<int, string>  vehicleProperties = currentVehiclel.NewVehicle.GetVheicleProperties();
-                PrintvehiclePropertiesDictionary(vehicleProperties);
+                Console.WriteLine(m_MyGarage.m_CurrentVehicleData.NewVehicle.ToString());
             }
 
             else
@@ -174,14 +171,14 @@ namespace Ex03.ConsoleUI
         {
             PrintFrame("Add a new vehicle to garage");
             string vehicleID = GetvehicleID(); //check if already in -> status = in repair (in gragecontroller)
-            string manufacturer = GetInputFromUser<string>("\tPlease enter car manufacturer > ");
             string ownerName = GetInputFromUser<string>("\tPlease enter owner name > ");
             string phoneNumber = GetInputFromUser<string>("\tPlease enter phone number > ");
             GarageController.eVehicleType typeOfVehicleFromUser = getVehicleTypeFromUser();
             try
             {
                 m_MyGarage.AddCarToGarage(ownerName, phoneNumber, vehicleID, typeOfVehicleFromUser);
-                AddProperties();
+                AddVehicleProperties();
+                AddEngineProperties();
                 AddWheels();
                 
             }
@@ -210,14 +207,31 @@ namespace Ex03.ConsoleUI
         {
             PrintFrame("Fill up air in the tiers to the maximum");
             string vehicleID = GetvehicleID();
-            // 4. float air in wheel to max (id)
+            try
+            {
+                m_MyGarage.FillUpWheelsToTheMaximun(vehicleID);
+                Console.WriteLine("\tAll wheels are filled up to the maximum");
+            }
+            catch
+            {
+                Console.WriteLine("Sonething went wrong");
+            }
+
         }
 
         private void FuelUpAVehicle()
         {
             PrintFrame("Fuel up a vehicle");
             string vehicleID = GetvehicleID();
-            // 5. fual (non electric) (id, fual type, qty)
+            try
+            {
+                m_MyGarage.FuelUpAVehicle(vehicleID);
+                Console.WriteLine("\tCar Is Fulled up to the maximum");
+            }
+            catch
+            {
+                Console.WriteLine("Sonething went wrong");
+            }
         }
 
         private void ChargeUpAnElectricVehicle()
@@ -232,9 +246,6 @@ namespace Ex03.ConsoleUI
             PrintFrame("Show vehicle full details");
             string vehicleID = GetvehicleID();
             PrintFullVehiclel(vehicleID);
-            Console.WriteLine();
-            Console.Write("\tpress any key...");
-            Console.ReadLine();
             // 7. show full details (id) -> id, model name, owners, status, wheel air, wheel maker, fual or electric + details, ect...
         }
 
@@ -283,9 +294,9 @@ namespace Ex03.ConsoleUI
             for (int i = 0; i < m_MyGarage.m_CurrentVehicleData.NewVehicle.NumOfWheels ; i++)
             {
                 WheelCollection vehicleWheel = new WheelCollection();
-                string tireFirma = GetInputFromUser<string>("Please enter wheel firma > ");
-                Console.WriteLine("\tWheel nummber {0}: ", i+1);
-                float currentAirPreasure = GetInputFromUser<float>("Please enter wheel current air preasure  > ");
+                Console.WriteLine("\tWheel nummber {0}: ", i + 1);
+                string tireFirma = GetInputFromUser<string>("\tPlease enter wheel firma > ");
+                float currentAirPreasure = GetInputFromUser<float>("\tPlease enter wheel current air preasure  > ");
                 vehicleWheel.CurrentAirPreasure = currentAirPreasure;
                 vehicleWheel.WheelFirma = tireFirma;
                 wheelsList.Add(vehicleWheel);
@@ -293,28 +304,51 @@ namespace Ex03.ConsoleUI
             m_MyGarage.MakeWheels(wheelsList);
         }
 
-        public void AddProperties()
+        public void AddVehicleProperties()
         {
-            Dictionary<int, string> properties = m_MyGarage.GetProperties();
+            Dictionary<int, string> vehicleProperties = m_MyGarage.GetVehicleProperties();
             bool isValide;
             int index = 1;
-            foreach (var item in properties)
+            foreach (var item in vehicleProperties)
             {
-                
                 isValide = false;
                 do
                 {
                     try
                     {
-                        if (m_MyGarage != null) //what??
-                        {
-                            
-                            string input = GetInputFromUser<string>(item.Key + " - " + item.Value + " > ");//??
+                            string input = GetInputFromUser<string>("\t" + item.Key + " - " + item.Value + "\t> ");//??
                             m_MyGarage.m_CurrentVehicleData.NewVehicle.setVehicleProperty(index, input); //bulid it in Vehicle
                             isValide = true;
                             index++;
-                        }
                         
+                    }
+                    catch (Exception)
+                    {
+
+                        throw;
+                    }
+
+                } while (!isValide);
+            }
+        }
+
+        public void AddEngineProperties()
+        {
+            Dictionary<int, string> engineProperties = m_MyGarage.GetEngineProperties();
+            bool isValide;
+            int index = 1;
+            foreach (var item in engineProperties)
+            {
+                isValide = false;
+                do
+                {
+                    try
+                    {
+                        string input = GetInputFromUser<string>("\t" + item.Key + " - " + item.Value + "\t> ");
+                        m_MyGarage.m_CurrentVehicleData.NewVehicle.Engine.SetEngineProperty(index, input);
+                        isValide = true;
+                        index++;
+
                     }
                     catch (Exception)
                     {

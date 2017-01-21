@@ -15,16 +15,12 @@ namespace Ex03.GarageLogic
             :base(i_LicenseNumber, k_NumOfWheels, k_MaxWheelsAirPreasure)
         {
             Engine = new FuelEngine(k_MaxAmountOfFule, (int)k_FuelType);
-            Console.WriteLine("In Fuel Car");
         }
 
         public override string ToString()
         {
             StringBuilder stringBuilder = new StringBuilder();
-
-            stringBuilder.AppendLine("Vehicle : Fuel Car ");
-            stringBuilder.AppendFormat("Fuel type : {0}", k_FuelType);
-
+            stringBuilder.AppendFormat("{1}Vehicle = Fuel Car{0}{2}{0}", Environment.NewLine, "\t", Engine.ToString());
             return stringBuilder + base.ToString();
         }
     }

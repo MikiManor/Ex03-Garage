@@ -92,7 +92,9 @@ namespace Ex03.GarageLogic
 
         public override string ToString()
         {
-            return "koko";
+            StringBuilder stringBuilder = new StringBuilder();
+            stringBuilder.AppendFormat("{1}License Type = {2}{0}", Environment.NewLine, "\t", m_LicenseType.ToString());
+            return stringBuilder + base.ToString();
         }
 
     }
