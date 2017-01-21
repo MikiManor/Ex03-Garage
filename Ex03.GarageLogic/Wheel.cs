@@ -5,10 +5,10 @@ using System.ComponentModel;
 
 namespace Ex03.GarageLogic
 {
-    internal struct WheelCollection
+    public struct WheelCollection
     {
-        public string firma;
-        public float currentAirPreasure; 
+        public string WheelFirma;
+        public float CurrentAirPreasure; 
     }
 
     public class Wheel

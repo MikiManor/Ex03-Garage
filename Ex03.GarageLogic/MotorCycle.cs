@@ -25,7 +25,7 @@ namespace Ex03.GarageLogic
         private static int m_EngineCapacity;
         private eLicenseType m_LicenseType;
 
-        internal MotorCycle(string i_LicenseNumber, eNumOfWheels i_NumOfWheels, int i_MaxWheelsAirPreasure)
+        internal MotorCycle(string i_LicenseNumber, int i_NumOfWheels, int i_MaxWheelsAirPreasure)
             :base(i_LicenseNumber, i_NumOfWheels, i_MaxWheelsAirPreasure)
         {
         }

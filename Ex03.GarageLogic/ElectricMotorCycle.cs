@@ -8,7 +8,7 @@ namespace Ex03.GarageLogic
     {
         //private static int k_NumOfWheels = 4;
         private readonly float k_MaxBatteryTime = 2.5f;
-        private const eNumOfWheels k_NumOfWheels = eNumOfWheels.two;
+        private const int k_NumOfWheels = 2;
         private const int k_MaxWheelsAirPreasure = 31;
         public ElectricMotorCycle(string i_LicenseNumber)
             : base(i_LicenseNumber, k_NumOfWheels, k_MaxWheelsAirPreasure)

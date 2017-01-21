@@ -7,12 +7,12 @@ namespace Ex03.GarageLogic
 {
     public abstract class Vehicle
     {
-        public enum eNumOfWheels
-        {
-            two = 2,
-            four = 4,
-            twelve = 12
-        }
+        //public enum eNumOfWheels
+        //{
+        //    two = 2,
+        //    four = 4,
+        //    twelve = 12
+        //}
 
         public enum eVehicleInfo
         {
@@ -23,12 +23,12 @@ namespace Ex03.GarageLogic
         private string m_LicenseNumber;
         private Engine m_CarEngine;
         private float m_EnergyRemains;
-        private eNumOfWheels r_NumOfWheels;
-        private readonly List<Wheel> r_WheelsOfVehicle;
+        private int r_NumOfWheels;
+        private List<Wheel> r_WheelsOfVehicle;
         private readonly int k_MaxWheelsAirPreasure;
 
 
-        public Vehicle(string i_LicenseNumber, eNumOfWheels i_NumOfWheels, int i_MaxWheelsAirPreasuer)
+        public Vehicle(string i_LicenseNumber, int i_NumOfWheels, int i_MaxWheelsAirPreasuer)
         {
             m_LicenseNumber = i_LicenseNumber;
             NumOfWheels = i_NumOfWheels;
@@ -57,13 +57,33 @@ namespace Ex03.GarageLogic
             }
         }
 
+        
         public string LicenseNumber
         {
             get { return m_LicenseNumber; }
             set { m_LicenseNumber = value; }
         }
 
+        public int NumOfWheels
+        {
+            get { return r_NumOfWheels; }
+            set
+            {
+                if (value > 0)
+                {
+                    r_NumOfWheels = value;
+                }
+                else
+                {
+                    throw new ArgumentException("Wrong number of Wheels entered!");
+                }
+            }
+        }
 
+        public float MaxWheelsPreasure
+        {
+            get { return k_MaxWheelsAirPreasure; }
+        }
 
         public override string ToString()
         {
@@ -91,13 +111,14 @@ namespace Ex03.GarageLogic
             {
                 foreach(WheelCollection wheel in i_WheelsCollection)
                 {
-                    SetWheel(wheel.firma, wheel.currentAirPreasure);
+                    SetWheel(wheel.WheelFirma, wheel.CurrentAirPreasure);
                 }
             }
             else
             {
                 throw new ArgumentException("Not all wheels passed");
             }
+
         }
 
         internal void AddAirToWheels(float i_AirToAdd)
@@ -117,6 +138,7 @@ namespace Ex03.GarageLogic
                     }
                 }
             }
+            
         }
 
         internal void InfalingAllWheelsToMaxPreasure()
@@ -130,23 +152,7 @@ namespace Ex03.GarageLogic
             }
         }
 
-        public eNumOfWheels NumOfWheels
-        {
-            get { return r_NumOfWheels; }
-            set
-            {
-                if (Enum.IsDefined(typeof(eNumOfWheels), value))
-                {
-                    r_NumOfWheels = value;
-                }
-                else
-                {
-                    throw new InvalidEnumArgumentException("Wrong number of Wheels entered!", (int)value, typeof(eNumOfWheels));
-                }
-            }
-        }
-
-        public Dictionary<int, string> GetVheicleProperties() //should return the firma of vheicle only, the derived classes should return the additional properties the have
+        public  virtual Dictionary<int, string> GetVheicleProperties() //should return the firma of vheicle only, the derived classes should return the additional properties the have
         {
             Dictionary<int, string> vehicleProperties = new Dictionary<int, string>();
             

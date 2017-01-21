@@ -278,16 +278,17 @@ namespace Ex03.ConsoleUI
 
         public void AddWheels()
         {
-            int typeOfVehicleFromUserMaxWheels = 4;//remove
+            
             float typeOfVehicleFromUserGetMaxPreasure = 22f;//remove
-
-            List<Wheel> wheelsList = new List<Wheel>(typeOfVehicleFromUserMaxWheels);//get max wheels from class typeOfVehicleFromUser.MaxWheels
+            
+            List<WheelCollection> wheelsList = new List<WheelCollection>();//get max wheels from class typeOfVehicleFromUser.MaxWheels
             string tireFirma = GetInputFromUser<string>("Please enter wheel firma > ");
-            for (int i = 0; i < typeOfVehicleFromUserMaxWheels; i++)
+            
+            for (int i = 0; i < m_MyGarage.m_CurrentVehicleData.NewVehicle.NumOfWheels ; i++)
             {
                 Console.WriteLine("\tWheel nummber {0}: ", i+1);
                 float currentAirPreasure = GetInputFromUser<float>("Please enter wheel current air preasure  > ");
-                float maxRecommandedAirPreasure = typeOfVehicleFromUserGetMaxPreasure;//chng
+                makeWheels();
                 wheelsList.Add(new Wheel(tireFirma, currentAirPreasure, maxRecommandedAirPreasure)); //test if works
             }
         }
@@ -296,10 +297,10 @@ namespace Ex03.ConsoleUI
         {
             Dictionary<int, string> properties = m_MyGarage.GetProperties();
             bool isValide;
-
+            int index = 1;
             foreach (var item in properties)
             {
-                int index = 1;
+                
                 isValide = false;
                 do
                 {

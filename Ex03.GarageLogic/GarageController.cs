@@ -86,5 +86,10 @@ namespace Ex03.GarageLogic
             return vehicleProperties;
         }
 
+        public void makeWheels()
+        {
+
+        }
+ 
     }
 }

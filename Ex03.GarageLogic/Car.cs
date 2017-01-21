@@ -30,10 +30,12 @@ namespace Ex03.GarageLogic
             NumberOfDoors
         }
 
+
+
         private static eNumOfDoors m_NumOfDoors;
         private static eColor m_CarColor;
 
-        internal Car(string i_LicenseNumber, eNumOfWheels i_NumOfWheels, int i_MaxWheelsAirPreasure)
+        internal Car(string i_LicenseNumber, int i_NumOfWheels, int i_MaxWheelsAirPreasure)
             :base(i_LicenseNumber, i_NumOfWheels, i_MaxWheelsAirPreasure)
         {
         }
@@ -70,6 +72,29 @@ namespace Ex03.GarageLogic
                     throw new InvalidEnumArgumentException("Color is unknown!", (int)value, typeof(eColor));
                 }
             }
+        }
+
+        public override Dictionary<int, string> GetVheicleProperties() 
+        {
+            Dictionary<int, string> carProperties = new Dictionary<int, string>();
+
+            foreach (eCarInfo property in Enum.GetValues(typeof(eCarInfo)))
+            {
+                if (property == eCarInfo.CarColor)
+                {
+                    carProperties.Add((int)property, genericEnumUserMsg<eColor>("\tPlease choose car color > "));
+                }
+                else if (property == eCarInfo.NumberOfDoors)
+                {
+                    carProperties.Add((int)property, genericEnumUserMsg<eNumOfDoors>("\tPlease choose number of doors > "));
+                }
+                else
+                {
+                    carProperties.Add((int)property, property.ToString());
+                }
+            }
+
+            return carProperties;
         }
 
         public override void setVehicleProperty(int i_Property, string i_InputFromUserStr)
@@ -114,6 +139,8 @@ namespace Ex03.GarageLogic
                     }
             }
         }
+
+
 
         public override string ToString()
         {
