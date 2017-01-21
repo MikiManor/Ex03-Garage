@@ -17,13 +17,70 @@ namespace Ex03.GarageLogic
 
         public Dictionary<string, VehicleData> m_GarageDictionary;
 
+
         public GarageController()
         {
             m_GarageDictionary = new Dictionary<string, VehicleData>();
         }
 
-        public void AddCarToGarage(string ownerName, string phoneNumber, string vehicleID,eVehicleType typeOfVehicleFromUser)
+        public void AddCarToGarage(string i_OwnerName, string i_PhoneNumber, string i_VehicleID,eVehicleType i_TypeOfVehicleFromUser)
         {
-        } 
+            VehicleData newVehicle;
+            //if in garage
+            //else
+            newVehicle = AddNewVehicle(i_VehicleID, i_TypeOfVehicleFromUser);
+            newVehicle.NewVehicle
+            m_GarageDictionary.Add(i_VehicleID, newVehicle);
+        }
+
+        private VehicleData AddNewVehicle(string i_vehicleID, eVehicleType i_typeOfVehicleFromUser)
+        {
+            VehicleData newVehicle = null;
+
+            switch (i_typeOfVehicleFromUser)
+            {
+                case eVehicleType.FuelMotorCycle:
+                    {
+                        newVehicle = new FuelMotorCycle(i_vehicleID);
+                        break;
+                    }
+                case eVehicleType.ElectricMotorCycle:
+                    {
+                        newVehicle = new ElectricMotorCycle(i_vehicleID);
+                        break;
+                    }
+                    
+                case eVehicleType.FuelCar:
+                    {
+                        newVehicle = new FuelCar(i_vehicleID);
+                        break;
+                    }
+                case eVehicleType.ElectricCar:
+                    {
+                        newVehicle = new ElectricCar(i_vehicleID);
+                        break;
+                    }
+                case eVehicleType.FuelTruck:
+                    {
+                        newVehicle = new FuelTruck(i_vehicleID);
+                        break;
+                    }
+            }
+            return newVehicle;
+        }
+
+        public Dictionary<int, string> GetProperties()
+        {
+            Dictionary<int, string> vehicleProperties = null;
+            //somthing ck if null
+            vehicleProperties = getVehicleProperties(); //build virtual and overide in classes
+            return vehicleProperties;
+        }
+
+        public void SetProperties(int i_Properties, string i_value) //here??
+        {
+            
+
+        }
     }
 }

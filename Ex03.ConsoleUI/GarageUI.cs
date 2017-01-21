@@ -112,7 +112,14 @@ namespace Ex03.ConsoleUI
             PrintFrame("Vehicle Data List");
             foreach (KeyValuePair<string, VehicleData> dataMember in i_GarageDictionary)
             {
-                Console.WriteLine("License plate = {0}, Owner name = {1}, Phone number = {2}", dataMember.Key, dataMember.Value.OwnerName, dataMember.Value.PhoneNumber);
+                if (dataMember.Value == null)
+                {
+                    break;
+                }
+                else
+                {
+                    Console.WriteLine("License plate = {0}, Owner name = {1}, Phone number = {2}", dataMember.Key, dataMember.Value.OwnerName, dataMember.Value.PhoneNumber);
+                }
             }
         }
         private eMenu GetUserChoice()
@@ -121,7 +128,6 @@ namespace Ex03.ConsoleUI
             try
             {
                 menuChoice = GetEnumFromUser<eMenu>("");
-                //menuChoice = (eMenu)Enum.Parse(typeof(eMenu), Console.ReadLine());
             }
             catch (Exception)
             {
@@ -135,15 +141,16 @@ namespace Ex03.ConsoleUI
         {
             PrintFrame("Add a new vehicle to garage");
             string vehicleID = GetvehicleID(); //check if already in -> status = in repair (in gragecontroller)
-            string manufacturer = GetInputFromUser<string>("\tPlease enter car manufacturer: ");
-            string ownerName = GetInputFromUser<string>("\tPlease enter owner name: ");
-            string phoneNumber = GetInputFromUser<string>("\tPlease enter phone number: ");
+            string manufacturer = GetInputFromUser<string>("\tPlease enter car manufacturer > ");
+            string ownerName = GetInputFromUser<string>("\tPlease enter owner name > ");
+            string phoneNumber = GetInputFromUser<string>("\tPlease enter phone number > ");
             GarageController.eVehicleType typeOfVehicleFromUser = getVehicleTypeFromUser();
             try
             {
                 m_MyGarage.AddCarToGarage(ownerName, phoneNumber, vehicleID, typeOfVehicleFromUser);
-                //insertProperties();
-                //addWheels();
+                AddProperties();
+                AddWheels();
+                
             }
             catch (ArgumentException ex)
             {
@@ -211,7 +218,7 @@ namespace Ex03.ConsoleUI
 
         private string GetvehicleID()
         {
-            return GetInputFromUser<string>("\tPlease Enter vehicle license plate: ");
+            return GetInputFromUser<string>("\tPlease Enter vehicle license plate > ");
         }
 
         private GarageController.eVehicleType getVehicleTypeFromUser()
@@ -228,6 +235,54 @@ namespace Ex03.ConsoleUI
             {
                 Console.WriteLine("\t{0} - {1}",index,val);
                 index++;
+            }
+        }
+
+        public void AddWheels()
+        {
+            int typeOfVehicleFromUserMaxWheels = 4;//remove
+            float typeOfVehicleFromUserGetMaxPreasure = 22f;//remove
+
+            List<Wheel> wheelsList = new List<Wheel>(typeOfVehicleFromUserMaxWheels);//get max wheels from class typeOfVehicleFromUser.MaxWheels
+            string tireFirma = GetInputFromUser<string>("Please enter wheel firma > ");
+            for (int i = 0; i < typeOfVehicleFromUserMaxWheels; i++)
+            {
+                Console.WriteLine("\tWheel nummber {0}: ", i+1);
+                float currentAirPreasure = GetInputFromUser<float>("Please enter wheel current air preasure  > ");
+                float maxRecommandedAirPreasure = typeOfVehicleFromUserGetMaxPreasure;//chng
+                wheelsList.Add(new Wheel(tireFirma, currentAirPreasure, maxRecommandedAirPreasure)); //test if works
+            }
+        }
+
+        public void AddProperties()
+        {
+            Dictionary<int, string> properties = m_MyGarage.GetProperties();
+            bool isValide;
+
+            foreach (var item in properties)
+            {
+                int index = 1;
+                isValide = false;
+                do
+                {
+                    try
+                    {
+                        if (m_MyGarage != null) //what??
+                        {
+                            string input = GetInputFromUser<string>("??");//??
+                            SetProperties(index, input); //in Vehicle
+                            isValide = true;
+                            index++;
+                        }
+                        
+                    }
+                    catch (Exception)
+                    {
+
+                        throw;
+                    }
+
+                } while (!isValide);
             }
         }
     }
