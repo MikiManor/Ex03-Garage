@@ -6,6 +6,13 @@ namespace Ex03.GarageLogic
 {
     public class GarageController
     {
+        public enum eVehicleStatus
+        {
+            InRepair = 1,
+            DoneRepair = 2,
+            Paid = 3
+        }
+
         public enum eVehicleType
         {
             FuelMotorCycle = 1,
@@ -16,12 +23,16 @@ namespace Ex03.GarageLogic
         }
 
         public Dictionary<string, VehicleData> m_GarageDictionary;
-        public VehicleData m_CurrentVehicleData; // Data member which will assigned to every new vehicle.
+        public VehicleData m_CurrentVehicleData;
 
         public Dictionary<string, VehicleData> GarageDictionary
         {
             get { return m_GarageDictionary; }
-            //set { m_GarageDictionary = value; }
+        }
+
+        public bool IsLicenseInGarage(string i_LicenseNumber)
+        {
+            return m_GarageDictionary.ContainsKey(i_LicenseNumber);
         }
 
         public GarageController()
@@ -32,10 +43,7 @@ namespace Ex03.GarageLogic
 
         public void AddCarToGarage(string i_OwnerName, string i_PhoneNumber, string i_VehicleID,eVehicleType i_TypeOfVehicleFromUser)
         {
-            Vehicle newVehicle;
-            //if in garage
-            //else
-            newVehicle = AddNewVehicle(i_VehicleID, i_TypeOfVehicleFromUser);
+            Vehicle newVehicle = AddNewVehicle(i_VehicleID, i_TypeOfVehicleFromUser);
             m_CurrentVehicleData = new VehicleData(i_OwnerName, i_PhoneNumber, newVehicle);
             m_GarageDictionary.Add(i_VehicleID, m_CurrentVehicleData);
         }
@@ -79,8 +87,7 @@ namespace Ex03.GarageLogic
         public Dictionary<int, string> GetVehicleProperties()
         {
             Dictionary<int, string> vehicleProperties = null;
-            //somthing ck if null
-            vehicleProperties = m_CurrentVehicleData.NewVehicle.GetVheicleProperties(); //build virtual and overide in classes
+            vehicleProperties = m_CurrentVehicleData.NewVehicle.GetVheicleProperties();
             
             return vehicleProperties;
         }
@@ -107,7 +114,7 @@ namespace Ex03.GarageLogic
 
             else
             {
-                Console.WriteLine("Vehicle license plate not found...");
+                Console.WriteLine("\tVehicle license plate not found...");
             }
         }
 
@@ -116,15 +123,36 @@ namespace Ex03.GarageLogic
             VehicleData currentVehiclel;
             if (m_GarageDictionary.TryGetValue(i_LicenseNumber, out currentVehiclel))
             {
-                if (currentVehiclel.NewVehicle.
-                currentVehiclel.NewVehicle.InfalingAllWheelsToMaxPreasure();
+                //if (currentVehiclel.NewVehicle.Engine.GetType() == 0)
+                //currentVehiclel.NewVehicle.InfalingAllWheelsToMaxPreasure();
             }
 
             else
             {
-                Console.WriteLine("Vehicle license plate not found...");
+                Console.WriteLine("\tVehicle license plate not found...");
             }
         }
 
+        public void ChangeVehicleStatus(string i_LicenseNumber, eVehicleStatus i_status)
+        {
+            VehicleData currentVehiclel;
+            if (m_GarageDictionary.TryGetValue(i_LicenseNumber, out currentVehiclel))
+            {
+                try //fix
+                {
+                    currentVehiclel.VehicleStatus = i_status;
+                    Console.WriteLine("\tStatus change complete!");
+                }
+                catch (Exception)
+                {
+                    throw;
+                }  
+            }
+
+            else
+            {
+                Console.WriteLine("\tVehicle license plate not found...");
+            }
+        }
     }
 }

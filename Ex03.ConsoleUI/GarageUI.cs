@@ -118,7 +118,7 @@ namespace Ex03.ConsoleUI
                 }
                 else
                 {
-                    Console.WriteLine("License plate = {0}, Owner name = {1}, Phone number = {2}", dataMember.Key, dataMember.Value.OwnerName, dataMember.Value.PhoneNumber);
+                    Console.WriteLine("License plate = {0}, Status = {3}, Owner name = {1}, Phone number = {2}", dataMember.Key, dataMember.Value.OwnerName, dataMember.Value.PhoneNumber, dataMember.Value.VehicleStatus);
                 }
             }
         }
@@ -170,21 +170,29 @@ namespace Ex03.ConsoleUI
         private void AddNewVehicleToFix()
         {
             PrintFrame("Add a new vehicle to garage");
-            string vehicleID = GetvehicleID(); //check if already in -> status = in repair (in gragecontroller)
-            string ownerName = GetInputFromUser<string>("\tPlease enter owner name > ");
-            string phoneNumber = GetInputFromUser<string>("\tPlease enter phone number > ");
-            GarageController.eVehicleType typeOfVehicleFromUser = getVehicleTypeFromUser();
-            try
+            string vehicleID = GetvehicleID();
+            if (m_MyGarage.m_GarageDictionary.ContainsKey(vehicleID))
             {
-                m_MyGarage.AddCarToGarage(ownerName, phoneNumber, vehicleID, typeOfVehicleFromUser);
-                AddVehicleProperties();
-                AddEngineProperties();
-                AddWheels();
-                
+                Console.WriteLine("\tLicense plate allready in! vehicle status will change to \"In Repair\"");
+                m_MyGarage.ChangeVehicleStatus(vehicleID, GarageController.eVehicleStatus.InRepair);
             }
-            catch (ArgumentException ex)
+            else
             {
-                Console.WriteLine(ex.Message);
+                string ownerName = GetInputFromUser<string>("\tPlease enter owner name > ");
+                string phoneNumber = GetInputFromUser<string>("\tPlease enter phone number > ");
+                GarageController.eVehicleType typeOfVehicleFromUser = getVehicleTypeFromUser();
+
+                try
+                {
+                    m_MyGarage.AddCarToGarage(ownerName, phoneNumber, vehicleID, typeOfVehicleFromUser);
+                    AddVehicleProperties();
+                    AddEngineProperties();
+                    AddWheels();
+                }
+                catch (ArgumentException ex)
+                {
+                    Console.WriteLine(ex.Message);
+                }
             }
         }
 
@@ -199,7 +207,9 @@ namespace Ex03.ConsoleUI
         {
             PrintFrame("Change vehicle status");
             string vehicleID = GetvehicleID();
-
+            Console.WriteLine("\tChoose vehicle status");
+            GarageController.eVehicleStatus newStatus = GetEnumFromUser<GarageController.eVehicleStatus>(GetListOfStatuses());
+            m_MyGarage.ChangeVehicleStatus(vehicleID, newStatus);  
             // 3. change status (id) -> new status
         }
 
@@ -214,7 +224,7 @@ namespace Ex03.ConsoleUI
             }
             catch
             {
-                Console.WriteLine("Sonething went wrong");
+                Console.WriteLine("\tSonething went wrong");
             }
 
         }
@@ -230,7 +240,7 @@ namespace Ex03.ConsoleUI
             }
             catch
             {
-                Console.WriteLine("Sonething went wrong");
+                Console.WriteLine("\tSonething went wrong");
             }
         }
 
@@ -358,6 +368,19 @@ namespace Ex03.ConsoleUI
 
                 } while (!isValide);
             }
+        }
+
+        private string GetListOfStatuses()
+        {
+            StringBuilder stringBuilder = new StringBuilder();
+            int index = 1;
+            foreach (GarageController.eVehicleStatus currentType in Enum.GetValues(typeof(GarageController.eVehicleStatus)))
+            {
+                stringBuilder.AppendFormat("\t{0} - {1}{2}", index.ToString(), currentType.ToString(), Environment.NewLine);
+                index++;
+            }
+
+            return stringBuilder.ToString();
         }
     }
 }

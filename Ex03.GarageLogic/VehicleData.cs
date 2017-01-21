@@ -9,14 +9,21 @@ namespace Ex03.GarageLogic
         private string m_PhoneNumber;
         private string m_OwnerName;
         private Vehicle m_NewVehicle;
+        private GarageController.eVehicleStatus m_VehicleStatus;
 
         public VehicleData(string i_OwnerName, string i_PhoneNumber, Vehicle i_NewVehicle)
         {
             OwnerName = i_OwnerName;
             PhoneNumber = i_PhoneNumber;
             NewVehicle = i_NewVehicle;
+            m_VehicleStatus = GarageController.eVehicleStatus.InRepair;
         }
 
+        public GarageController.eVehicleStatus VehicleStatus
+        {
+            get { return m_VehicleStatus; }
+            set { m_VehicleStatus = value; }
+        }
         public string PhoneNumber
         {
             get { return m_PhoneNumber; }
