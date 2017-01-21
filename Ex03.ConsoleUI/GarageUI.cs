@@ -270,7 +270,7 @@ namespace Ex03.ConsoleUI
                         if (m_MyGarage != null) //what??
                         {
                             string input = GetInputFromUser<string>("??");//??
-                            SetProperties(index, input); //in Vehicle
+                            m_MyGarage.m_CurrentVehicleData.NewVehicle.setVehicleProperty(index, input); //in Vehicle
                             isValide = true;
                             index++;
                         }

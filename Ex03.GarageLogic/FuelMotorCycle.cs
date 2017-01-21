@@ -10,7 +10,7 @@ namespace Ex03.GarageLogic
         private readonly float k_MaxAmountOfFule = 6.2f;
         private const eNumOfWheels k_NumOfWheels = eNumOfWheels.two;
         private const int k_MaxWheelsAirPreasure = 31;
-        public FuelMotorCycle(string i_LicenseNumber, float i_LeftFuelInTank)
+        public FuelMotorCycle(string i_LicenseNumber)
             : base(i_LicenseNumber, k_NumOfWheels, k_MaxWheelsAirPreasure)
         {
             Engine = new FuelEngine(k_MaxAmountOfFule, (int)k_FuelType);

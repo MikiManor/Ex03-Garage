@@ -12,11 +12,11 @@ namespace Ex03.GarageLogic
             ElectricMotorCycle = 2,
             FuelCar = 3,
             ElectricCar = 4,
-            FuelTruck = 5,
+            Truck = 5,
         }
 
         public Dictionary<string, VehicleData> m_GarageDictionary;
-
+        public VehicleData m_CurrentVehicleData; // Data member which will assigned to every new vehicle.
 
         public GarageController()
         {
@@ -25,17 +25,20 @@ namespace Ex03.GarageLogic
 
         public void AddCarToGarage(string i_OwnerName, string i_PhoneNumber, string i_VehicleID,eVehicleType i_TypeOfVehicleFromUser)
         {
-            VehicleData newVehicle;
+            //VehicleData newVehicle = null;
+            Vehicle newVehicle;
             //if in garage
             //else
             newVehicle = AddNewVehicle(i_VehicleID, i_TypeOfVehicleFromUser);
-            newVehicle.NewVehicle
-            m_GarageDictionary.Add(i_VehicleID, newVehicle);
+            m_CurrentVehicleData = new VehicleData(i_OwnerName, i_PhoneNumber, newVehicle);
+             //= AddNewVehicle(i_VehicleID, i_TypeOfVehicleFromUser);
+            //newVehicle.NewVehicle
+            m_GarageDictionary.Add(i_VehicleID, m_CurrentVehicleData);
         }
 
-        private VehicleData AddNewVehicle(string i_vehicleID, eVehicleType i_typeOfVehicleFromUser)
+        private Vehicle AddNewVehicle(string i_vehicleID, eVehicleType i_typeOfVehicleFromUser)
         {
-            VehicleData newVehicle = null;
+            Vehicle newVehicle = null;
 
             switch (i_typeOfVehicleFromUser)
             {
@@ -60,9 +63,9 @@ namespace Ex03.GarageLogic
                         newVehicle = new ElectricCar(i_vehicleID);
                         break;
                     }
-                case eVehicleType.FuelTruck:
+                case eVehicleType.Truck:
                     {
-                        newVehicle = new FuelTruck(i_vehicleID);
+                        newVehicle = new Truck(i_vehicleID);
                         break;
                     }
             }
@@ -73,7 +76,7 @@ namespace Ex03.GarageLogic
         {
             Dictionary<int, string> vehicleProperties = null;
             //somthing ck if null
-            vehicleProperties = getVehicleProperties(); //build virtual and overide in classes
+            vehicleProperties = m_CurrentVehicleData.NewVehicle.GetVheicleProperties(); //build virtual and overide in classes
             return vehicleProperties;
         }
 
