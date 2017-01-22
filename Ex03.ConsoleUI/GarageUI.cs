@@ -212,7 +212,7 @@ namespace Ex03.ConsoleUI
             eMenu menuChoice = eMenu.NoMenuChoice;
             try
             {
-                menuChoice = GetEnumFromUser<eMenu>("");
+                menuChoice = GetEnumFromUser<eMenu>(string.Empty);
             }
             catch (Exception)
             {
@@ -381,7 +381,7 @@ namespace Ex03.ConsoleUI
         {
             Console.Write(msg);
             string input = Console.ReadLine();
-            if (input != "")
+            if (input != string.Empty)
             {
                 return (T)Convert.ChangeType(input, typeof(T));
             }
@@ -421,7 +421,7 @@ namespace Ex03.ConsoleUI
             int index = 1;
             foreach (GarageController.eVehicleType val in Enum.GetValues(typeof(GarageController.eVehicleType)))
             {
-                Console.WriteLine("\t{0} - {1}",index,val);
+                Console.WriteLine("\t{0} - {1}", index, val);
                 index++;
             }
         }
@@ -429,18 +429,25 @@ namespace Ex03.ConsoleUI
         public void AddWheels()
         {
             List<WheelCollection> wheelsList = new List<WheelCollection>(m_MyGarage.m_CurrentVehicleData.NewVehicle.NumOfWheels - 1);////get max wheels from class typeOfVehicleFromUser.MaxWheels
-            
-            for (int i = 0; i < m_MyGarage.m_CurrentVehicleData.NewVehicle.NumOfWheels ; i++)
+            for (int i = 0; i < m_MyGarage.m_CurrentVehicleData.NewVehicle.NumOfWheels; i++)
             {
-                WheelCollection vehicleWheel = new WheelCollection();
-                Console.WriteLine("\tWheel nummber {0}: ", i + 1);
-                string tireFirma = GetInputFromUser<string>("\tPlease enter wheel firma > ");
-                float currentAirPreasure = GetInputFromUser<float>("\tPlease enter wheel current air preasure  > ");
-                vehicleWheel.CurrentAirPreasure = currentAirPreasure;
-                vehicleWheel.WheelFirma = tireFirma;
-                wheelsList.Add(vehicleWheel);
-            }
+                try
+                {
+                    WheelCollection vehicleWheel = new WheelCollection();
+                    Console.WriteLine("\tWheel nummber {0}: ", i + 1);
+                    string tireFirma = GetInputFromUser<string>("\tPlease enter wheel firma > ");
+                    float currentAirPreasure = GetInputFromUser<float>("\tPlease enter wheel current air preasure  > ");
+                    vehicleWheel.CurrentAirPreasure = currentAirPreasure;
+                    vehicleWheel.WheelFirma = tireFirma;
+                    wheelsList.Add(vehicleWheel);
+                }
+                catch (Exception ex)
+                {
+                    m_MyGarage.m_GarageDictionary.Remove(m_MyGarage.m_CurrentVehicleData.NewVehicle.LicenseNumber);
+                    throw new FormatException("\t" + ex.Message);
+                }
 
+            }
             m_MyGarage.MakeWheels(wheelsList);
         }
 

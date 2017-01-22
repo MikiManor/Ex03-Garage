@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Text;
 using System.ComponentModel;
+using System.Text;
 
 namespace Ex03.GarageLogic
 {
@@ -17,7 +17,6 @@ namespace Ex03.GarageLogic
     {
         CurrentFuelLeft = 1
     }
-
     internal class FuelEngine : Engine
     {
         private eFuelType m_FuelType;
@@ -25,7 +24,6 @@ namespace Ex03.GarageLogic
         public FuelEngine(float i_MaxAmountOfFuel, int i_FuelType)
             : base(i_MaxAmountOfFuel)
         {
-            k_MaxAmountOfFuel = i_MaxAmountOfFuel;
             FuleType = i_FuelType;
         }
         
@@ -84,9 +82,9 @@ namespace Ex03.GarageLogic
         {
             if (i_FeulType == m_FuelType)
             {
-                if (( m_LeftEnergy + i_EnergyToAdd) >= k_MaxAmountOfFuel)
+                if ( ( m_LeftEnergy + i_EnergyToAdd) >= r_MaxEngineCapacity)
                 {
-                    throw new ValueOutOfRangeException("Cannot fill out above maximum!", k_MaxAmountOfFuel - m_LeftEnergy, 0);
+                    throw new ValueOutOfRangeException("Cannot fill out above maximum!", r_MaxEngineCapacity - m_LeftEnergy, 0);
                 }
                 else
                 {

@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Text;
-
 namespace Ex03.GarageLogic
 {
     public abstract class Car : Vehicle
@@ -36,7 +35,7 @@ namespace Ex03.GarageLogic
         private static eColor m_CarColor;
 
         internal Car(string i_LicenseNumber, int i_NumOfWheels, int i_MaxWheelsAirPreasure)
-            :base(i_LicenseNumber, i_NumOfWheels, i_MaxWheelsAirPreasure)
+            : base(i_LicenseNumber, i_NumOfWheels, i_MaxWheelsAirPreasure)
         {
         }
 
@@ -62,7 +61,7 @@ namespace Ex03.GarageLogic
             get { return m_CarColor; }
             set
             {
-                if(Enum.IsDefined(typeof(eColor), value))
+                if (Enum.IsDefined(typeof(eColor), value))
                 {
                     m_CarColor = value;
                 }
@@ -106,7 +105,7 @@ namespace Ex03.GarageLogic
             {
                 case eCarInfo.CarFirma:
                     {
-                        Firma = i_InputFromUserStr;
+                        base.Firma = i_InputFromUserStr;
                         break;
                     }
 
@@ -146,7 +145,7 @@ namespace Ex03.GarageLogic
         {
             StringBuilder stringBuilder = new StringBuilder();
             stringBuilder.AppendFormat("{1}Car Color = {2}{0}{1}Number Of Doors = {3}{0}", Environment.NewLine, "\t", m_CarColor.ToString(), m_NumOfDoors.ToString());
-            return stringBuilder + base.ToString() ;
+            return stringBuilder + base.ToString();
         }
     }
 

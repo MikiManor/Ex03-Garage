@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Text;
 using System.ComponentModel;
+using System.Text;
 
 namespace Ex03.GarageLogic
 {
@@ -24,7 +24,7 @@ namespace Ex03.GarageLogic
         private eLicenseType m_LicenseType;
 
         internal MotorCycle(string i_LicenseNumber, int i_NumOfWheels, int i_MaxWheelsAirPreasure)
-            :base(i_LicenseNumber, i_NumOfWheels, i_MaxWheelsAirPreasure)
+            : base(i_LicenseNumber, i_NumOfWheels, i_MaxWheelsAirPreasure)
         {
         }
 
@@ -72,7 +72,7 @@ namespace Ex03.GarageLogic
             {
                 case eMotorCycleInfo.MotorCycleFirma:
                     {
-                        Firma = i_InputFromUserStr;
+                        base.Firma = i_InputFromUserStr;
                         break;
                     }
 

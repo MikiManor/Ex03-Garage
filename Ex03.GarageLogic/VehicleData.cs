@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace Ex03.GarageLogic
+﻿namespace Ex03.GarageLogic
 {
     public class VehicleData
     {
@@ -33,7 +29,7 @@ namespace Ex03.GarageLogic
 
         public string OwnerName
         {
-            get { return m_OwnerName ; }
+            get { return m_OwnerName; }
             set { m_OwnerName = value; }
         }
 

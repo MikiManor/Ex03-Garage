@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Text;
 
 namespace Ex03.GarageLogic
 {
@@ -40,7 +39,7 @@ namespace Ex03.GarageLogic
             m_GarageDictionary = new Dictionary<string, VehicleData>();
         }
 
-        public void AddCarToGarage(string i_OwnerName, string i_PhoneNumber, string i_VehicleID,eVehicleType i_TypeOfVehicleFromUser)
+        public void AddCarToGarage(string i_OwnerName, string i_PhoneNumber, string i_VehicleID, eVehicleType i_TypeOfVehicleFromUser)
         {
             Vehicle newVehicle = AddNewVehicle(i_VehicleID, i_TypeOfVehicleFromUser);
             m_CurrentVehicleData = new VehicleData(i_OwnerName, i_PhoneNumber, newVehicle);
@@ -191,7 +190,8 @@ namespace Ex03.GarageLogic
             else if (currentVehiclel.NewVehicle.Engine.GetType() == typeof(Ex03.GarageLogic.FuelEngine))
             {
                 IsFuelEngine = true;
-            }else
+            }
+            else
             {
                 throw new ArgumentException("\tEngine doesn't exist!");
             }

@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
-using System.ComponentModel;
 
 namespace Ex03.GarageLogic
 {
@@ -81,7 +80,7 @@ namespace Ex03.GarageLogic
         public override string ToString()
         {
             StringBuilder vehicleInfo = new StringBuilder();
-            vehicleInfo.AppendFormat("{1}Vehicle Firma = {2}{0}{1}Number Of Wheels = {3}{0}{1}Wheels Information = {0}{4}{0}", Environment.NewLine, "\t", m_VehicleModel,r_NumOfWheels, GetAllWheelsInformation());
+            vehicleInfo.AppendFormat("{1}Vehicle Firma = {2}{0}{1}Number Of Wheels = {3}{0}{1}Wheels Information = {0}{4}{0}", Environment.NewLine, "\t", m_VehicleModel, r_NumOfWheels, GetAllWheelsInformation());
             return vehicleInfo.ToString();
         }
         
@@ -100,9 +99,9 @@ namespace Ex03.GarageLogic
         
         internal void SetAllWheels(List<WheelCollection> i_WheelsCollection) ////Gets list of WheelsCollection struct
         {
-            if(i_WheelsCollection.Count == (int)r_NumOfWheels)
+            if (i_WheelsCollection.Count == (int)r_NumOfWheels)
             {
-                foreach(WheelCollection wheel in i_WheelsCollection)
+                foreach (WheelCollection wheel in i_WheelsCollection)
                 {
                     SetWheel(wheel.WheelFirma, wheel.CurrentAirPreasure);
                 }
@@ -143,15 +142,13 @@ namespace Ex03.GarageLogic
             }
         }
 
-        public  virtual Dictionary<int, string> GetVheicleProperties() ////should return the firma of vheicle only, the derived classes should return the additional properties the have
+        public  virtual Dictionary<int, string> GetVheicleProperties()////should return the firma of vheicle only, the derived classes should return the additional properties the have
         {
             Dictionary<int, string> vehicleProperties = new Dictionary<int, string>();
-            
             foreach (eVehicleInfo property in Enum.GetValues(typeof(eVehicleInfo)))
             {
                 vehicleProperties.Add((int)property, property.ToString());
             }
-            
             return vehicleProperties;
         }
 
@@ -184,7 +181,7 @@ namespace Ex03.GarageLogic
         public StringBuilder GetAllWheelsInformation()
         {
             StringBuilder stringBuilder = new StringBuilder();
-            foreach(Wheel wheelInCollection in r_WheelsOfVehicle)
+            foreach (Wheel wheelInCollection in r_WheelsOfVehicle)
             {
                 stringBuilder.AppendLine(wheelInCollection.ToString());
             }

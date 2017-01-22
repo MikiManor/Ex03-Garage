@@ -1,7 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Text;
-
 namespace Ex03.GarageLogic
 {
     internal class ElectricCar : Car
@@ -11,7 +9,7 @@ namespace Ex03.GarageLogic
         private const int k_MaxWheelsAirPreasure = 32;
 
         public ElectricCar(string i_LicenseNumber)
-            :base(i_LicenseNumber, k_NumOfWheels, k_MaxWheelsAirPreasure)
+            : base(i_LicenseNumber, k_NumOfWheels, k_MaxWheelsAirPreasure)
         {
             Engine = new ElectricEngine(k_MaxBatteryTime);
         }

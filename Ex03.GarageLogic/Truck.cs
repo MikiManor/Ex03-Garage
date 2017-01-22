@@ -29,7 +29,7 @@ namespace Ex03.GarageLogic
         private const int k_MaxWheelsAirPreasure = 26;
 
         internal Truck(string i_LicenseNumber)
-            :base(i_LicenseNumber, k_NumOfWheels, k_MaxWheelsAirPreasure)
+            : base(i_LicenseNumber, k_NumOfWheels, k_MaxWheelsAirPreasure)
         {
             Engine = new FuelEngine(k_MaxAmountOfFuel, (int)k_FuelType);
         }
@@ -51,7 +51,7 @@ namespace Ex03.GarageLogic
             get { return m_CurrentGoodsWeight; }
             set
             {
-                if(value > 0 && value <= m_MaxCarryingWeight)
+                if (value > 0 && value <= m_MaxCarryingWeight)
                 {
                     m_CurrentGoodsWeight = value;
                 }
@@ -101,7 +101,7 @@ namespace Ex03.GarageLogic
             {
                 case eTruckProperties.Firma:
                     {
-                        Firma = i_InputFromUserStr;
+                        base.Firma = i_InputFromUserStr;
                         break;
                     }
 
