@@ -40,8 +40,7 @@ namespace Ex03.GarageLogic
                 }
                 else
                 {
-
-                    throw new InvalidEnumArgumentException("License Type is unknown!", (int)value, typeof(eLicenseType));
+                    throw new InvalidEnumArgumentException("License Type is unknown!");
                 }
             }
         }

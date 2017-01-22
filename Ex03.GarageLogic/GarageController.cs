@@ -114,7 +114,7 @@ namespace Ex03.GarageLogic
 
             else
             {
-                Console.WriteLine("\tVehicle license plate not found...");
+                throw new Exception("\tVehicle license plate not found...");
             }
         }
 
