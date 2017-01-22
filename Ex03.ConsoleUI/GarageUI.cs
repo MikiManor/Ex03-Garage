@@ -128,33 +128,7 @@ namespace Ex03.ConsoleUI
             }
             while (true);
         }
-
-        private void PrintMenu()
-        {
-            PrintFrame();
-            Console.WriteLine("\t1. Add a new vehicle to fix");
-            Console.WriteLine("\t2. Show list of vehicle");
-            Console.WriteLine("\t3. Change vehicle status");
-            Console.WriteLine("\t4. Fill up air in the tiers to the maximum");
-            Console.WriteLine("\t5. Fuel up a vehicle");
-            Console.WriteLine("\t6. Charge up an electric vehicle");
-            Console.WriteLine("\t7. Show vehicle full details");
-            Console.WriteLine("\t0. Exit");
-            Console.WriteLine();
-            Console.Write("\tPlease Choose > ");
-        }
-
-        private void PrintFrame(string i_header = "Menu")
-        {
-            Console.Clear();
-            Console.Write("{0}{0}", Environment.NewLine);
-            Console.WriteLine("**********************************************************************");
-            Console.WriteLine();
-            Console.WriteLine("\t\t{0}\t", i_header);
-            Console.WriteLine("\t-----------------------------------------");
-            Console.Write("{0}", Environment.NewLine);
-        }
-
+         
         public void PrintVehicleDataDictionary(Dictionary<string, VehicleData> i_Dictionary)
         {
             if (i_Dictionary.Count == 0)
@@ -206,7 +180,96 @@ namespace Ex03.ConsoleUI
                 Console.WriteLine("\tVehicle license plate not found...");
             }
         }
-        
+
+        public void AddWheels()
+        {
+            List<WheelCollection> wheelsList = new List<WheelCollection>(m_MyGarage.m_CurrentVehicleData.NewVehicle.NumOfWheels - 1); ////get max wheels from class typeOfVehicleFromUser.MaxWheels
+            for (int i = 0; i < m_MyGarage.m_CurrentVehicleData.NewVehicle.NumOfWheels; i++)
+            {
+                try
+                {
+                    WheelCollection vehicleWheel = new WheelCollection();
+                    Console.WriteLine("\tWheel nummber {0}: ", i + 1);
+                    string tireFirma = GetInputFromUser<string>("\tPlease enter wheel firma > ");
+                    float currentAirPreasure = GetInputFromUser<float>("\tPlease enter wheel current air preasure  > ");
+                    vehicleWheel.CurrentAirPreasure = currentAirPreasure;
+                    vehicleWheel.WheelFirma = tireFirma;
+                    wheelsList.Add(vehicleWheel);
+                }
+                catch (Exception ex)
+                {
+                    m_MyGarage.m_GarageDictionary.Remove(m_MyGarage.m_CurrentVehicleData.NewVehicle.LicenseNumber);
+                    throw new FormatException("\t" + ex.Message);
+                }
+            }
+
+            m_MyGarage.MakeWheels(wheelsList);
+        }
+
+        public void AddVehicleProperties()
+        {
+            Dictionary<int, string> vehicleProperties = m_MyGarage.GetVehicleProperties();
+            bool isValide;
+            int index = 1;
+            foreach (var item in vehicleProperties)
+            {
+                isValide = false;
+                do
+                {
+                    try
+                    {
+                        string input = GetInputFromUser<string>("\t" + item.Key + " - " + item.Value + "\t> ");
+                        m_MyGarage.m_CurrentVehicleData.NewVehicle.SetVehicleProperty(index, input);
+                        isValide = true;
+                        index++;
+                    }
+                    catch (Exception ex)
+                    {
+                        m_MyGarage.m_GarageDictionary.Remove(m_MyGarage.m_CurrentVehicleData.NewVehicle.LicenseNumber);
+                        throw new FormatException("\t" + ex.Message);
+                    }
+                }
+                while (!isValide);
+            }
+        }
+
+        public void AddEngineProperties()
+        {
+            Dictionary<int, string> engineProperties = m_MyGarage.GetEngineProperties();
+            bool isValide;
+            int index = 1;
+            foreach (var item in engineProperties)
+            {
+                isValide = false;
+                do
+                {
+                    try
+                    {
+                        string input = GetInputFromUser<string>("\t" + item.Key + " - " + item.Value + "\t> ");
+                        m_MyGarage.m_CurrentVehicleData.NewVehicle.Engine.SetEngineProperty(index, input);
+                        isValide = true;
+                        index++;
+                    }
+                    catch (Exception ex)
+                    {
+                        m_MyGarage.m_GarageDictionary.Remove(m_MyGarage.m_CurrentVehicleData.NewVehicle.LicenseNumber);
+                        throw new FormatException("\t" + ex.Message);
+                    }
+                }
+                while (!isValide);
+            }
+        }
+
+        public void GetTypesOfVehicles()
+        {
+            int index = 1;
+            foreach (GarageController.eVehicleType val in Enum.GetValues(typeof(GarageController.eVehicleType)))
+            {
+                Console.WriteLine("\t{0} - {1}", index, val);
+                index++;
+            }
+        }
+
         private eMenu GetUserChoice()
         {
             eMenu menuChoice = eMenu.NoMenuChoice;
@@ -323,7 +386,6 @@ namespace Ex03.ConsoleUI
             {
                 throw new ArgumentException("\tThis vehicle is not Fuel vehicle!");
             }
-            
         }
 
         private void ChargeUpAnElectricVehicle()
@@ -335,7 +397,7 @@ namespace Ex03.ConsoleUI
                 float amountOfHoursToAdd = GetInputFromUser<float>("\tPlease enter amount of hours to charge : ");
                 try
                 {
-                    m_MyGarage.chargeAVehicle(vehicleID, amountOfHoursToAdd);
+                    m_MyGarage.ChargeAVehicle(vehicleID, amountOfHoursToAdd);
                     Console.WriteLine("Vehicle has been charged");
                 }
                 catch (ValueOutOfRangeException vore)
@@ -416,93 +478,6 @@ namespace Ex03.ConsoleUI
             return choice;
         }
 
-        public void GetTypesOfVehicles()
-        {
-            int index = 1;
-            foreach (GarageController.eVehicleType val in Enum.GetValues(typeof(GarageController.eVehicleType)))
-            {
-                Console.WriteLine("\t{0} - {1}", index, val);
-                index++;
-            }
-        }
-
-        public void AddWheels()
-        {
-            List<WheelCollection> wheelsList = new List<WheelCollection>(m_MyGarage.m_CurrentVehicleData.NewVehicle.NumOfWheels - 1);////get max wheels from class typeOfVehicleFromUser.MaxWheels
-            for (int i = 0; i < m_MyGarage.m_CurrentVehicleData.NewVehicle.NumOfWheels; i++)
-            {
-                try
-                {
-                    WheelCollection vehicleWheel = new WheelCollection();
-                    Console.WriteLine("\tWheel nummber {0}: ", i + 1);
-                    string tireFirma = GetInputFromUser<string>("\tPlease enter wheel firma > ");
-                    float currentAirPreasure = GetInputFromUser<float>("\tPlease enter wheel current air preasure  > ");
-                    vehicleWheel.CurrentAirPreasure = currentAirPreasure;
-                    vehicleWheel.WheelFirma = tireFirma;
-                    wheelsList.Add(vehicleWheel);
-                }
-                catch (Exception ex)
-                {
-                    m_MyGarage.m_GarageDictionary.Remove(m_MyGarage.m_CurrentVehicleData.NewVehicle.LicenseNumber);
-                    throw new FormatException("\t" + ex.Message);
-                }
-
-            }
-            m_MyGarage.MakeWheels(wheelsList);
-        }
-
-        public void AddVehicleProperties()
-        {
-            Dictionary<int, string> vehicleProperties = m_MyGarage.GetVehicleProperties();
-            bool isValide;
-            int index = 1;
-            foreach (var item in vehicleProperties)
-            {
-                isValide = false;
-                do
-                {
-                    try
-                    {
-                            string input = GetInputFromUser<string>("\t" + item.Key + " - " + item.Value + "\t> ");
-                            m_MyGarage.m_CurrentVehicleData.NewVehicle.setVehicleProperty(index, input);
-                            isValide = true;
-                            index++;
-                    }
-                    catch (Exception ex)
-                    {
-                        m_MyGarage.m_GarageDictionary.Remove(m_MyGarage.m_CurrentVehicleData.NewVehicle.LicenseNumber);
-                        throw new FormatException("\t" + ex.Message);
-                    }
-                } while (!isValide);
-            }
-        }
-
-        public void AddEngineProperties()
-        {
-            Dictionary<int, string> engineProperties = m_MyGarage.GetEngineProperties();
-            bool isValide;
-            int index = 1;
-            foreach (var item in engineProperties)
-            {
-                isValide = false;
-                do
-                {
-                    try
-                    {
-                        string input = GetInputFromUser<string>("\t" + item.Key + " - " + item.Value + "\t> ");
-                        m_MyGarage.m_CurrentVehicleData.NewVehicle.Engine.SetEngineProperty(index, input);
-                        isValide = true;
-                        index++;
-                    }
-                    catch (Exception ex)
-                    {
-                        m_MyGarage.m_GarageDictionary.Remove(m_MyGarage.m_CurrentVehicleData.NewVehicle.LicenseNumber);
-                        throw new FormatException("\t" + ex.Message);
-                    }
-                } while (!isValide);
-            }
-        }
-
         private string GetListOfStatuses()
         {
             StringBuilder stringBuilder = new StringBuilder();
@@ -515,6 +490,32 @@ namespace Ex03.ConsoleUI
 
             stringBuilder.AppendFormat("\t> ");
             return stringBuilder.ToString();
+        }
+
+        private void PrintMenu()
+        {
+            PrintFrame();
+            Console.WriteLine("\t1. Add a new vehicle to fix");
+            Console.WriteLine("\t2. Show list of vehicle");
+            Console.WriteLine("\t3. Change vehicle status");
+            Console.WriteLine("\t4. Fill up air in the tiers to the maximum");
+            Console.WriteLine("\t5. Fuel up a vehicle");
+            Console.WriteLine("\t6. Charge up an electric vehicle");
+            Console.WriteLine("\t7. Show vehicle full details");
+            Console.WriteLine("\t0. Exit");
+            Console.WriteLine();
+            Console.Write("\tPlease Choose > ");
+        }
+
+        private void PrintFrame(string i_header = "Menu")
+        {
+            Console.Clear();
+            Console.Write("{0}{0}", Environment.NewLine);
+            Console.WriteLine("**********************************************************************");
+            Console.WriteLine();
+            Console.WriteLine("\t\t{0}\t", i_header);
+            Console.WriteLine("\t-----------------------------------------");
+            Console.Write("{0}", Environment.NewLine);
         }
     }
 }

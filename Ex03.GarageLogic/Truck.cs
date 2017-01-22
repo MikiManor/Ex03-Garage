@@ -6,6 +6,20 @@ namespace Ex03.GarageLogic
 {
     internal class Truck : Vehicle
     {
+        private const int k_NumOfWheels = 12;
+        private const int k_MaxWheelsAirPreasure = 26;
+        private readonly eFuelType r_FuelType = eFuelType.Octan96;
+        private readonly float r_MaxAmountOfFuel = 150;
+        private bool m_IsCarryingDangerousGoods;
+        private float m_MaxCarryingWeight;
+        private float m_CurrentGoodsWeight;
+        
+        internal Truck(string i_LicenseNumber)
+            : base(i_LicenseNumber, k_NumOfWheels, k_MaxWheelsAirPreasure)
+        {
+            Engine = new FuelEngine(r_MaxAmountOfFuel, (int)r_FuelType);
+        }
+
         public enum eTruckProperties
         {
             Firma = 1,
@@ -18,20 +32,6 @@ namespace Ex03.GarageLogic
         {
             Yes = 1,
             No
-        }
-
-        private bool m_IsCarryingDangerousGoods;
-        private float m_MaxCarryingWeight;
-        private float m_CurrentGoodsWeight;
-        private readonly eFuelType k_FuelType = eFuelType.Octan96;
-        private readonly float k_MaxAmountOfFuel = 150;
-        private const int k_NumOfWheels = 12;
-        private const int k_MaxWheelsAirPreasure = 26;
-
-        internal Truck(string i_LicenseNumber)
-            : base(i_LicenseNumber, k_NumOfWheels, k_MaxWheelsAirPreasure)
-        {
-            Engine = new FuelEngine(k_MaxAmountOfFuel, (int)k_FuelType);
         }
 
         public bool IsCarryingDangerousGoods
@@ -89,13 +89,11 @@ namespace Ex03.GarageLogic
             return truckProperties;
         }
 
-        
-
-        public override void setVehicleProperty(int i_Property, string i_InputFromUserStr)
+        public override void SetVehicleProperty(int i_Property, string i_InputFromUserStr)
         {
             eTruckProperties property = (eTruckProperties)i_Property;
-            int ParssedInputFromUser;
-            float ParssedInputFromUserFloat;
+            int parssedInputFromUser;
+            float parssedInputFromUserFloat;
 
             switch (property)
             {
@@ -107,13 +105,13 @@ namespace Ex03.GarageLogic
 
                 case eTruckProperties.IsCarryingDangerousGoods:
                     {
-                        if (int.TryParse(i_InputFromUserStr, out ParssedInputFromUser))
+                        if (int.TryParse(i_InputFromUserStr, out parssedInputFromUser))
                         {
-                            if (ParssedInputFromUser == 1)
+                            if (parssedInputFromUser == 1)
                             {
                                 IsCarryingDangerousGoods = true;
                             }
-                            else if (ParssedInputFromUser == 2)
+                            else if (parssedInputFromUser == 2)
                             {
                                 IsCarryingDangerousGoods = false;
                             }
@@ -132,9 +130,9 @@ namespace Ex03.GarageLogic
 
                 case eTruckProperties.MaxCarryWeight:
                     {
-                        if (float.TryParse(i_InputFromUserStr, out ParssedInputFromUserFloat))
+                        if (float.TryParse(i_InputFromUserStr, out parssedInputFromUserFloat))
                         {
-                            MaxCarryWeight = ParssedInputFromUserFloat;
+                            MaxCarryWeight = parssedInputFromUserFloat;
                         }
                         else
                         {
@@ -146,9 +144,9 @@ namespace Ex03.GarageLogic
 
                 case eTruckProperties.CurrentCarryWeight:
                     {
-                        if (float.TryParse(i_InputFromUserStr, out ParssedInputFromUserFloat))
+                        if (float.TryParse(i_InputFromUserStr, out parssedInputFromUserFloat))
                         {
-                            CurrentGoodsWeight = ParssedInputFromUserFloat;
+                            CurrentGoodsWeight = parssedInputFromUserFloat;
                         }
                         else
                         {

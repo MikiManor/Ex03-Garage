@@ -1,17 +1,18 @@
 ﻿using System;
 using System.Text;
+
 namespace Ex03.GarageLogic
 {
     internal class ElectricCar : Car
     {
-        private readonly float k_MaxBatteryTime = 2.7f;
         private const int k_NumOfWheels = 4;
         private const int k_MaxWheelsAirPreasure = 32;
+        private readonly float r_MaxBatteryTime = 2.7f;
 
         public ElectricCar(string i_LicenseNumber)
             : base(i_LicenseNumber, k_NumOfWheels, k_MaxWheelsAirPreasure)
         {
-            Engine = new ElectricEngine(k_MaxBatteryTime);
+            Engine = new ElectricEngine(r_MaxBatteryTime);
         }
 
         public override string ToString()

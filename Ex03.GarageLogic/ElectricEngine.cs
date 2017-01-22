@@ -1,11 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
+
 namespace Ex03.GarageLogic
 {
     public enum eElectricEngineProperties
     {
         CurrentEnergyLeftInBattery = 1
     }
+
     internal class ElectricEngine : Engine
     {
         public ElectricEngine(float i_MaxBatteryTime)
@@ -15,14 +17,14 @@ namespace Ex03.GarageLogic
         
         public override Dictionary<int, string> GetEngineProperties()
         {
-            Dictionary<int, string> ElectricEngineProperties = new Dictionary<int, string>();
+            Dictionary<int, string> electricEngineProperties = new Dictionary<int, string>();
 
             foreach (eElectricEngineProperties property in Enum.GetValues(typeof(eElectricEngineProperties)))
             {
-                ElectricEngineProperties.Add((int)property, property.ToString());
+                electricEngineProperties.Add((int)property, property.ToString());
             }
 
-            return ElectricEngineProperties;
+            return electricEngineProperties;
         }
 
         public override void SetEngineProperty(int i_Property, string i_InputFromUserStr)

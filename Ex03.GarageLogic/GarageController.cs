@@ -5,6 +5,19 @@ namespace Ex03.GarageLogic
 {
     public class GarageController
     {
+        public Dictionary<string, VehicleData> m_GarageDictionary;
+        public VehicleData m_CurrentVehicleData;
+
+        public Dictionary<string, VehicleData> GarageDictionary
+        {
+            get { return m_GarageDictionary; }
+        }
+
+        public GarageController()
+        {
+            m_GarageDictionary = new Dictionary<string, VehicleData>();
+        }
+
         public enum eVehicleStatus
         {
             InRepair = 1,
@@ -21,22 +34,9 @@ namespace Ex03.GarageLogic
             Truck = 5,
         }
 
-        public Dictionary<string, VehicleData> m_GarageDictionary;
-        public VehicleData m_CurrentVehicleData;
-
-        public Dictionary<string, VehicleData> GarageDictionary
-        {
-            get { return m_GarageDictionary; }
-        }
-
         public bool IsLicenseInGarage(string i_LicenseNumber)
         {
             return m_GarageDictionary.ContainsKey(i_LicenseNumber);
-        }
-
-        public GarageController()
-        {
-            m_GarageDictionary = new Dictionary<string, VehicleData>();
         }
 
         public void AddCarToGarage(string i_OwnerName, string i_PhoneNumber, string i_VehicleID, eVehicleType i_TypeOfVehicleFromUser)
@@ -44,43 +44,6 @@ namespace Ex03.GarageLogic
             Vehicle newVehicle = AddNewVehicle(i_VehicleID, i_TypeOfVehicleFromUser);
             m_CurrentVehicleData = new VehicleData(i_OwnerName, i_PhoneNumber, newVehicle);
             m_GarageDictionary.Add(i_VehicleID, m_CurrentVehicleData);
-        }
-
-        private Vehicle AddNewVehicle(string i_vehicleID, eVehicleType i_typeOfVehicleFromUser)
-        {
-            Vehicle newVehicle = null;
-
-            switch (i_typeOfVehicleFromUser)
-            {
-                case eVehicleType.FuelMotorCycle:
-                    {
-                        newVehicle = new FuelMotorCycle(i_vehicleID);
-                        break;
-                    }
-                case eVehicleType.ElectricMotorCycle:
-                    {
-                        newVehicle = new ElectricMotorCycle(i_vehicleID);
-                        break;
-                    }
-                    
-                case eVehicleType.FuelCar:
-                    {
-                        newVehicle = new FuelCar(i_vehicleID);
-                        break;
-                    }
-                case eVehicleType.ElectricCar:
-                    {
-                        newVehicle = new ElectricCar(i_vehicleID);
-                        break;
-                    }
-                case eVehicleType.Truck:
-                    {
-                        newVehicle = new Truck(i_vehicleID);
-                        break;
-                    }
-            }
-
-            return newVehicle;
         }
 
         public Dictionary<int, string> GetVehicleProperties()
@@ -118,9 +81,9 @@ namespace Ex03.GarageLogic
         public void FuelUpAVehicle(string i_LicenseNumber, eFuelType i_FuleType, float i_FuleToAdd)
         {
             VehicleData currentVehiclel;
+
             if (m_GarageDictionary.TryGetValue(i_LicenseNumber, out currentVehiclel))
             {
-
                 if (currentVehiclel.NewVehicle.Engine.GetType() == typeof(Ex03.GarageLogic.FuelEngine))
                 {
                     currentVehiclel.NewVehicle.Engine.FillOutEngine(i_FuleType, i_FuleToAdd);
@@ -136,7 +99,7 @@ namespace Ex03.GarageLogic
             }
         }
 
-        public void chargeAVehicle(string i_LicenseNumber, float i_HoursToAdd)
+        public void ChargeAVehicle(string i_LicenseNumber, float i_HoursToAdd)
         {
             VehicleData currentVehiclel;
             if (m_GarageDictionary.TryGetValue(i_LicenseNumber, out currentVehiclel))
@@ -197,8 +160,46 @@ namespace Ex03.GarageLogic
             }
 
             return IsFuelEngine;
-           
-            
+        }
+
+        private Vehicle AddNewVehicle(string i_vehicleID, eVehicleType i_typeOfVehicleFromUser)
+        {
+            Vehicle newVehicle = null;
+
+            switch (i_typeOfVehicleFromUser)
+            {
+                case eVehicleType.FuelMotorCycle:
+                    {
+                        newVehicle = new FuelMotorCycle(i_vehicleID);
+                        break;
+                    }
+
+                case eVehicleType.ElectricMotorCycle:
+                    {
+                        newVehicle = new ElectricMotorCycle(i_vehicleID);
+                        break;
+                    }
+
+                case eVehicleType.FuelCar:
+                    {
+                        newVehicle = new FuelCar(i_vehicleID);
+                        break;
+                    }
+
+                case eVehicleType.ElectricCar:
+                    {
+                        newVehicle = new ElectricCar(i_vehicleID);
+                        break;
+                    }
+
+                case eVehicleType.Truck:
+                    {
+                        newVehicle = new Truck(i_vehicleID);
+                        break;
+                    }
+            }
+
+            return newVehicle;
         }
     }
 }

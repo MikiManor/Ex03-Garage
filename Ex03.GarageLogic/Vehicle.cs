@@ -6,29 +6,26 @@ namespace Ex03.GarageLogic
 {
     public abstract class Vehicle
     {
-
-        public enum eVehicleInfo
-        {
-            VehicleFirma = 1
-        }
-
+        private readonly int r_MaxWheelsAirPreasure;
         private string m_VehicleModel;
         private string m_LicenseNumber;
         private Engine m_CarEngine;
         private float m_EnergyRemains;
-        private int r_NumOfWheels;
-        private List<Wheel> r_WheelsOfVehicle;
-        private readonly int k_MaxWheelsAirPreasure;
-
+        private int m_NumOfWheels;
+        private List<Wheel> m_WheelsOfVehicle;
 
         public Vehicle(string i_LicenseNumber, int i_NumOfWheels, int i_MaxWheelsAirPreasuer)
         {
             m_LicenseNumber = i_LicenseNumber;
             NumOfWheels = i_NumOfWheels;
-            k_MaxWheelsAirPreasure = i_MaxWheelsAirPreasuer;
-            r_WheelsOfVehicle = new List<Wheel>();      
+            r_MaxWheelsAirPreasure = i_MaxWheelsAirPreasuer;
+            m_WheelsOfVehicle = new List<Wheel>();      
         }
 
+        public enum eVehicleInfo
+        {
+            VehicleFirma = 1
+        }
 
         public Engine Engine
         {
@@ -58,12 +55,12 @@ namespace Ex03.GarageLogic
 
         public int NumOfWheels
         {
-            get { return r_NumOfWheels; }
+            get { return m_NumOfWheels; }
             set
             {
                 if (value > 0)
                 {
-                    r_NumOfWheels = value;
+                    m_NumOfWheels = value;
                 }
                 else
                 {
@@ -74,93 +71,7 @@ namespace Ex03.GarageLogic
 
         public float MaxWheelsPreasure
         {
-            get { return k_MaxWheelsAirPreasure; }
-        }
-
-        public override string ToString()
-        {
-            StringBuilder vehicleInfo = new StringBuilder();
-            vehicleInfo.AppendFormat("{1}Vehicle Firma = {2}{0}{1}Number Of Wheels = {3}{0}{1}Wheels Information = {0}{4}{0}", Environment.NewLine, "\t", m_VehicleModel, r_NumOfWheels, GetAllWheelsInformation());
-            return vehicleInfo.ToString();
-        }
-        
-        private void SetWheel(string i_WheelFirma, float i_CurrentAirPreasure)
-        {
-            if (r_WheelsOfVehicle.Count < (int)r_NumOfWheels)
-            {
-                Wheel newWheel = new Wheel(i_WheelFirma, i_CurrentAirPreasure, k_MaxWheelsAirPreasure);
-                r_WheelsOfVehicle.Add(newWheel);
-            }
-            else
-            {
-                throw new ValueOutOfRangeException("Cannot add another Weel, Maximum reached", (int)r_NumOfWheels, 0);
-            }
-        }
-        
-        internal void SetAllWheels(List<WheelCollection> i_WheelsCollection) ////Gets list of WheelsCollection struct
-        {
-            if (i_WheelsCollection.Count == (int)r_NumOfWheels)
-            {
-                foreach (WheelCollection wheel in i_WheelsCollection)
-                {
-                    SetWheel(wheel.WheelFirma, wheel.CurrentAirPreasure);
-                }
-            }
-            else
-            {
-                throw new ArgumentException("Not all wheels passed");
-            }
-        }
-
-
-        internal void AddAirToWheels(float i_AirToAdd)
-        {
-            if (r_WheelsOfVehicle.Count != 0)
-            {
-                foreach (Wheel wheel in r_WheelsOfVehicle)
-                {
-                    try
-                    {
-                        wheel.TireInflating(i_AirToAdd);
-                    }
-                    catch (ValueOutOfRangeException)
-                    {
-                        wheel.TireInflating(wheel.MaxRecommandedAirPreasure - wheel.CurrentAirPreasure);
-                    }
-                }
-            }
-        }
-
-        internal void InfalingAllWheelsToMaxPreasure()
-        {
-            if (r_WheelsOfVehicle.Count != 0)
-            {
-                foreach (Wheel wheel in r_WheelsOfVehicle)
-                {
-                    wheel.TireInflating(wheel.MaxRecommandedAirPreasure - wheel.CurrentAirPreasure);
-                }
-            }
-        }
-
-        public  virtual Dictionary<int, string> GetVheicleProperties()////should return the firma of vheicle only, the derived classes should return the additional properties the have
-        {
-            Dictionary<int, string> vehicleProperties = new Dictionary<int, string>();
-            foreach (eVehicleInfo property in Enum.GetValues(typeof(eVehicleInfo)))
-            {
-                vehicleProperties.Add((int)property, property.ToString());
-            }
-            return vehicleProperties;
-        }
-
-        public virtual void setVehicleProperty(int i_Property, string i_InputFromUserStr) //// should be overriden by derived classes - (more "cases")
-        {
-            eVehicleInfo property = (eVehicleInfo)i_Property;
-            switch (property)
-            {
-                case eVehicleInfo.VehicleFirma:
-                    Firma = i_InputFromUserStr;
-                    break;
-            }
+            get { return r_MaxWheelsAirPreasure; }
         }
 
         public static string genericEnumUserMsg<T>(string i_Property)
@@ -178,15 +89,101 @@ namespace Ex03.GarageLogic
             return stringBuilder.ToString();
         }
 
+        public override string ToString()
+        {
+            StringBuilder vehicleInfo = new StringBuilder();
+            vehicleInfo.AppendFormat("{1}Vehicle Firma = {2}{0}{1}Number Of Wheels = {3}{0}{1}Wheels Information = {0}{4}{0}", Environment.NewLine, "\t", m_VehicleModel, m_NumOfWheels, GetAllWheelsInformation());
+            return vehicleInfo.ToString();
+        }
+
         public StringBuilder GetAllWheelsInformation()
         {
             StringBuilder stringBuilder = new StringBuilder();
-            foreach (Wheel wheelInCollection in r_WheelsOfVehicle)
+            foreach (Wheel wheelInCollection in m_WheelsOfVehicle)
             {
                 stringBuilder.AppendLine(wheelInCollection.ToString());
             }
 
             return stringBuilder;
+        }
+
+        public virtual Dictionary<int, string> GetVheicleProperties() ////should return the firma of vheicle only, the derived classes should return the additional properties the have
+        {
+            Dictionary<int, string> vehicleProperties = new Dictionary<int, string>();
+            foreach (eVehicleInfo property in Enum.GetValues(typeof(eVehicleInfo)))
+            {
+                vehicleProperties.Add((int)property, property.ToString());
+            }
+
+            return vehicleProperties;
+        }
+
+        public virtual void SetVehicleProperty(int i_Property, string i_InputFromUserStr) //// should be overriden by derived classes - (more "cases")
+        {
+            eVehicleInfo property = (eVehicleInfo)i_Property;
+            switch (property)
+            {
+                case eVehicleInfo.VehicleFirma:
+                    Firma = i_InputFromUserStr;
+                    break;
+            }
+        }
+
+        internal void SetAllWheels(List<WheelCollection> i_WheelsCollection) ////Gets list of WheelsCollection struct
+        {
+            if (i_WheelsCollection.Count == (int)m_NumOfWheels)
+            {
+                foreach (WheelCollection wheel in i_WheelsCollection)
+                {
+                    SetWheel(wheel.WheelFirma, wheel.CurrentAirPreasure);
+                }
+            }
+            else
+            {
+                throw new ArgumentException("Not all wheels passed");
+            }
+        }
+
+        internal void AddAirToWheels(float i_AirToAdd)
+        {
+            if (m_WheelsOfVehicle.Count != 0)
+            {
+                foreach (Wheel wheel in m_WheelsOfVehicle)
+                {
+                    try
+                    {
+                        wheel.TireInflating(i_AirToAdd);
+                    }
+                    catch (ValueOutOfRangeException)
+                    {
+                        wheel.TireInflating(wheel.MaxRecommandedAirPreasure - wheel.CurrentAirPreasure);
+                    }
+                }
+            }
+        }
+
+        internal void InfalingAllWheelsToMaxPreasure()
+        {
+            if (m_WheelsOfVehicle.Count != 0)
+            {
+                foreach (Wheel wheel in m_WheelsOfVehicle)
+                {
+                    wheel.TireInflating(wheel.MaxRecommandedAirPreasure - wheel.CurrentAirPreasure);
+                }
+            }
+        }
+
+        private void SetWheel(string i_WheelFirma, float i_CurrentAirPreasure)
+        {
+            if (m_WheelsOfVehicle.Count < (int)m_NumOfWheels)
+            {
+                Wheel newWheel = new Wheel(i_WheelFirma, i_CurrentAirPreasure, r_MaxWheelsAirPreasure);
+                m_WheelsOfVehicle.Add(newWheel);
+            }
+            else
+            {
+                throw new ValueOutOfRangeException("Cannot add another Weel, Maximum reached", (int)m_NumOfWheels, 0);
+            }
         }
     }
 }

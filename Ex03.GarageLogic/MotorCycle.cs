@@ -5,8 +5,15 @@ using System.Text;
 
 namespace Ex03.GarageLogic
 {
-    class MotorCycle : Vehicle
+    internal class MotorCycle : Vehicle
     {
+        private eLicenseType m_LicenseType;
+
+        internal MotorCycle(string i_LicenseNumber, int i_NumOfWheels, int i_MaxWheelsAirPreasure)
+            : base(i_LicenseNumber, i_NumOfWheels, i_MaxWheelsAirPreasure)
+        {
+        }
+
         public enum eLicenseType
         {
             A = 1,
@@ -19,13 +26,6 @@ namespace Ex03.GarageLogic
         {
             MotorCycleFirma = 1,
             LicenseType
-        }
-        
-        private eLicenseType m_LicenseType;
-
-        internal MotorCycle(string i_LicenseNumber, int i_NumOfWheels, int i_MaxWheelsAirPreasure)
-            : base(i_LicenseNumber, i_NumOfWheels, i_MaxWheelsAirPreasure)
-        {
         }
 
         public eLicenseType LicenseType
@@ -46,27 +46,27 @@ namespace Ex03.GarageLogic
 
         public override Dictionary<int, string> GetVheicleProperties()
         {
-            Dictionary<int, string> MotorCycleProperties = new Dictionary<int, string>();
+            Dictionary<int, string> motorCycleProperties = new Dictionary<int, string>();
 
             foreach (eMotorCycleInfo property in Enum.GetValues(typeof(eMotorCycleInfo)))
             {
                 if (property == eMotorCycleInfo.LicenseType)
                 {
-                    MotorCycleProperties.Add((int)property, genericEnumUserMsg<eLicenseType>("License Type > "));
+                    motorCycleProperties.Add((int)property, genericEnumUserMsg<eLicenseType>("License Type > "));
                 }
                 else
                 {
-                    MotorCycleProperties.Add((int)property, property.ToString());
+                    motorCycleProperties.Add((int)property, property.ToString());
                 }
             }
 
-            return MotorCycleProperties;
+            return motorCycleProperties;
         }
 
-        public override void setVehicleProperty(int i_Property, string i_InputFromUserStr)
+        public override void SetVehicleProperty(int i_Property, string i_InputFromUserStr)
         {
             eMotorCycleInfo property = (eMotorCycleInfo)i_Property;
-            int ParssedInputFromUser;
+            int parssedInputFromUser;
 
             switch (property)
             {
@@ -78,9 +78,9 @@ namespace Ex03.GarageLogic
 
                 case eMotorCycleInfo.LicenseType:
                     {
-                        if (int.TryParse(i_InputFromUserStr, out ParssedInputFromUser))
+                        if (int.TryParse(i_InputFromUserStr, out parssedInputFromUser))
                         {
-                            LicenseType = (eLicenseType)ParssedInputFromUser; ////If License type doesn't exist, exception should returned
+                            LicenseType = (eLicenseType)parssedInputFromUser; ////If License type doesn't exist, exception should returned
                         }
                         else
                         {

@@ -17,27 +17,15 @@ namespace Ex03.GarageLogic
     {
         CurrentFuelLeft = 1
     }
+
     internal class FuelEngine : Engine
     {
         private eFuelType m_FuelType;
 
         public FuelEngine(float i_MaxAmountOfFuel, int i_FuelType)
-            : base(i_MaxAmountOfFuel)
+             : base(i_MaxAmountOfFuel)
         {
             FuleType = i_FuelType;
-        }
-        
-
-        public override Dictionary<int, string> GetEngineProperties()
-        {
-            Dictionary<int, string> FuelEngineProperties = new Dictionary<int, string>();
-
-            foreach (eFuelEngineProperties property in Enum.GetValues(typeof(eFuelEngineProperties)))
-            {
-                FuelEngineProperties.Add((int)property, property.ToString());
-            }
-
-            return FuelEngineProperties;
         }
 
         public int FuleType
@@ -54,6 +42,18 @@ namespace Ex03.GarageLogic
                     throw new InvalidEnumArgumentException("Wrong type of Fuel type selected!", (int)value, typeof(eFuelType));
                 }
             }
+        }
+
+        public override Dictionary<int, string> GetEngineProperties()
+        {
+            Dictionary<int, string> fuelEngineProperties = new Dictionary<int, string>();
+
+            foreach (eFuelEngineProperties property in Enum.GetValues(typeof(eFuelEngineProperties)))
+            {
+                fuelEngineProperties.Add((int)property, property.ToString());
+            }
+
+            return fuelEngineProperties;
         }
 
         public override void SetEngineProperty(int i_Property, string i_InputFromUserStr)
@@ -82,7 +82,7 @@ namespace Ex03.GarageLogic
         {
             if (i_FeulType == m_FuelType)
             {
-                if ( ( m_LeftEnergy + i_EnergyToAdd) >= r_MaxEngineCapacity)
+                if ((m_LeftEnergy + i_EnergyToAdd) >= r_MaxEngineCapacity)
                 {
                     throw new ValueOutOfRangeException("Cannot fill out above maximum!", r_MaxEngineCapacity - m_LeftEnergy, 0);
                 }

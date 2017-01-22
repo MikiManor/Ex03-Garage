@@ -11,8 +11,9 @@ namespace Ex03.GarageLogic
     public class Wheel
     {
         private readonly string r_Firma = null;
-        private float m_CurrentAirPreasure = 0;
         private readonly float r_MaxRecommandedAirPreasure = 0;
+        private float m_CurrentAirPreasure = 0;
+
         public Wheel(string i_TireFirma, float i_CurrentAirPreasure, float i_MaxRecommandedAirPreasure)
         {
             if (i_TireFirma.Length == 0)
@@ -60,8 +61,6 @@ namespace Ex03.GarageLogic
                  m_CurrentAirPreasure += i_PreasureToAdd;
             }
         }
-
-
 
         public override string ToString()
         {

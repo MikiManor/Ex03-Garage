@@ -2,10 +2,19 @@
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Text;
+
 namespace Ex03.GarageLogic
 {
     public abstract class Car : Vehicle
     {
+        private static eNumOfDoors m_NumOfDoors;
+        private static eColor m_CarColor;
+
+        internal Car(string i_LicenseNumber, int i_NumOfWheels, int i_MaxWheelsAirPreasure)
+            : base(i_LicenseNumber, i_NumOfWheels, i_MaxWheelsAirPreasure)
+        {
+        }
+
         public enum eColor
         {
             blue = 1,
@@ -16,10 +25,10 @@ namespace Ex03.GarageLogic
 
         public enum eNumOfDoors
         {
-           two = 1,
-           three,
-           four,
-           five
+            two = 1,
+            three,
+            four,
+            five
         }
 
         public enum eCarInfo
@@ -27,16 +36,6 @@ namespace Ex03.GarageLogic
             CarFirma = 1,
             CarColor,
             NumberOfDoors
-        }
-
-
-
-        private static eNumOfDoors m_NumOfDoors;
-        private static eColor m_CarColor;
-
-        internal Car(string i_LicenseNumber, int i_NumOfWheels, int i_MaxWheelsAirPreasure)
-            : base(i_LicenseNumber, i_NumOfWheels, i_MaxWheelsAirPreasure)
-        {
         }
 
         public eNumOfDoors NumOfDoors
@@ -53,7 +52,6 @@ namespace Ex03.GarageLogic
                     throw new InvalidEnumArgumentException("Wrong number of doors selected!", (int)value, typeof(eNumOfDoors));
                 }
             }
-
         }
 
         public eColor CarColor
@@ -67,7 +65,6 @@ namespace Ex03.GarageLogic
                 }
                 else
                 {
-
                     throw new InvalidEnumArgumentException("Color is unknown!", (int)value, typeof(eColor));
                 }
             }
@@ -96,10 +93,10 @@ namespace Ex03.GarageLogic
             return carProperties;
         }
 
-        public override void setVehicleProperty(int i_Property, string i_InputFromUserStr)
+        public override void SetVehicleProperty(int i_Property, string i_InputFromUserStr)
         {
             eCarInfo property = (eCarInfo)i_Property;
-            int ParssedInputFromUser;
+            int parssedInputFromUser;
 
             switch (property)
             {
@@ -111,9 +108,9 @@ namespace Ex03.GarageLogic
 
                 case eCarInfo.CarColor:
                     {
-                        if (int.TryParse(i_InputFromUserStr, out ParssedInputFromUser))
+                        if (int.TryParse(i_InputFromUserStr, out parssedInputFromUser))
                         {
-                            CarColor = (eColor)ParssedInputFromUser; ////If color doesn't exist, exception should returned
+                            CarColor = (eColor)parssedInputFromUser; ////If color doesn't exist, exception should returned
                         }
                         else
                         {
@@ -125,9 +122,9 @@ namespace Ex03.GarageLogic
 
                 case eCarInfo.NumberOfDoors:
                     {
-                        if (int.TryParse(i_InputFromUserStr, out ParssedInputFromUser))
+                        if (int.TryParse(i_InputFromUserStr, out parssedInputFromUser))
                         {
-                            NumOfDoors = (eNumOfDoors)ParssedInputFromUser;
+                            NumOfDoors = (eNumOfDoors)parssedInputFromUser;
                         }
                         else
                         {
@@ -139,8 +136,6 @@ namespace Ex03.GarageLogic
             }
         }
 
-
-
         public override string ToString()
         {
             StringBuilder stringBuilder = new StringBuilder();
@@ -148,5 +143,4 @@ namespace Ex03.GarageLogic
             return stringBuilder + base.ToString();
         }
     }
-
 }

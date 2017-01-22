@@ -35,8 +35,8 @@
 
         public Vehicle NewVehicle
         {
-            set { m_NewVehicle = value; }
             get { return m_NewVehicle; }
+            set { m_NewVehicle = value; }
         }
     }
 }

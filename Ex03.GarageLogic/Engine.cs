@@ -1,21 +1,22 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+
 namespace Ex03.GarageLogic
 {
     public abstract class Engine
     {
-        public enum eEngineProperties
-        {
-            LeftEnergy = 1
-        }
-
         protected readonly float r_MaxEngineCapacity;
         protected float m_LeftEnergy;
 
         public Engine(float i_MaxEngineCapacity)
         {
             r_MaxEngineCapacity = i_MaxEngineCapacity;
+        }
+
+        public enum eEngineProperties
+        {
+            LeftEnergy = 1
         }
 
         public float MaxEngineEnergy
@@ -98,6 +99,7 @@ namespace Ex03.GarageLogic
         }
 
         public virtual void ChargeBattery(float i_HoursToAdd)
-        { }
+        {
+        }
     }
 }
