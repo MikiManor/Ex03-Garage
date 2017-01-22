@@ -57,7 +57,7 @@ namespace Ex03.GarageLogic
                 }
                 else
                 {
-                    throw new ValueOutOfRangeException("The truck cannot carry more than maximum allowed", m_MaxCarryingWeight, 1);
+                    throw new ValueOutOfRangeException("The truck cannot carry more than maximum allowed", m_MaxCarryingWeight, 0);
                 }
             }
         }

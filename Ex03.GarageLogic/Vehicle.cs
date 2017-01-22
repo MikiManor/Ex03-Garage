@@ -83,7 +83,6 @@ namespace Ex03.GarageLogic
             StringBuilder vehicleInfo = new StringBuilder();
             vehicleInfo.AppendFormat("{1}Vehicle Firma = {2}{0}{1}Number Of Wheels = {3}{0}{1}Wheels Information = {0}{4}{0}", Environment.NewLine, "\t", m_VehicleModel,r_NumOfWheels, GetAllWheelsInformation());
             return vehicleInfo.ToString();
-
         }
         
         private void SetWheel(string i_WheelFirma, float i_CurrentAirPreasure)
@@ -95,11 +94,11 @@ namespace Ex03.GarageLogic
             }
             else
             {
-                throw new ValueOutOfRangeException("Cannot add another Weel, Maximum reached", (int)r_NumOfWheels, 1);
+                throw new ValueOutOfRangeException("Cannot add another Weel, Maximum reached", (int)r_NumOfWheels, 0);
             }
         }
         
-        internal void SetAllWheels(List<WheelCollection> i_WheelsCollection) //Gets list of WheelsCollection struct
+        internal void SetAllWheels(List<WheelCollection> i_WheelsCollection) ////Gets list of WheelsCollection struct
         {
             if(i_WheelsCollection.Count == (int)r_NumOfWheels)
             {
@@ -112,7 +111,6 @@ namespace Ex03.GarageLogic
             {
                 throw new ArgumentException("Not all wheels passed");
             }
-
         }
 
 
@@ -128,12 +126,10 @@ namespace Ex03.GarageLogic
                     }
                     catch (ValueOutOfRangeException)
                     {
-                        //if one wheel is passing the max so inflating the wheel till the max
                         wheel.TireInflating(wheel.MaxRecommandedAirPreasure - wheel.CurrentAirPreasure);
                     }
                 }
             }
-            
         }
 
         internal void InfalingAllWheelsToMaxPreasure()
@@ -147,7 +143,7 @@ namespace Ex03.GarageLogic
             }
         }
 
-        public  virtual Dictionary<int, string> GetVheicleProperties() //should return the firma of vheicle only, the derived classes should return the additional properties the have
+        public  virtual Dictionary<int, string> GetVheicleProperties() ////should return the firma of vheicle only, the derived classes should return the additional properties the have
         {
             Dictionary<int, string> vehicleProperties = new Dictionary<int, string>();
             
@@ -159,7 +155,7 @@ namespace Ex03.GarageLogic
             return vehicleProperties;
         }
 
-        public virtual void setVehicleProperty(int i_Property, string i_InputFromUserStr) // should be overriden by derived classes - (more "cases")
+        public virtual void setVehicleProperty(int i_Property, string i_InputFromUserStr) //// should be overriden by derived classes - (more "cases")
         {
             eVehicleInfo property = (eVehicleInfo)i_Property;
             switch (property)
@@ -192,6 +188,7 @@ namespace Ex03.GarageLogic
             {
                 stringBuilder.AppendLine(wheelInCollection.ToString());
             }
+
             return stringBuilder;
         }
     }

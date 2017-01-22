@@ -55,7 +55,6 @@ namespace Ex03.ConsoleUI
                     {
                         Console.WriteLine(ex.Message);
                     }
-
                 }
                 else if (menuChoice == eMenu.ShowListOfVehicle)
                 {
@@ -78,7 +77,6 @@ namespace Ex03.ConsoleUI
                     {
                         Console.WriteLine(ex.Message);
                     }
-
                 }
                 else if (menuChoice == eMenu.FillUpAirInTheTiersToTheMaximum)
                 {
@@ -102,7 +100,6 @@ namespace Ex03.ConsoleUI
                         Console.WriteLine(ex.Message);
                     }
                 }
-
                 else if (menuChoice == eMenu.ChargeUpAnElectricVehicle)
                 {
                     try
@@ -171,7 +168,7 @@ namespace Ex03.ConsoleUI
                 {
                     if (dataMember.Value == null)
                     {
-                        Console.WriteLine("No datta"); //need this?
+                        Console.WriteLine("No datta");
                         break;
                     }
                     else
@@ -202,9 +199,8 @@ namespace Ex03.ConsoleUI
             VehicleData currentVehiclel;
             if (m_MyGarage.GarageDictionary.TryGetValue(i_key, out currentVehiclel))
             {
-                Console.WriteLine(m_MyGarage.m_CurrentVehicleData.NewVehicle.ToString());
+                Console.WriteLine(currentVehiclel.NewVehicle.ToString());
             }
-
             else
             {
                 Console.WriteLine("\tVehicle license plate not found...");
@@ -266,10 +262,9 @@ namespace Ex03.ConsoleUI
             {
                 Console.WriteLine("\t" + ex.Message);
             }
-            // 2. show vehicle lists(iD), can filter by status
         }
 
-        private void ChangeVehicleStatus() // 3. change status (id) -> new status
+        private void ChangeVehicleStatus()
         {
             PrintFrame("Change vehicle status");
             string vehicleID = GetvehicleID();
@@ -300,23 +295,33 @@ namespace Ex03.ConsoleUI
             {
                 Console.WriteLine("\t" + ex.Message);
             }
-
         }
 
         private void FuelUpAVehicle()
         {
             PrintFrame("Fuel up a vehicle");
             string vehicleID = GetvehicleID();
-            int fuelTypeSelection = GetInputFromUser<int>(GetEngineFuelType() + "\t>");
-            float fuelToAdd = GetInputFromUser<float>("\tEnter amount of fuel to add : >");
-            try
+            if (m_MyGarage.IsFuelEngine(vehicleID))
             {
-                m_MyGarage.FuelUpAVehicle(vehicleID, (eFuelType)fuelTypeSelection, fuelToAdd);
-                Console.WriteLine("\tCar Is Fulled up");
+                int fuelTypeSelection = GetInputFromUser<int>(GetEngineFuelType() + "\t>");
+                float fuelToAdd = GetInputFromUser<float>("\tEnter amount of fuel to add : ");
+                try
+                {
+                    m_MyGarage.FuelUpAVehicle(vehicleID, (eFuelType)fuelTypeSelection, fuelToAdd);
+                    Console.WriteLine("\tCar Is Fulled up");
+                }
+                catch (ValueOutOfRangeException vore)
+                {
+                    Console.WriteLine("\t" + vore.Message + " Values Between " + vore.MinValue + " - " + vore.MaxValue);
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine("\t" + ex.Message);
+                }
             }
-            catch (Exception ex)
+            else
             {
-                Console.WriteLine("\t" + ex.Message);
+                throw new ArgumentException("\tThis vehicle is not Fuel vehicle!");
             }
             
         }
@@ -325,16 +330,27 @@ namespace Ex03.ConsoleUI
         {
             PrintFrame("Charge up an electric vehicle");
             string vehicleID = GetvehicleID();
-            try
+            if (!m_MyGarage.IsFuelEngine(vehicleID))
             {
-                m_MyGarage.chargeAVehicleToMax(vehicleID);
-                Console.WriteLine("Vehicle is fully Charged ");
+                float amountOfHoursToAdd = GetInputFromUser<float>("\tPlease enter amount of hours to charge : ");
+                try
+                {
+                    m_MyGarage.chargeAVehicle(vehicleID, amountOfHoursToAdd);
+                    Console.WriteLine("Vehicle has been charged");
+                }
+                catch (ValueOutOfRangeException vore)
+                {
+                    Console.WriteLine("\t" + vore.Message + " Values Between " + vore.MinValue + " - " + vore.MaxValue);
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine("\t" + ex.Message);
+                }
             }
-            catch (Exception ex)
+            else
             {
-                Console.WriteLine("\t" + ex.Message);
+                throw new ArgumentException("\tThis vehicle is not Electric!");
             }
-            // 6. charge (non fual) (id, min to charge)
         }
 
         private void ShowVehicleFullDetails()
@@ -342,7 +358,6 @@ namespace Ex03.ConsoleUI
             PrintFrame("Show vehicle full details");
             string vehicleID = GetvehicleID();
             PrintFullVehiclel(vehicleID);
-            // 7. show full details (id) -> id, model name, owners, status, wheel air, wheel maker, fual or electric + details, ect...
         }
 
         private T GetEnumFromUser<T>(string msg)
@@ -358,6 +373,7 @@ namespace Ex03.ConsoleUI
             {
                 throw new ArgumentException("\tGot unknown option! Try again.");
             }
+
             return enumValue;
         }
 
@@ -367,7 +383,7 @@ namespace Ex03.ConsoleUI
             string input = Console.ReadLine();
             if (input != "")
             {
-                return (T)Convert.ChangeType(input, typeof(T)); //try bad input
+                return (T)Convert.ChangeType(input, typeof(T));
             }
             else
             {
@@ -412,7 +428,7 @@ namespace Ex03.ConsoleUI
 
         public void AddWheels()
         {
-            List<WheelCollection> wheelsList = new List<WheelCollection>(m_MyGarage.m_CurrentVehicleData.NewVehicle.NumOfWheels - 1);//get max wheels from class typeOfVehicleFromUser.MaxWheels
+            List<WheelCollection> wheelsList = new List<WheelCollection>(m_MyGarage.m_CurrentVehicleData.NewVehicle.NumOfWheels - 1);////get max wheels from class typeOfVehicleFromUser.MaxWheels
             
             for (int i = 0; i < m_MyGarage.m_CurrentVehicleData.NewVehicle.NumOfWheels ; i++)
             {
@@ -424,6 +440,7 @@ namespace Ex03.ConsoleUI
                 vehicleWheel.WheelFirma = tireFirma;
                 wheelsList.Add(vehicleWheel);
             }
+
             m_MyGarage.MakeWheels(wheelsList);
         }
 
@@ -440,7 +457,7 @@ namespace Ex03.ConsoleUI
                     try
                     {
                             string input = GetInputFromUser<string>("\t" + item.Key + " - " + item.Value + "\t> ");
-                            m_MyGarage.m_CurrentVehicleData.NewVehicle.setVehicleProperty(index, input); //bulid it in Vehicle
+                            m_MyGarage.m_CurrentVehicleData.NewVehicle.setVehicleProperty(index, input);
                             isValide = true;
                             index++;
                     }
@@ -449,7 +466,6 @@ namespace Ex03.ConsoleUI
                         m_MyGarage.m_GarageDictionary.Remove(m_MyGarage.m_CurrentVehicleData.NewVehicle.LicenseNumber);
                         throw new FormatException("\t" + ex.Message);
                     }
-
                 } while (!isValide);
             }
         }
@@ -470,15 +486,12 @@ namespace Ex03.ConsoleUI
                         m_MyGarage.m_CurrentVehicleData.NewVehicle.Engine.SetEngineProperty(index, input);
                         isValide = true;
                         index++;
-
                     }
                     catch (Exception ex)
                     {
-
                         m_MyGarage.m_GarageDictionary.Remove(m_MyGarage.m_CurrentVehicleData.NewVehicle.LicenseNumber);
                         throw new FormatException("\t" + ex.Message);
                     }
-
                 } while (!isValide);
             }
         }
@@ -492,6 +505,7 @@ namespace Ex03.ConsoleUI
                 stringBuilder.AppendFormat("\t{0} - {1}{2}", index.ToString(), currentType.ToString(), Environment.NewLine);
                 index++;
             }
+
             stringBuilder.AppendFormat("\t> ");
             return stringBuilder.ToString();
         }

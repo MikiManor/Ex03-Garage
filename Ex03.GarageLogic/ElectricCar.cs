@@ -6,7 +6,6 @@ namespace Ex03.GarageLogic
 {
     internal class ElectricCar : Car
     {
-        //private static int k_NumOfWheels = 4;
         private readonly float k_MaxBatteryTime = 2.7f;
         private const int k_NumOfWheels = 4;
         private const int k_MaxWheelsAirPreasure = 32;

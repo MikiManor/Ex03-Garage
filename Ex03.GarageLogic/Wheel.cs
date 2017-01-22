@@ -56,13 +56,12 @@ namespace Ex03.GarageLogic
         {
             if (i_PreasureToAdd + m_CurrentAirPreasure > r_MaxRecommandedAirPreasure)
             {
-                throw new ValueOutOfRangeException("Cannot add air preasure above max recommanded!", r_MaxRecommandedAirPreasure - m_CurrentAirPreasure, 1);
+                throw new ValueOutOfRangeException("Cannot add air preasure above max recommanded!", r_MaxRecommandedAirPreasure - m_CurrentAirPreasure, 0);
             }
             else
             {
                  m_CurrentAirPreasure += i_PreasureToAdd;
             }
-            
         }
 
 
@@ -72,5 +71,4 @@ namespace Ex03.GarageLogic
             return string.Format("\t\tFirma : {0}, CurrentAirPreasure : {1}, Max Air Preasure : {2}", r_Firma, m_CurrentAirPreasure, r_MaxRecommandedAirPreasure);
         }
     }
-    ///יש לממש עוד גטרים וסטרים
 }

@@ -21,8 +21,6 @@ namespace Ex03.GarageLogic
     internal class FuelEngine : Engine
     {
         private eFuelType m_FuelType;
-        private float m_AmountOfLeftFuel;
-        private readonly float k_MaxAmountOfFuel;
 
         public FuelEngine(float i_MaxAmountOfFuel, int i_FuelType)
             : base(i_MaxAmountOfFuel)
@@ -88,7 +86,7 @@ namespace Ex03.GarageLogic
             {
                 if (( m_LeftEnergy + i_EnergyToAdd) >= k_MaxAmountOfFuel)
                 {
-                    throw new ValueOutOfRangeException("Cannot fill out above maximum!", k_MaxAmountOfFuel - m_LeftEnergy, 1);
+                    throw new ValueOutOfRangeException("Cannot fill out above maximum!", k_MaxAmountOfFuel - m_LeftEnergy, 0);
                 }
                 else
                 {

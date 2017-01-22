@@ -20,8 +20,7 @@ namespace Ex03.GarageLogic
             MotorCycleFirma = 1,
             LicenseType
         }
-
-        private static int m_EngineCapacity;
+        
         private eLicenseType m_LicenseType;
 
         internal MotorCycle(string i_LicenseNumber, int i_NumOfWheels, int i_MaxWheelsAirPreasure)
@@ -81,7 +80,7 @@ namespace Ex03.GarageLogic
                     {
                         if (int.TryParse(i_InputFromUserStr, out ParssedInputFromUser))
                         {
-                            LicenseType = (eLicenseType)ParssedInputFromUser; //If License type doesn't exist, exception should returned
+                            LicenseType = (eLicenseType)ParssedInputFromUser; ////If License type doesn't exist, exception should returned
                         }
                         else
                         {
@@ -96,9 +95,8 @@ namespace Ex03.GarageLogic
         public override string ToString()
         {
             StringBuilder stringBuilder = new StringBuilder();
-            stringBuilder.AppendFormat("{1}License Type = {2}{0}", Environment.NewLine, "\t", m_LicenseType.ToString());
+            stringBuilder.AppendFormat("{1}License Type = {2}{0}", Environment.NewLine, "\t", this.m_LicenseType.ToString());
             return stringBuilder + base.ToString();
         }
-
     }
 }

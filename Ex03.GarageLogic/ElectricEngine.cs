@@ -50,5 +50,17 @@ namespace Ex03.GarageLogic
                     }
             }
         }
+
+        public override void ChargeBattery(float i_HoursToAdd)
+        {
+            if ((m_LeftEnergy + i_HoursToAdd) >= r_MaxEngineCapacity)
+            {
+                throw new ValueOutOfRangeException("Cannot fill out above maximum!", r_MaxEngineCapacity - m_LeftEnergy, 0);
+            }
+            else
+            {
+                m_LeftEnergy += i_HoursToAdd;
+            }
+        }
     }
 }

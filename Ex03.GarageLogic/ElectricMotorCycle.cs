@@ -6,7 +6,6 @@ namespace Ex03.GarageLogic
 {
     internal class ElectricMotorCycle : MotorCycle
     {
-        //private static int k_NumOfWheels = 4;
         private readonly float k_MaxBatteryTime = 2.5f;
         private const int k_NumOfWheels = 2;
         private const int k_MaxWheelsAirPreasure = 31;
@@ -14,7 +13,6 @@ namespace Ex03.GarageLogic
             : base(i_LicenseNumber, k_NumOfWheels, k_MaxWheelsAirPreasure)
         {
             Engine = new ElectricEngine(k_MaxBatteryTime);
-            Console.WriteLine("In EMotorCycle");
         }
 
         public override string ToString()

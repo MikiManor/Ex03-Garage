@@ -11,7 +11,7 @@ namespace Ex03.GarageLogic
             LeftEnergy = 1
         }
 
-        private readonly float r_MaxEngineCapacity;
+        protected readonly float r_MaxEngineCapacity;
         protected float m_LeftEnergy;
 
         public Engine(float i_MaxEngineCapacity)
@@ -31,6 +31,7 @@ namespace Ex03.GarageLogic
                 return (m_LeftEnergy * 100) / r_MaxEngineCapacity;
             }
         }
+
         protected float EngineCurrentEnergy
         {
             get { return m_LeftEnergy; }
@@ -42,7 +43,7 @@ namespace Ex03.GarageLogic
                 }
                 else
                 {
-                    throw new ValueOutOfRangeException("Cannot add more then Maximun,",1, r_MaxEngineCapacity);
+                    throw new ValueOutOfRangeException("Cannot add more then Maximun,", r_MaxEngineCapacity, 0);
                 }
             }
         }
@@ -89,13 +90,15 @@ namespace Ex03.GarageLogic
                     }
             }
         }
-
-
+               
         public override string ToString()
         {
             StringBuilder stringBuilder = new StringBuilder();
             stringBuilder.AppendFormat("{1}Energy Left = {2}{0}{1}Maximum Energy Capacity = {3}{0}{1}Percentage Left = {4}", Environment.NewLine, "\t", m_LeftEnergy, r_MaxEngineCapacity, EnergyPrecentLeft);
             return stringBuilder.ToString();
         }
+
+        public virtual void ChargeBattery(float i_HoursToAdd)
+        { }
     }
 }

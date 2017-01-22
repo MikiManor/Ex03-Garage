@@ -40,7 +40,6 @@ namespace Ex03.GarageLogic
             m_GarageDictionary = new Dictionary<string, VehicleData>();
         }
 
-
         public void AddCarToGarage(string i_OwnerName, string i_PhoneNumber, string i_VehicleID,eVehicleType i_TypeOfVehicleFromUser)
         {
             Vehicle newVehicle = AddNewVehicle(i_VehicleID, i_TypeOfVehicleFromUser);
@@ -81,6 +80,7 @@ namespace Ex03.GarageLogic
                         break;
                     }
             }
+
             return newVehicle;
         }
 
@@ -88,16 +88,15 @@ namespace Ex03.GarageLogic
         {
             Dictionary<int, string> vehicleProperties = null;
             vehicleProperties = m_CurrentVehicleData.NewVehicle.GetVheicleProperties();
-            
             return vehicleProperties;
         }
+
         public Dictionary<int, string> GetEngineProperties()
         {
             Dictionary<int, string> engineProperties = null;
             engineProperties = m_CurrentVehicleData.NewVehicle.Engine.GetEngineProperties();
             return engineProperties;
         }
-
 
         public void MakeWheels(List<WheelCollection> wheelList)
         {
@@ -111,7 +110,6 @@ namespace Ex03.GarageLogic
             {
                 currentVehiclel.NewVehicle.InfalingAllWheelsToMaxPreasure();
             }
-
             else
             {
                 throw new Exception("\tVehicle license plate not found...");
@@ -139,14 +137,14 @@ namespace Ex03.GarageLogic
             }
         }
 
-        public void chargeAVehicleToMax(string i_LicenseNumber)
+        public void chargeAVehicle(string i_LicenseNumber, float i_HoursToAdd)
         {
             VehicleData currentVehiclel;
             if (m_GarageDictionary.TryGetValue(i_LicenseNumber, out currentVehiclel))
             {
                 if (currentVehiclel.NewVehicle.Engine.GetType() == typeof(Ex03.GarageLogic.ElectricEngine))
                 {
-                    currentVehiclel.NewVehicle.Engine.FillOutEngineToMaximum();
+                    currentVehiclel.NewVehicle.Engine.ChargeBattery(i_HoursToAdd);
                 }
                 else
                 {
@@ -154,6 +152,7 @@ namespace Ex03.GarageLogic
                 }
             }
         }
+
         public void ChangeVehicleStatus(string i_LicenseNumber, eVehicleStatus i_status)
         {
             VehicleData currentVehiclel;
@@ -168,7 +167,6 @@ namespace Ex03.GarageLogic
                     throw new Exception("Error, Can't set new status!");
                 }  
             }
-
             else
             {
                 throw new ArgumentException("Vehicle not found!");
@@ -179,6 +177,28 @@ namespace Ex03.GarageLogic
         {
             string fuleTypes = Vehicle.genericEnumUserMsg<eFuelType>("Fuel type");
             return fuleTypes;
+        }
+
+        public bool IsFuelEngine(string i_LicenseNumber)
+        {
+            VehicleData currentVehiclel;
+            bool IsFuelEngine = true;
+            m_GarageDictionary.TryGetValue(i_LicenseNumber, out currentVehiclel);
+            if (currentVehiclel.NewVehicle.Engine.GetType() == typeof(Ex03.GarageLogic.ElectricEngine))
+            {
+                IsFuelEngine = false;
+            }
+            else if (currentVehiclel.NewVehicle.Engine.GetType() == typeof(Ex03.GarageLogic.FuelEngine))
+            {
+                IsFuelEngine = true;
+            }else
+            {
+                throw new ArgumentException("\tEngine doesn't exist!");
+            }
+
+            return IsFuelEngine;
+           
+            
         }
     }
 }
