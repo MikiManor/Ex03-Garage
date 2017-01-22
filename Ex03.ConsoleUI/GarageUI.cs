@@ -108,17 +108,24 @@ namespace Ex03.ConsoleUI
 
         public void PrintVehicleDataDictionary(Dictionary<string, VehicleData> i_Dictionary)
         {
-            PrintFrame("Vehicle Data List");
-            foreach (KeyValuePair<string, VehicleData> dataMember in i_Dictionary)
+            if (i_Dictionary.Count == 0)
             {
-                if (dataMember.Value == null)
+                throw new Exception("\tThere are no vehicles in the garage!");
+            }
+            else
+            {
+                PrintFrame("Vehicle Data List");
+                foreach (KeyValuePair<string, VehicleData> dataMember in i_Dictionary)
                 {
-                    Console.WriteLine("No datta"); //need this?
-                    break;
-                }
-                else
-                {
-                    Console.WriteLine("License plate = {0}, Status = {3}, Owner name = {1}, Phone number = {2}", dataMember.Key, dataMember.Value.OwnerName, dataMember.Value.PhoneNumber, dataMember.Value.VehicleStatus);
+                    if (dataMember.Value == null)
+                    {
+                        Console.WriteLine("No datta"); //need this?
+                        break;
+                    }
+                    else
+                    {
+                        Console.WriteLine("License plate = {0}, Status = {3}, Owner name = {1}, Phone number = {2}", dataMember.Key, dataMember.Value.OwnerName, dataMember.Value.PhoneNumber, dataMember.Value.VehicleStatus);
+                    }
                 }
             }
         }
@@ -148,7 +155,7 @@ namespace Ex03.ConsoleUI
 
             else
             {
-                Console.WriteLine("Vehicle license plate not found...");
+                Console.WriteLine("\tVehicle license plate not found...");
             }
         }
         
@@ -199,7 +206,14 @@ namespace Ex03.ConsoleUI
         private void ShowListOfVehicle()
         {
             PrintFrame("Show list of vehicle");
-            PrintVehicleDataDictionary(m_MyGarage.m_GarageDictionary);
+            try
+            {
+                PrintVehicleDataDictionary(m_MyGarage.m_GarageDictionary);
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+            }
             // 2. show vehicle lists(iD), can filter by status
         }
 
@@ -233,14 +247,17 @@ namespace Ex03.ConsoleUI
         {
             PrintFrame("Fuel up a vehicle");
             string vehicleID = GetvehicleID();
+            int fuelTypeSelection = GetInputFromUser<int>(GetEngineFuelType() + "\t>");
+            float fuelToAdd = GetInputFromUser<float>("\tEnter amount of fuel to add : >");
+
             try
             {
-                m_MyGarage.FuelUpAVehicle(vehicleID);
-                Console.WriteLine("\tCar Is Fulled up to the maximum");
+                m_MyGarage.FuelUpAVehicle(vehicleID, (eFuelType)fuelTypeSelection, fuelToAdd);
+                Console.WriteLine("\tCar Is Fulled up");
             }
-            catch
+            catch (Exception ex)
             {
-                Console.WriteLine("\tSonething went wrong");
+                Console.WriteLine("\t" + ex.Message);
             }
         }
 
@@ -248,6 +265,15 @@ namespace Ex03.ConsoleUI
         {
             PrintFrame("Charge up an electric vehicle");
             string vehicleID = GetvehicleID();
+            try
+            {
+                m_MyGarage.chargeAVehicleToMax(vehicleID);
+                Console.WriteLine("Vehicle is fully Charged ");
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine("\t" + ex.Message);
+            }
             // 6. charge (non fual) (id, min to charge)
         }
 
@@ -278,6 +304,11 @@ namespace Ex03.ConsoleUI
         private string GetvehicleID()
         {
             return GetInputFromUser<string>("\tPlease Enter vehicle license plate > ");
+        }
+
+        private string GetEngineFuelType()
+        {
+            return m_MyGarage.GetEngineFuelType();
         }
 
         private GarageController.eVehicleType getVehicleTypeFromUser()

@@ -118,21 +118,42 @@ namespace Ex03.GarageLogic
             }
         }
 
-        public void FuelUpAVehicle(string i_LicenseNumber)
+        public void FuelUpAVehicle(string i_LicenseNumber, eFuelType i_FuleType, float i_FuleToAdd)
         {
             VehicleData currentVehiclel;
             if (m_GarageDictionary.TryGetValue(i_LicenseNumber, out currentVehiclel))
             {
-                //if (currentVehiclel.NewVehicle.Engine.GetType() == 0)
-                //currentVehiclel.NewVehicle.InfalingAllWheelsToMaxPreasure();
-            }
 
+                if (currentVehiclel.NewVehicle.Engine.GetType() == typeof(Ex03.GarageLogic.FuelEngine))
+                {
+                    currentVehiclel.NewVehicle.Engine.FillOutEngine(i_FuleType, i_FuleToAdd);
+                }
+                else
+                {
+                    throw new ArgumentException("This vehicle is not using fuel!");
+                }
+            }
             else
             {
-                Console.WriteLine("\tVehicle license plate not found...");
+                throw new ArgumentException("\tVehicle not found in garage!");
             }
         }
 
+        public void chargeAVehicleToMax(string i_LicenseNumber)
+        {
+            VehicleData currentVehiclel;
+            if (m_GarageDictionary.TryGetValue(i_LicenseNumber, out currentVehiclel))
+            {
+                if (currentVehiclel.NewVehicle.Engine.GetType() == typeof(Ex03.GarageLogic.ElectricEngine))
+                {
+                    currentVehiclel.NewVehicle.Engine.FillOutEngineToMaximum();
+                }
+                else
+                {
+                    throw new ArgumentException("This vehicle is not Electric!");
+                }
+            }
+        }
         public void ChangeVehicleStatus(string i_LicenseNumber, eVehicleStatus i_status)
         {
             VehicleData currentVehiclel;
@@ -141,7 +162,7 @@ namespace Ex03.GarageLogic
                 try //fix
                 {
                     currentVehiclel.VehicleStatus = i_status;
-                    Console.WriteLine("\tStatus change complete!");
+                    //Console.WriteLine("\tStatus change complete!");
                 }
                 catch (Exception)
                 {
@@ -151,8 +172,14 @@ namespace Ex03.GarageLogic
 
             else
             {
-                Console.WriteLine("\tVehicle license plate not found...");
+                //Console.WriteLine("\tVehicle license plate not found...");
             }
+        }
+
+        public string GetEngineFuelType()
+        {
+            string fuleTypes = Vehicle.genericEnumUserMsg<eFuelType>("Fule type");
+            return fuleTypes;
         }
     }
 }

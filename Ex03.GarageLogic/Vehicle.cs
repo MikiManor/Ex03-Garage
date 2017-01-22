@@ -7,12 +7,6 @@ namespace Ex03.GarageLogic
 {
     public abstract class Vehicle
     {
-        //public enum eNumOfWheels
-        //{
-        //    two = 2,
-        //    four = 4,
-        //    twelve = 12
-        //}
 
         public enum eVehicleInfo
         {
@@ -181,7 +175,7 @@ namespace Ex03.GarageLogic
             StringBuilder stringBuilder = new StringBuilder();
             int propertyIndex = 1;
 
-            stringBuilder.AppendFormat("Please choose {0} : {1}", i_Property, Environment.NewLine);
+            stringBuilder.AppendFormat("\tPlease choose {0} : {1}", i_Property, Environment.NewLine);
             foreach (T currentValue in Enum.GetValues(typeof(T)))
             {
                 stringBuilder.AppendFormat("\t\t{0} - {1}{2}", propertyIndex, currentValue.ToString(), Environment.NewLine);

@@ -9,7 +9,7 @@ namespace Ex03.GarageLogic
     {
         public enum eLicenseType
         {
-            A,
+            A = 1,
             A1,
             A2,
             B
@@ -17,9 +17,8 @@ namespace Ex03.GarageLogic
 
         public enum eMotorCycleInfo
         {
-            VehicleFirma = 1,
-            LicenseType = 2,
-            EngineCapacity = 3
+            MotorCycleFirma = 1,
+            LicenseType
         }
 
         private static int m_EngineCapacity;
@@ -47,6 +46,25 @@ namespace Ex03.GarageLogic
             }
         }
 
+        public override Dictionary<int, string> GetVheicleProperties()
+        {
+            Dictionary<int, string> MotorCycleProperties = new Dictionary<int, string>();
+
+            foreach (eMotorCycleInfo property in Enum.GetValues(typeof(eMotorCycleInfo)))
+            {
+                if (property == eMotorCycleInfo.LicenseType)
+                {
+                    MotorCycleProperties.Add((int)property, genericEnumUserMsg<eLicenseType>("License Type > "));
+                }
+                else
+                {
+                    MotorCycleProperties.Add((int)property, property.ToString());
+                }
+            }
+
+            return MotorCycleProperties;
+        }
+
         public override void setVehicleProperty(int i_Property, string i_InputFromUserStr)
         {
             eMotorCycleInfo property = (eMotorCycleInfo)i_Property;
@@ -54,7 +72,7 @@ namespace Ex03.GarageLogic
 
             switch (property)
             {
-                case eMotorCycleInfo.VehicleFirma:
+                case eMotorCycleInfo.MotorCycleFirma:
                     {
                         Firma = i_InputFromUserStr;
                         break;
@@ -65,20 +83,6 @@ namespace Ex03.GarageLogic
                         if (int.TryParse(i_InputFromUserStr, out ParssedInputFromUser))
                         {
                             LicenseType = (eLicenseType)ParssedInputFromUser; //If License type doesn't exist, exception should returned
-                        }
-                        else
-                        {
-                            throw new FormatException("Got bad input!");
-                        }
-
-                        break;
-                    }
-
-                case eMotorCycleInfo.EngineCapacity:
-                    {
-                        if (int.TryParse(i_InputFromUserStr, out ParssedInputFromUser))
-                        {
-                            m_EngineCapacity = ParssedInputFromUser;
                         }
                         else
                         {

@@ -12,7 +12,7 @@ namespace Ex03.GarageLogic
         }
 
         private readonly float r_MaxEngineCapacity;
-        private float m_LeftEnergy;
+        protected float m_LeftEnergy;
 
         public Engine(float i_MaxEngineCapacity)
         {
@@ -47,17 +47,13 @@ namespace Ex03.GarageLogic
             }
         }
 
-        public virtual void FillOutEngine(float i_EnergyToAdd)
+        public virtual void FillOutEngineToMaximum()
         {
-            if ((m_LeftEnergy + i_EnergyToAdd) >= r_MaxEngineCapacity)
-            {
-                throw new ValueOutOfRangeException("Cannot fill out above maximum!", r_MaxEngineCapacity - m_LeftEnergy, 1);
-            }
-            else
-            {
-                m_LeftEnergy += i_EnergyToAdd;
-            }
+            m_LeftEnergy = r_MaxEngineCapacity;
         }
+
+        public virtual void FillOutEngine(eFuelType i_FuelType, float i_EnergyToAdd)
+        { }
 
         public virtual Dictionary<int, string> GetEngineProperties()
         {

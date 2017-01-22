@@ -44,26 +44,6 @@ namespace Ex03.GarageLogic
             return FuelEngineProperties;
         }
 
-        public void FillOutEngine(float i_AmountToAdd, eFuelType i_FuleType)
-        {
-            if (Enum.IsDefined(typeof(eFuelType), i_FuleType))
-            {
-                if ((m_AmountOfLeftFuel + i_AmountToAdd) >= k_MaxAmountOfFuel)
-                {
-                    throw new ValueOutOfRangeException("Cannot add Fuel above maximum!", k_MaxAmountOfFuel - m_AmountOfLeftFuel, 0);
-                }
-                else
-                {
-                    m_AmountOfLeftFuel += i_AmountToAdd;
-                }
-            }
-            else
-            {
-                throw new ArgumentException("Fuel type entered is unknown!");
-            }
-
-        }
-
         public int FuleType
         {
             get { return (int)m_FuelType; }
@@ -99,6 +79,25 @@ namespace Ex03.GarageLogic
 
                         break;
                     }
+            }
+        }
+
+        public override void FillOutEngine(eFuelType i_FeulType, float i_EnergyToAdd)
+        {
+            if (i_FeulType == m_FuelType)
+            {
+                if (( m_LeftEnergy + i_EnergyToAdd) >= k_MaxAmountOfFuel)
+                {
+                    throw new ValueOutOfRangeException("Cannot fill out above maximum!", k_MaxAmountOfFuel - m_LeftEnergy, 1);
+                }
+                else
+                {
+                    m_LeftEnergy += i_EnergyToAdd;
+                }
+            }
+            else
+            {
+                throw new ArgumentException(string.Format("\tFuel type isn't correct, this vehicle uses : {0}", m_FuelType.ToString()));
             }
         }
 
