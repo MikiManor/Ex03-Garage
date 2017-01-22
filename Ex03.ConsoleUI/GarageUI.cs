@@ -269,15 +269,22 @@ namespace Ex03.ConsoleUI
             // 2. show vehicle lists(iD), can filter by status
         }
 
-        private void ChangeVehicleStatus()
+        private void ChangeVehicleStatus() // 3. change status (id) -> new status
         {
             PrintFrame("Change vehicle status");
             string vehicleID = GetvehicleID();
-            Console.WriteLine("\tChoose vehicle status");
-            GarageController.eVehicleStatus newStatus = GetEnumFromUser<GarageController.eVehicleStatus>(GetListOfStatuses());
-            m_MyGarage.ChangeVehicleStatus(vehicleID, newStatus);
-            
-            // 3. change status (id) -> new status
+            Console.WriteLine("\tChoose vehicle new status");
+
+            try
+            {
+                GarageController.eVehicleStatus newStatus = GetEnumFromUser<GarageController.eVehicleStatus>(GetListOfStatuses());
+                m_MyGarage.ChangeVehicleStatus(vehicleID, newStatus);
+                Console.WriteLine("\tStatus change complete!");
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine("\t" + ex.Message);
+            }
         }
 
         private void FillUpAirInTheTiersToTheMaximum()
@@ -351,8 +358,6 @@ namespace Ex03.ConsoleUI
             {
                 throw new ArgumentException("\tGot unknown option! Try again.");
             }
-            //enumValue = (T)Enum.Parse(typeof(T), Console.ReadLine());
-            //    Console.WriteLine("\tBad input, try again...");//add input error
             return enumValue;
         }
 
@@ -379,7 +384,7 @@ namespace Ex03.ConsoleUI
             }
             else
             {
-                return GetInputFromUser<string>("\tPlease Enter vehicle license plate > ");
+                return vehicleID;
             }
         }
 
@@ -487,7 +492,7 @@ namespace Ex03.ConsoleUI
                 stringBuilder.AppendFormat("\t{0} - {1}{2}", index.ToString(), currentType.ToString(), Environment.NewLine);
                 index++;
             }
-
+            stringBuilder.AppendFormat("\t> ");
             return stringBuilder.ToString();
         }
     }

@@ -51,7 +51,7 @@ namespace Ex03.GarageLogic
             get { return m_CurrentGoodsWeight; }
             set
             {
-                if(value > 0 && value < m_MaxCarryingWeight)
+                if(value > 0 && value <= m_MaxCarryingWeight)
                 {
                     m_CurrentGoodsWeight = value;
                 }

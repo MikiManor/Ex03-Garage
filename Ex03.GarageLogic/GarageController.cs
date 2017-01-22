@@ -159,26 +159,25 @@ namespace Ex03.GarageLogic
             VehicleData currentVehiclel;
             if (m_GarageDictionary.TryGetValue(i_LicenseNumber, out currentVehiclel))
             {
-                try //fix
+                try
                 {
                     currentVehiclel.VehicleStatus = i_status;
-                    //Console.WriteLine("\tStatus change complete!");
                 }
                 catch (Exception)
                 {
-                    throw;
+                    throw new Exception("Error, Can't set new status!");
                 }  
             }
 
             else
             {
-                //Console.WriteLine("\tVehicle license plate not found...");
+                throw new ArgumentException("Vehicle not found!");
             }
         }
 
         public string GetEngineFuelType()
         {
-            string fuleTypes = Vehicle.genericEnumUserMsg<eFuelType>("Fule type");
+            string fuleTypes = Vehicle.genericEnumUserMsg<eFuelType>("Fuel type");
             return fuleTypes;
         }
     }
